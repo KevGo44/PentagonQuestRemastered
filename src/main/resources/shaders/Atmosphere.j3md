@@ -1,0 +1,19 @@
+MaterialDef DungeonAtmosphere {
+    MaterialParameters {
+        Texture2D Texture
+        Texture2D DepthTexture
+        Int NumSamples
+        Int NumSamplesDepth
+        Matrix4 InverseViewProjection
+        Vector3 CameraPosition
+        Vector3 BeamPosition
+        Color FogColor
+        Float Time
+        Float Damage
+        Float Exposure
+    }
+    Technique {
+        VertexShader GLSL150: Common/MatDefs/Post/Post.vert
+        FragmentShader GLSL150: shaders/Atmosphere.frag
+    }
+}

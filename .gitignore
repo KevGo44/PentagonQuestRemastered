@@ -1,0 +1,14 @@
+target/
+.cache/
+.venv/
+__pycache__/
+*.log
+*.jfr
+hs_err_pid*
+replay_pid*
+.DS_Store
+.idea/
+.vscode/
+saves/
+libbulletjme*
+*.dylib

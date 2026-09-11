@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Pentagon (fast)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.pentagon.core.Main" />
+    <module name="aschensiegel" />
+    <option name="VM_PARAMETERS" value="--enable-native-access=ALL-UNNAMED -Xms256m -Xmx2g" />
+    <option name="PROGRAM_PARAMETERS" value="--fast" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
