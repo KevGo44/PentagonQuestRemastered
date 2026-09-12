@@ -1,0 +1,8 @@
+[A] hero   Idle=20/48 Walk=35/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=42/175 Block=25/3 Hit=47/65 Death=22/119 Cast=22/100 
+[A] mira   Idle=20/48 Walk=34/48 Run=22/95 Attack1=22/97 Attack2=22/165 Attack3=22/105 Dodge=42/175 Block=25/3 Hit=47/65 Death=22/119 Cast=22/100 
+[A] eren   Idle=20/48 Walk=35/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=42/175 Block=25/3 Hit=47/65 Death=22/119 Cast=22/100 
+[A] goblin Idle=20/48 Walk=22/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=22/175 Block=12/2 Hit=21/65 Death=22/119 Cast=22/100 
+[A] orc    Idle=20/48 Walk=22/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=22/175 Block=12/2 Hit=21/65 Death=22/119 Cast=22/100 
+[A] warden Idle=20/48 Walk=22/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=22/175 Block=12/2 Hit=21/65 Death=22/119 Cast=22/100 
+[A] shaman Idle=20/48 Walk=22/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=22/175 Block=12/2 Hit=21/65 Death=22/119 Cast=22/100 
+[A] king   Idle=20/48 Walk=22/45 Run=22/92 Attack1=21/113 Attack2=22/174 Attack3=22/103 Dodge=22/175 Block=12/2 Hit=21/65 Death=22/119 Cast=22/100 

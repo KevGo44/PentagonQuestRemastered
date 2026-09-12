@@ -11,6 +11,7 @@ import de.pentagon.entities.*;
 import de.pentagon.inventory.*;
 import de.pentagon.world.*;
 import java.util.*;
+import java.util.function.*;
 
 /**
  * Retained HUD with screen-sized menu layouts. Input hit rectangles use the same virtual canvas.
@@ -29,11 +30,16 @@ public final class HudView {
       hud = new Node("HUD"),
       page = new Node("Page"),
       toastRoot = new Node("Toasts");
+  private static final float SLIDER_HIT = 42;
   private final List<Button> buttons = new ArrayList<>();
+  private final List<Slider> sliders = new ArrayList<>();
   private final Map<String, BitmapText> texts = new HashMap<>();
   private final List<Toast> toasts = new ArrayList<>();
+  private Slider dragging;
 
   private record Button(float x, float y, float w, float h, Runnable action) {}
+
+  private record Slider(float x, float y, float w, DoubleSupplier value, DoubleConsumer setter) {}
 
   private record Toast(String message, double expires) {}
 
@@ -149,6 +155,10 @@ public final class HudView {
     CampaignState game = app.game;
     if (game == null || game.player == null) return;
     ScreenMode mode = app.mode();
+    // A drag must never survive the page it belongs to, or the mouse would keep moving a
+    // slider that is no longer on screen.
+    if (mode != shown) dragging = null;
+    if (dragging != null) drag(app.getInputManager().getCursorPosition().x);
     if (dirty || mode != shown) {
       shown = mode;
       dirty = false;
@@ -243,18 +253,38 @@ public final class HudView {
     buttons.add(new Button(x, y, w, 43, action));
   }
 
+  /** A labelled track in the same palette as the HUD bars; drag or click anywhere on it. */
+  private void slider(
+      String label, float x, float y, float w, DoubleSupplier value, DoubleConsumer setter) {
+    float level = (float) Math.max(0, Math.min(1, value.getAsDouble()));
+    text(page, label, x, y, 15, PAPER, false);
+    BitmapText readout = text(page, Math.round(level * 100) + " %", x, y, 15, GOLD, false);
+    readout.setLocalTranslation(x + w - readout.getLineWidth(), H - y, 5);
+    float track = y + 27;
+    rectangle(page, x, track, w, 8, 0x26343a, 1, 2);
+    // A zero-width Quad is degenerate geometry; keep a hairline of fill instead.
+    rectangle(page, x, track, Math.max(.6f, w * level), 8, GOLD, .95f, 3);
+    rectangle(page, x + w * level - 3, track - 6, 6, 20, PAPER, 1, 4);
+    sliders.add(new Slider(x, y, w, value, setter));
+  }
+
   private void pageTitle(String eyebrow, String heading, String subtitle) {
+    pageTitle(eyebrow, heading, subtitle, () -> app.screen(ScreenMode.PLAYING));
+  }
+
+  private void pageTitle(String eyebrow, String heading, String subtitle, Runnable back) {
     rectangle(page, 0, 0, W, H, 0x071015, .90f, 1);
     text(page, eyebrow, 78, 62, 12, GOLD, false);
     text(page, heading, 74, 99, 51, PAPER, true);
     text(page, subtitle, 78, 174, 15, MUTED, false);
     rectangle(page, 78, 210, 1284, 1, 0x4b575b, .7f, 2);
-    button("Zurück  [ESC]", 1134, 61, 226, () -> app.screen(ScreenMode.PLAYING));
+    button("Zurück  [ESC]", 1134, 61, 226, back);
   }
 
   private void buildPage(ScreenMode mode) {
     page.detachAllChildren();
     buttons.clear();
+    sliders.clear();
     var game = app.game;
     if (game == null || game.player == null) return;
     var s = game.session;
@@ -275,9 +305,15 @@ public final class HudView {
             100,
             19,
             MUTED);
-        button("Neues Abenteuer", 80, 507, 384, game::newGame);
-        if (app.saves.exists()) button("Reise fortsetzen", 80, 565, 384, game::loadGame);
-        button("Spiel verlassen", 80, app.saves.exists() ? 623 : 565, 384, app::stop);
+        float entry = 507;
+        button("Neues Abenteuer", 80, entry, 384, game::newGame);
+        entry += 58;
+        if (app.saves.exists()) {
+          button("Reise fortsetzen", 80, entry, 384, game::loadGame);
+          entry += 58;
+        }
+        button("Einstellungen", 80, entry, 384, app::openSettings);
+        button("Spiel verlassen", 80, entry + 58, 384, app::stop);
         text(
             page,
             "WASD  Bewegung   /   Maus  Blick   /   E  Interaktion",
@@ -294,8 +330,9 @@ public final class HudView {
         button("Weiterreisen", 78, 255, 410, () -> app.screen(ScreenMode.PLAYING));
         button("Spiel speichern  [F5]", 78, 313, 410, () -> game.save(false));
         button("Letzten Spielstand laden  [F9]", 78, 371, 410, game::loadGame);
-        button("Zum Hauptmenü", 78, 429, 410, () -> app.screen(ScreenMode.MAIN_MENU));
-        button("Spiel verlassen", 78, 487, 410, app::stop);
+        button("Einstellungen", 78, 429, 410, app::openSettings);
+        button("Zum Hauptmenü", 78, 487, 410, () -> app.screen(ScreenMode.MAIN_MENU));
+        button("Spiel verlassen", 78, 545, 410, app::stop);
         text(page, "STEUERUNG", 620, 257, 13, GOLD, false);
         wrapped(
             page,
@@ -333,6 +370,64 @@ public final class HudView {
               app.audio.toggleMute();
               invalidate();
             });
+      }
+      case SETTINGS -> {
+        pageTitle(
+            "KLANG & DARSTELLUNG",
+            "Einstellungen",
+            "Regler ziehen oder anklicken. Änderungen wirken sofort.",
+            app::closeSettings);
+        text(page, "LAUTSTÄRKE", 78, 258, 13, GOLD, false);
+        slider("Gesamt", 78, 296, 470, app.audio::master, v -> app.audio.master((float) v));
+        slider("Musik", 78, 372, 470, app.audio::music, v -> app.audio.music((float) v));
+        slider("Effekte", 78, 448, 470, app.audio::effects, v -> app.audio.effects((float) v));
+        button(
+            "Ton: " + (app.audio.muted() ? "Aus" : "An") + "   [F10]",
+            78,
+            528,
+            470,
+            () -> {
+              app.audio.toggleMute();
+              invalidate();
+            });
+        button(
+            "Erkundungsmusik: " + (app.audio.radio() ? "Pentagon Radio" : "Synthetischer Stem"),
+            78,
+            586,
+            470,
+            () -> {
+              app.audio.toggleRadio();
+              invalidate();
+            });
+        text(page, "DARSTELLUNG", 700, 258, 13, GOLD, false);
+        button(
+            "Grafik: " + (app.highQuality() ? "Atmosphärisch" : "Schnell") + "   [F3]",
+            700,
+            296,
+            470,
+            app::toggleQuality);
+        wrapped(
+            page,
+            "Gesamt regelt alles. Musik betrifft Erkundung, Kampf und Ambient, Effekte die"
+                + " Kampf- und Schrittgeräusche.\n\n"
+                + "Pentagon Radio ist der durchgehende Titel. Schaltest du ihn ab, übernimmt"
+                + " wieder der synthetische Erkundungs-Stem. Die Kampfmusik blendet in beiden"
+                + " Fällen darüber, sobald ein Gegner angreift.\n\n"
+                + "Ton aus schaltet stumm, ohne deine Regler zu verändern.",
+            700,
+            372,
+            580,
+            310,
+            17,
+            MUTED);
+        text(
+            page,
+            "Gespeichert in settings.json neben deinen Spielständen.",
+            78,
+            700,
+            13,
+            MUTED,
+            false);
       }
       case INVENTORY -> {
         pageTitle(
@@ -638,11 +733,32 @@ public final class HudView {
 
   public void click(float screenX, float screenY) {
     float x = (screenX - offsetX) / scale, y = H - (screenY - offsetY) / scale;
+    // Sliders claim the press first so a drag can start anywhere on the track.
+    for (Slider s : List.copyOf(sliders))
+      if (x >= s.x() - 10 && x <= s.x() + s.w() + 10 && y >= s.y() && y <= s.y() + SLIDER_HIT) {
+        dragging = s;
+        drag(screenX);
+        return;
+      }
     for (Button b : List.copyOf(buttons))
       if (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) {
         b.action.run();
         return;
       }
+  }
+
+  public void release() {
+    dragging = null;
+  }
+
+  private void drag(float screenX) {
+    Slider s = dragging;
+    if (s == null) return;
+    float value = Math.max(0, Math.min(1, ((screenX - offsetX) / scale - s.x()) / s.w()));
+    // Rebuilding the page on every frame of a still mouse would be pure waste.
+    if (Math.abs(value - s.value().getAsDouble()) < .002f) return;
+    s.setter().accept(value);
+    invalidate();
   }
 
   public void cleanup() {

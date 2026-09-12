@@ -1,0 +1,121 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:48:38 | INFO: Data are loaded, start creating Blender stuff
+22:48:38 | INFO: Blender create Mesh node Goblin_BodyMesh.002
+22:48:38 | INFO: glTF import finished in 0.19s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 22 bones matched
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+22:48:40 | INFO: Starting glTF 2.0 export
+22:48:40 | INFO: Extracting primitive: Goblin_BodyMesh.002
+22:48:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:48:41 | INFO: Primitives created: 1
+22:48:42 | INFO: Finished glTF 2.0 export in 2.2174854278564453 s
+
+[OK] goblin 2542664 bytes
+22:48:42 | INFO: Data are loaded, start creating Blender stuff
+22:48:42 | INFO: Blender create Mesh node OrcMesh
+22:48:43 | INFO: glTF import finished in 0.52s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 22 bones matched
+22:48:45 | INFO: Starting glTF 2.0 export
+22:48:45 | INFO: Extracting primitive: OrcMesh
+22:48:45 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:48:45 | INFO: Primitives created: 1
+22:48:47 | INFO: Finished glTF 2.0 export in 2.204580545425415 s
+
+[OK] orc 2698812 bytes
+22:48:47 | INFO: Data are loaded, start creating Blender stuff
+22:48:47 | INFO: Blender create Mesh node WardenMesh.004
+22:48:47 | INFO: glTF import finished in 0.49s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 22 bones matched
+22:48:49 | INFO: Starting glTF 2.0 export
+22:48:49 | INFO: Extracting primitive: WardenMesh.004
+22:48:49 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:48:49 | INFO: Primitives created: 1
+22:48:51 | INFO: Finished glTF 2.0 export in 2.2730112075805664 s
+
+[OK] warden 2960272 bytes
+22:48:51 | INFO: Data are loaded, start creating Blender stuff
+22:48:51 | INFO: Blender create Mesh node ShamanMesh
+22:48:52 | INFO: glTF import finished in 0.47s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 22 bones matched
+22:48:53 | INFO: Starting glTF 2.0 export
+22:48:53 | INFO: Extracting primitive: ShamanMesh
+22:48:53 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:48:53 | INFO: Primitives created: 1
+22:48:55 | INFO: Finished glTF 2.0 export in 2.3694539070129395 s
+
+[OK] shaman 2787468 bytes
+22:48:56 | INFO: Data are loaded, start creating Blender stuff
+22:48:56 | INFO: Blender create Mesh node KingMesh
+22:48:56 | INFO: glTF import finished in 0.44s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 22 bones matched
+22:48:57 | INFO: Starting glTF 2.0 export
+22:48:57 | INFO: Extracting primitive: KingMesh
+22:48:58 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:48:58 | INFO: Primitives created: 1
+22:49:00 | INFO: Finished glTF 2.0 export in 2.269843816757202 s
+
+[OK] king 2775388 bytes
+[FIX] goblin  Idle     turn=  -52.6 frames=  76.0 yaw=[0.2, -0.1, -0.3, -0.2, -0.0, 0.3, 0.3, -0.2, -0.3, -0.2, 0.1, 0.4, 0.3]
+[FIX] goblin  Walk     turn=   -2.4 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] goblin  Run      turn=   -2.2 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.0, 5.7, 9.0, 11.3, 6.6, 2.4, 1.5, -0.4, -9.5]
+[FIX] goblin  Attack1  turn=  -37.6 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 57.0, 55.7, 55.1, 54.6, 51.9, 47.7]
+[FIX] goblin  Attack2  turn= -178.8 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.6, -139.2, -150.9, -158.2, -164.6, -173.9, 158.6, 145.7, 121.9, 111.0]
+[FIX] goblin  Attack3  turn=   49.8 frames=  23.0 yaw=[-0.0, 1.3, -16.8, -33.3, -40.6, -44.7, -48.5, -51.1, -64.0, -77.2, -86.7, -93.5, -96.4]
+[FIX] goblin  Dodge    turn=  -43.1 frames=  70.0 yaw=[0.0, 10.2, 25.7, 36.3, 43.2, 53.6, 106.7, 40.2, -12.0, -9.5, -13.2, -4.8, -0.8]
+[FIX] goblin  Block    turn=  -66.7 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] goblin  Hit      turn=  -61.0 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] goblin  Death    turn=  -54.2 frames=  69.0 yaw=[0.0, 19.0, 15.5, 13.9, 13.3, 11.1, 8.6, 11.2, 38.1, 57.2, 62.2, 64.2, 61.5]
+[FIX] goblin  Cast     turn=  -54.2 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.2, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+[FIX] orc     Idle     turn=  -52.6 frames=  76.0 yaw=[0.2, -0.1, -0.3, -0.2, -0.0, 0.3, 0.3, -0.2, -0.3, -0.2, 0.1, 0.4, 0.3]
+[FIX] orc     Walk     turn=   -0.5 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] orc     Run      turn=   -0.4 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.1, 5.8, 9.0, 11.3, 6.5, 2.4, 1.5, -0.4, -9.5]
+[FIX] orc     Attack1  turn=  -35.8 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 56.9, 55.6, 54.9, 54.3, 51.6, 47.4]
+[FIX] orc     Attack2  turn= -176.9 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.7, -139.3, -151.0, -158.3, -164.7, -173.9, 158.6, 145.6, 121.8, 110.9]
+[FIX] orc     Attack3  turn=   51.6 frames=  23.0 yaw=[-0.0, 1.3, -16.7, -33.3, -40.5, -44.7, -48.5, -51.0, -64.0, -77.2, -86.7, -93.4, -96.4]
+[FIX] orc     Dodge    turn=  -41.2 frames=  71.0 yaw=[-0.0, 10.2, 25.3, 35.3, 40.9, 56.7, 103.5, 40.1, -11.8, -10.2, -13.0, -3.9, -0.0]
+[FIX] orc     Block    turn=  -64.9 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] orc     Hit      turn=  -59.1 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] orc     Death    turn=  -52.4 frames=  69.0 yaw=[-0.0, 18.9, 15.4, 13.9, 13.3, 11.1, 8.6, 11.3, 37.3, 55.1, 60.0, 62.0, 59.4]
+[FIX] orc     Cast     turn=  -52.4 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.3, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+[FIX] warden  Idle     turn=  -52.6 frames=  76.0 yaw=[0.2, -0.1, -0.3, -0.2, -0.0, 0.3, 0.3, -0.2, -0.3, -0.2, 0.1, 0.4, 0.3]
+[FIX] warden  Walk     turn=   -0.5 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] warden  Run      turn=   -0.4 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.1, 5.8, 9.0, 11.3, 6.5, 2.4, 1.5, -0.4, -9.5]
+[FIX] warden  Attack1  turn=  -35.8 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 56.9, 55.6, 54.9, 54.3, 51.6, 47.4]
+[FIX] warden  Attack2  turn= -176.9 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.7, -139.3, -151.0, -158.3, -164.7, -173.9, 158.6, 145.6, 121.8, 110.9]
+[FIX] warden  Attack3  turn=   51.6 frames=  23.0 yaw=[-0.0, 1.3, -16.7, -33.3, -40.5, -44.7, -48.5, -51.0, -64.0, -77.2, -86.7, -93.4, -96.4]
+[FIX] warden  Dodge    turn=  -41.2 frames=  71.0 yaw=[-0.0, 10.2, 25.3, 35.3, 40.9, 56.7, 103.5, 40.1, -11.8, -10.2, -13.0, -3.9, -0.0]
+[FIX] warden  Block    turn=  -64.9 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] warden  Hit      turn=  -59.1 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] warden  Death    turn=  -52.4 frames=  69.0 yaw=[-0.0, 18.9, 15.4, 13.9, 13.3, 11.1, 8.6, 11.3, 37.3, 55.1, 60.0, 62.0, 59.4]
+[FIX] warden  Cast     turn=  -52.4 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.3, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+[FIX] shaman  Idle     turn=  -52.6 frames=  76.0 yaw=[0.2, -0.1, -0.3, -0.2, -0.0, 0.3, 0.3, -0.2, -0.3, -0.2, 0.1, 0.4, 0.3]
+[FIX] shaman  Walk     turn=   -0.5 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] shaman  Run      turn=   -0.4 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.1, 5.8, 9.0, 11.3, 6.5, 2.4, 1.5, -0.4, -9.5]
+[FIX] shaman  Attack1  turn=  -35.8 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 56.9, 55.6, 54.9, 54.3, 51.6, 47.4]
+[FIX] shaman  Attack2  turn= -176.9 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.7, -139.3, -151.0, -158.3, -164.7, -173.9, 158.6, 145.6, 121.8, 110.9]
+[FIX] shaman  Attack3  turn=   51.6 frames=  23.0 yaw=[-0.0, 1.3, -16.7, -33.3, -40.5, -44.7, -48.5, -51.0, -64.0, -77.2, -86.7, -93.4, -96.4]
+[FIX] shaman  Dodge    turn=  -41.2 frames=  71.0 yaw=[-0.0, 10.2, 25.3, 35.3, 40.9, 56.7, 103.5, 40.1, -11.8, -10.2, -13.0, -3.9, -0.0]
+[FIX] shaman  Block    turn=  -64.9 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] shaman  Hit      turn=  -59.1 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] shaman  Death    turn=  -52.4 frames=  69.0 yaw=[-0.0, 18.9, 15.4, 13.9, 13.3, 11.1, 8.6, 11.3, 37.3, 55.1, 60.0, 62.0, 59.4]
+[FIX] shaman  Cast     turn=  -52.4 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.3, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+[FIX] king    Idle     turn=  -52.6 frames=  76.0 yaw=[0.2, -0.1, -0.3, -0.2, -0.0, 0.3, 0.3, -0.2, -0.3, -0.2, 0.1, 0.4, 0.3]
+[FIX] king    Walk     turn=   -0.5 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] king    Run      turn=   -0.4 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.1, 5.8, 9.0, 11.3, 6.5, 2.4, 1.5, -0.4, -9.5]
+[FIX] king    Attack1  turn=  -35.8 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 56.9, 55.6, 54.9, 54.3, 51.6, 47.4]
+[FIX] king    Attack2  turn= -176.9 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.7, -139.3, -151.0, -158.3, -164.7, -173.9, 158.6, 145.6, 121.8, 110.9]
+[FIX] king    Attack3  turn=   51.6 frames=  23.0 yaw=[-0.0, 1.3, -16.7, -33.3, -40.5, -44.7, -48.5, -51.0, -64.0, -77.2, -86.7, -93.4, -96.4]
+[FIX] king    Dodge    turn=  -41.2 frames=  71.0 yaw=[-0.0, 10.2, 25.3, 35.3, 40.9, 56.7, 103.5, 40.1, -11.8, -10.2, -13.0, -3.9, -0.0]
+[FIX] king    Block    turn=  -64.9 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] king    Hit      turn=  -59.1 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] king    Death    turn=  -52.4 frames=  69.0 yaw=[-0.0, 18.9, 15.4, 13.9, 13.3, 11.1, 8.6, 11.3, 37.3, 55.1, 60.0, 62.0, 59.4]
+[FIX] king    Cast     turn=  -52.4 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.3, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

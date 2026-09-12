@@ -1,0 +1,11 @@
+[B] prototype kit_floor geoms=1 materials=1 tris=122
+[B] prototype kit_wall_face geoms=1 materials=1 tris=106
+[B] prototype kit_wall_corner geoms=1 materials=1 tris=108
+[B] prototype kit_ceiling geoms=1 materials=1 tris=44
+[B] prototype kit_rib geoms=1 materials=1 tris=28
+[B] prototype kit_cornice geoms=1 materials=1 tris=28
+[B] second load shares material instance = false
+[B] before optimize: geometries=193 materials=6 tris=16362
+[B] after  optimize: geometries=6 materials=6 tris=16362 in 14 ms
+
+--- stderr ---

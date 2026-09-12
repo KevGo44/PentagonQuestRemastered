@@ -1,0 +1,17 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:42:19 | INFO: Data are loaded, start creating Blender stuff
+22:42:19 | INFO: Blender create Mesh node Face.005
+22:42:19 | INFO: glTF import finished in 0.35s
+FBX version: 7700
+[M] ours 66 theirs 52
+[M] theirs sample ['mixamorig:Hips', 'mixamorig:Spine', 'mixamorig:Spine1', 'mixamorig:Spine2', 'mixamorig:Neck', 'mixamorig:Head']
+[M] ours sample ['Root', 'Hips', 'Spine', 'Spine1', 'Spine2', 'LeftShoulder']
+[M] mapped 52 missing []
+[M] rest pose difference: worst head 0.05627 m, worst bone rotation 21.993 deg
+[M] theirs object scale (1.0, 1.0, 1.0) ours scale (1.0, 1.0, 1.0)
+[M] theirs rot (1.5708, -0.0, 0.0) ours rot (0.0, 0.0, 0.0)
+[M] action Armature|mixamo.com|Layer0 range (1.0, 74.0)
+[M] curve count 520 sample paths ['pose.bones["mixamorig:Head"].location', 'pose.bones["mixamorig:Head"].rotation_quaternion', 'pose.bones["mixamorig:Head"].scale']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

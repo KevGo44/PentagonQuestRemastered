@@ -1,0 +1,15 @@
+00:00.032  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:40:40 | INFO: Data are loaded, start creating Blender stuff
+22:40:41 | INFO: Blender create Mesh node Face.005
+22:40:41 | INFO: glTF import finished in 0.35s
+[T] reference (-53.1, -1.06, 1.53)
+[T] localX + 30: yaw=  -48.69 tilt=-24.57 headZ= 1.29
+[T] localX + 90: yaw=    1.76 tilt=-53.08 headZ=-0.07
+[T] localY + 30: yaw=  -56.50 tilt= 16.51 headZ= 1.28
+[T] localY + 90: yaw=  -88.68 tilt= 36.90 headZ=-0.10
+[T] localZ + 30: yaw=  -83.10 tilt= -1.06 headZ= 1.53
+[T] localZ + 90: yaw= -143.10 tilt= -1.06 headZ= 1.53
+[T] restored (-53.1, -1.06, 1.53)
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

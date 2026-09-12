@@ -1,0 +1,9 @@
+Sept. 12, 2026 11:14:24 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[CLEAR] Idle   blade to right leg: 0,556 m | shield off the front: 65 to 91 deg
+[CLEAR] Walk   blade to right leg: 0,468 m | shield off the front: 53 to 68 deg
+[CLEAR] Run    blade to right leg: 0,469 m | shield off the front: 60 to 102 deg
+[CLEAR] Block  blade to right leg: 0,673 m | shield off the front: 69 to 89 deg

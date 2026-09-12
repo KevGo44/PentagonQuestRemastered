@@ -1,0 +1,17 @@
+[C] hero    Idle     tracks=66 constant=46 moving=20 maxKeys=107 largestSwing=48,1 deg on Head
+[C] hero    Walk     tracks=66 constant=31 moving=35 maxKeys=34 largestSwing=45,3 deg on Shin.R
+[C] hero    Attack1  tracks=66 constant=45 moving=21 maxKeys=17 largestSwing=113,1 deg on Hand.R
+[C] mira    Idle     tracks=66 constant=46 moving=20 maxKeys=107 largestSwing=48,5 deg on Head
+[C] mira    Walk     tracks=66 constant=32 moving=34 maxKeys=34 largestSwing=48,4 deg on LeftToeBase
+[C] mira    Attack1  tracks=66 constant=44 moving=22 maxKeys=17 largestSwing=96,9 deg on Forearm.L
+[C] eren    Idle     tracks=66 constant=46 moving=20 maxKeys=107 largestSwing=48,1 deg on Head
+[C] eren    Walk     tracks=66 constant=31 moving=35 maxKeys=34 largestSwing=45,3 deg on Shin.R
+[C] eren    Attack1  tracks=66 constant=45 moving=21 maxKeys=17 largestSwing=113,1 deg on Hand.R
+
+=== hero
+[H] action=Clip Idle, 3.5333333015441895s speed=1.0 joints=66
+[H] joint=Spine1
+[H]   t=0.0  (-1.4901161E-8, 0.0, 0.0, 1.0)
+[H]   t=1.0  (0.0147344805, 0.025974326, 0.018928908, 0.99937475)
+[H]   MOVED = true   time=1.0000000521540642
+[H] WeaponSocket children=0  ShieldSocket children=0  -> sword=false shield=false

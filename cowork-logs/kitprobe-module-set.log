@@ -1,0 +1,110 @@
+=== models/props/kit_floor.glb
+[P] class=Node tris=122 verts=172
+[P] bound=BoundingBox [Center: (0.0, 0.11833333, 0.0)  xExtent: 1.4  yExtent: 0.11833333  zExtent: 1.4]
+[P] geom=kit_floorMesh.001_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_wall_face.glb
+[P] class=Node tris=106 verts=132
+[P] bound=BoundingBox [Center: (0.0, 3.51, 0.030000031)  xExtent: 1.4  yExtent: 3.51  zExtent: 1.4300001]
+[P] geom=kit_wall_faceMesh.002_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_wall_corner.glb
+[P] class=Node tris=108 verts=144
+[P] bound=BoundingBox [Center: (0.030000031, 3.51, 0.030000031)  xExtent: 1.4300001  yExtent: 3.51  zExtent: 1.4300001]
+[P] geom=kit_wall_cornerMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_wall_span.glb
+[P] class=Node tris=108 verts=148
+[P] bound=BoundingBox [Center: (0.0, 3.51, 0.0)  xExtent: 1.4  yExtent: 3.51  zExtent: 1.46]
+[P] geom=kit_wall_spanMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_wall_pier.glb
+[P] class=Node tris=116 verts=158
+[P] bound=BoundingBox [Center: (0.030000031, 3.51, 0.0)  xExtent: 1.4300001  yExtent: 3.51  zExtent: 1.46]
+[P] geom=kit_wall_pierMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_wall.glb
+[P] class=Node tris=124 verts=168
+[P] bound=BoundingBox [Center: (0.0, 3.51, 0.0)  xExtent: 1.46  yExtent: 3.51  zExtent: 1.46]
+[P] geom=kit_wallMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_ceiling.glb
+[P] class=Node tris=44 verts=88
+[P] bound=BoundingBox [Center: (0.0, 0.18, 0.0)  xExtent: 1.4  yExtent: 0.18  zExtent: 1.4]
+[P] geom=kit_ceilingMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_rib.glb
+[P] class=Node tris=28 verts=48
+[P] bound=BoundingBox [Center: (0.0, 0.16, 0.0)  xExtent: 0.16  yExtent: 0.16  zExtent: 1.4]
+[P] geom=kit_ribMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_pillar.glb
+[P] class=Node tris=140 verts=256
+[P] bound=BoundingBox [Center: (0.0, 3.07, 0.0)  xExtent: 0.6282381  yExtent: 3.07  zExtent: 0.6282381]
+[P] geom=kit_pillarMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/kit_arch.glb
+[P] class=Node tris=116 verts=180
+[P] bound=BoundingBox [Center: (0.0, 3.535, 0.0)  xExtent: 4.03  yExtent: 3.535  zExtent: 0.36]
+[P] geom=kit_archMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0

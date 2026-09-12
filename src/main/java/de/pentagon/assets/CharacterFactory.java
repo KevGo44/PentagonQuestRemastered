@@ -43,6 +43,14 @@ public final class CharacterFactory {
   }
 
   public Rig create(String id, int color, boolean king) {
+    return create(id, color, king, false);
+  }
+
+  /**
+   * @param armed hangs sword and shield on the rig. Only the player carries gear: Mira and Eren
+   *     are not fighters, and the enemies bring their own claws and armour with the mesh.
+   */
+  public Rig create(String id, int color, boolean king, boolean armed) {
     Spatial loaded = assets.model("characters/" + id, () -> placeholder(color, king));
     Node model = loaded instanceof Node n ? n : new Node("CharacterRoot");
     if (!(loaded instanceof Node)) model.attachChild(loaded);
@@ -57,9 +65,91 @@ public final class CharacterFactory {
       if (!composer.hasAnimClip(clip))
         throw new IllegalStateException(id + " is missing animation " + clip);
     model.setShadowMode(ShadowMode.CastAndReceive);
+    if (armed) equip(skin, color);
     Rig rig = new Rig(model, composer, skin);
     rig.play("Idle");
     return rig;
+  }
+
+  /**
+   * Hangs sword and shield on the rig. This used to sit inside {@link #placeholder}, which meant
+   * every delivered GLB arrived unarmed: the placeholder only runs when no model file exists, so
+   * shipping hero.glb silently removed the weapon. The sockets belong to the character, not to
+   * the placeholder mesh.
+   */
+  /**
+   * The delivered rigs face the glTF front, which is where the engine points a character with
+   * Quaternion.lookAt. That was not always true: every clip carried the side-on guard stance of
+   * Mixamo's sword-and-shield set, about 53 degrees out of the front, while walk and run faced
+   * straight ahead - so the character stood sideways and walked forwards. A quarter turn in this
+   * factory papered over the walk and made everything else worse. The repair belongs in the asset
+   * and sits in art/blender/anim_normalise.py; AssetTest measures the result on every clip.
+   */
+
+  /** Distance from the wrist joint into the middle of the fist, measured on the delivered rigs. */
+  private static final float FIST = .095f;
+
+  private void equip(SkinningControl skin, int tint) {
+    boolean right = false, left = false;
+    for (Joint j : skin.getArmature().getJointList()) {
+      if (j.getName().equals("Hand.R")) right = true;
+      if (j.getName().equals("Hand.L")) left = true;
+    }
+    Material steel = assets.pbr("", 0x939a9e, .38f, .72f),
+        gold = assets.pbr("", 0xd1a05b, .34f, .65f),
+        body = assets.pbr("", tint, .75f, .12f);
+    // Both hands run their local +Y along the fingers, +X out past the thumb and +Z out of the
+    // palm. Measured on the delivered rigs: the four finger joints sit within nine degrees of +Y,
+    // the index at +X and the pinky at -X, and the thumb stands off towards +Z.
+    if (right) {
+      // A fist holds the grip across the palm, not along the fingers, so the blade leaves the hand
+      // along its local X. The second quarter turn is about the blade itself and puts the flats to
+      // the sides, which is how a lowered sword hangs; without it the edges face left and right.
+      Node sword = new Node("WeaponSocket");
+      sword.attachChild(assets.model("props/sword", () -> swordFallback(steel, gold)));
+      sword.setLocalRotation(
+          new Quaternion()
+              .fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Z)
+              .mult(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y)));
+      sword.setLocalTranslation(0, FIST, .015f);
+      skin.getAttachmentsNode("Hand.R").attachChild(sword);
+    }
+    if (left) {
+      // The shield sits across the end of the arm and looks where the arm points - that is how a
+      // boss shield is carried, and it is also the only mounting that faces the front. Two wrong
+      // answers came first: on the palm (the model's own +Z) it looked at the character's ribs,
+      // because Mixamo's set turns the left palm inwards; on the back of the hand it looked
+      // sideways. Searched over every direction in the hand's frame and scored against the front
+      // across Idle, Walk, Run, Block and Hit, the forearm axis wins by a wide margin - mean cover
+      // 0.84 to 0.93 where the palm gives -0.50 to -0.11 and the back of the hand 0.11 to 0.50.
+      // The forearm runs back from the wrist, so it stays wholly behind the disc.
+      Node shield = new Node("ShieldSocket");
+      shield.attachChild(assets.model("props/shield", () -> shieldFallback(body)));
+      shield.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X));
+      shield.setLocalTranslation(0, .175f, 0);
+      skin.getAttachmentsNode("Hand.L").attachChild(shield);
+    }
+  }
+
+  /** Same convention as props/sword.glb: grip at the origin, blade along +Y. */
+  private Spatial swordFallback(Material steel, Material gold) {
+    Node sword = new Node("SwordFallback");
+    Geometry blade = assets.box("Blade", .04f, .36f, .012f, steel);
+    blade.setLocalTranslation(0, .45f, 0);
+    sword.attachChild(blade);
+    Geometry guard = assets.box("Guard", .12f, .022f, .03f, gold);
+    guard.setLocalTranslation(0, .095f, 0);
+    sword.attachChild(guard);
+    Geometry grip = assets.box("Grip", .022f, .085f, .022f, gold);
+    sword.attachChild(grip);
+    return sword;
+  }
+
+  /** Same convention as props/shield.glb: boss at the origin, face along +Z. */
+  private Spatial shieldFallback(Material body) {
+    Geometry plate = assets.box("ShieldFallback", .31f, .31f, .022f, body);
+    plate.setLocalTranslation(0, 0, -.03f);
+    return plate;
   }
 
   private <T extends com.jme3.scene.control.Control> T find(Spatial s, Class<T> type) {
@@ -130,19 +220,6 @@ public final class CharacterFactory {
     model.addControl(composer);
     SkinningControl skin = new SkinningControl(armature);
     model.addControl(skin);
-    Node sword = new Node("WeaponSocket");
-    Geometry blade = assets.box("Blade", .055f, .49f, .027f, steel);
-    blade.setLocalTranslation(0, -.5f, 0);
-    sword.attachChild(blade);
-    Geometry hilt = assets.box("Guard", .19f, .04f, .06f, gold);
-    hilt.setLocalTranslation(0, -.02f, 0);
-    sword.attachChild(hilt);
-    skin.getAttachmentsNode("Hand.R").attachChild(sword);
-    Node shield = new Node("ShieldSocket");
-    Geometry plate = assets.box("Shield", .25f, .34f, .055f, body);
-    plate.setLocalTranslation(-.1f, -.05f, .13f);
-    shield.attachChild(plate);
-    skin.getAttachmentsNode("Hand.L").attachChild(shield);
     return model;
   }
 

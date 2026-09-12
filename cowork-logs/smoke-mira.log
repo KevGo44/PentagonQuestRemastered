@@ -1,0 +1,58 @@
+Libbulletjme version 22.0.3 initializing
+Sept. 12, 2026 3:23:44 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+Sept. 12, 2026 3:23:44 PM com.jme3.system.lwjgl.LwjglContext printContextInitInfo
+INFORMATION: LWJGL 3.3.6-snapshot context running on thread jME3 Main
+ * Graphics Adapter: GLFW 3.5.0 Win32 WGL Null EGL OSMesa VisualC DLL
+Sept. 12, 2026 3:23:44 PM com.jme3.renderer.opengl.GLRenderer loadCapabilitiesCommon
+INFORMATION: OpenGL Renderer Information
+ * Vendor: Intel
+ * Renderer: Intel(R) Iris(R) Xe Graphics
+ * OpenGL Version: 3.3.0 - Build 31.0.101.4314
+ * GLSL Version: 3.30 - Build 31.0.101.4314
+ * Profile: Core
+Sept. 12, 2026 3:23:44 PM com.jme3.renderer.opengl.GLRenderer setMainFrameBufferSrgb
+WARNUNG: Driver claims that default framebuffer is not sRGB capable. Enabling anyway.
+Sept. 12, 2026 3:23:45 PM com.jme3.app.LegacyApplication handleError
+SCHWERWIEGEND: Uncaught exception thrown in Thread[#31,jME3 Main,5,main]
+com.jme3.asset.AssetLoadException: An error occurred loading models/characters/mira.glb
+	at com.jme3.scene.plugins.gltf.GltfLoader.loadFromStream(GltfLoader.java:181)
+	at com.jme3.scene.plugins.gltf.GlbLoader.load(GlbLoader.java:92)
+	at com.jme3.asset.DesktopAssetManager.loadLocatedAsset(DesktopAssetManager.java:274)
+	at com.jme3.asset.DesktopAssetManager.loadAsset(DesktopAssetManager.java:390)
+	at com.jme3.asset.DesktopAssetManager.loadModel(DesktopAssetManager.java:441)
+	at com.jme3.asset.DesktopAssetManager.loadModel(DesktopAssetManager.java:446)
+	at de.pentagon.assets.AssetPipeline.model(AssetPipeline.java:105)
+	at de.pentagon.assets.CharacterFactory.create(CharacterFactory.java:46)
+	at de.pentagon.world.WorldView.buildObject(WorldView.java:270)
+	at de.pentagon.world.WorldView.<init>(WorldView.java:44)
+	at de.pentagon.core.CampaignState.loadRegion(CampaignState.java:135)
+	at de.pentagon.core.CampaignState.initialize(CampaignState.java:50)
+	at com.jme3.app.state.BaseAppState.initialize(BaseAppState.java:129)
+	at com.jme3.app.state.AppStateManager.initializePending(AppStateManager.java:332)
+	at com.jme3.app.state.AppStateManager.update(AppStateManager.java:362)
+	at com.jme3.app.SimpleApplication.update(SimpleApplication.java:260)
+	at com.jme3.system.lwjgl.LwjglWindow.runLoop(LwjglWindow.java:707)
+	at com.jme3.system.lwjgl.LwjglWindow.run(LwjglWindow.java:797)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+Caused by: java.lang.IndexOutOfBoundsException: Index 4 out of bounds for length 1
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:100)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:106)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:302)
+	at java.base/java.util.Objects.checkIndex(Objects.java:365)
+	at java.base/java.util.ArrayList.get(ArrayList.java:428)
+	at com.jme3.util.SafeArrayList.get(SafeArrayList.java:316)
+	at com.jme3.scene.Node.getChild(Node.java:500)
+	at com.jme3.scene.plugins.gltf.GltfLoader.readScenes(GltfLoader.java:227)
+	at com.jme3.scene.plugins.gltf.GltfLoader.loadFromStream(GltfLoader.java:155)
+	... 18 more
+
+Sept. 12, 2026 3:23:45 PM com.jme3.system.JmeSystemDelegate lambda$new$0
+WARNUNG: JmeDialogsFactory implementation not found.
+Uncaught exception thrown in Thread[#31,jME3 Main,5,main]
+AssetLoadException: An error occurred loading models/characters/mira.glb
+
+Exception: java.lang.NullPointerException thrown from the UncaughtExceptionHandler in thread "jME3 Main"

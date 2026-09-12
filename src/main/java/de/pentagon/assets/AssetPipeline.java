@@ -98,12 +98,16 @@ public final class AssetPipeline {
     return g;
   }
 
-  public Spatial model(String id, Supplier<Spatial> fallback) {
+  private static String path(String id) {
     for (String suffix : List.of(".glb", ".gltf", ".j3o", ".obj")) {
-      String path = "models/" + id + suffix;
-      if (AssetPipeline.class.getClassLoader().getResource(path) != null)
-        return manager.loadModel(path);
+      String candidate = "models/" + id + suffix;
+      if (AssetPipeline.class.getClassLoader().getResource(candidate) != null) return candidate;
     }
-    return fallback.get();
+    return null;
+  }
+
+  public Spatial model(String id, Supplier<Spatial> fallback) {
+    String path = path(id);
+    return path == null ? fallback.get() : manager.loadModel(path);
   }
 }

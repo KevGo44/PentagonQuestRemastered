@@ -1,0 +1,45 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:36:05 | INFO: Data are loaded, start creating Blender stuff
+22:36:05 | INFO: Blender create Mesh node Face.005
+22:36:05 | INFO: glTF import finished in 0.61s
+[I] armature Armature.004 objects ['Armature.004', 'Hero.002', 'Icosphere']
+[I] Root rest matrix_local:
+[I]     1.0000   0.0000   0.0000   0.0000
+[I]     0.0000   0.0000  -1.0000   0.0000
+[I]    -0.0000   1.0000   0.0000   0.0000
+[I]     0.0000   0.0000   0.0000   1.0000
+[I] Root parent None children ['Hips']
+[I] Hips head (0.0, 1.1632, -0.0296) parent Root
+[I]  H   1.0000   0.0000  -0.0000   0.0000
+[I]  H  -0.0000   1.0000   0.0000   1.1632
+[I]  H  -0.0000  -0.0000   1.0000  -0.0296
+[I]  H   0.0000   0.0000   0.0000   1.0000
+[A] 'Attack1' range=(0.0, 12.8) curves=660 bones=66 keyFrames=17 first=[0.0, 0.8, 1.6, 2.4] last=[12.0, 12.8] rootAnimated=True
+[A] 'Attack2' range=(0.0, 13.6) curves=660 bones=66 keyFrames=18 first=[0.0, 0.8, 1.6, 2.4] last=[12.8, 13.6] rootAnimated=True
+[A] 'Attack3' range=(0.0, 18.4) curves=660 bones=66 keyFrames=24 first=[0.0, 0.8, 1.6, 2.4] last=[17.6, 18.4] rootAnimated=True
+[A] 'Block' range=(0.0, 33.6) curves=660 bones=66 keyFrames=43 first=[0.0, 0.8, 1.6, 2.4] last=[32.8, 33.6] rootAnimated=True
+[A] 'Cast' range=(0.0, 71.2) curves=660 bones=66 keyFrames=90 first=[0.0, 0.8, 1.6, 2.4] last=[70.4, 71.2] rootAnimated=True
+[A] 'Death' range=(0.0, 55.2) curves=660 bones=66 keyFrames=70 first=[0.0, 0.8, 1.6, 2.4] last=[54.4, 55.2] rootAnimated=True
+[A] 'Dodge' range=(0.0, 56.0) curves=660 bones=66 keyFrames=71 first=[0.0, 0.8, 1.6, 2.4] last=[55.2, 56.0] rootAnimated=True
+[A] 'Hit' range=(0.0, 16.8) curves=660 bones=66 keyFrames=22 first=[0.0, 0.8, 1.6, 2.4] last=[16.0, 16.8] rootAnimated=True
+[A] 'Idle' range=(0.0, 84.8) curves=660 bones=66 keyFrames=107 first=[0.0, 0.8, 1.6, 2.4] last=[84.0, 84.8] rootAnimated=True
+[A] 'Run' range=(0.0, 16.8) curves=660 bones=66 keyFrames=22 first=[0.0, 0.8, 1.6, 2.4] last=[16.0, 16.8] rootAnimated=True
+[A] 'Walk' range=(0.0, 26.4) curves=660 bones=66 keyFrames=34 first=[0.0, 0.8, 1.6, 2.4] last=[25.6, 26.4] rootAnimated=True
+[I] active action Idle
+[T] Cast mute True [('Cast', 1.0, 72.2, 'Cast', False, 0.0, 71.2)]
+[T] Death mute True [('Death', 1.0, 56.2, 'Death', False, 0.0, 55.2)]
+[T] Hit mute True [('Hit', 1.0, 17.8, 'Hit', False, 0.0, 16.8)]
+[T] Block mute True [('Block', 1.0, 34.6, 'Block', False, 0.0, 33.6)]
+[T] Dodge mute True [('Dodge', 1.0, 57.0, 'Dodge', False, 0.0, 56.0)]
+[T] Attack3 mute True [('Attack3', 1.0, 19.4, 'Attack3', False, 0.0, 18.4)]
+[T] Attack2 mute True [('Attack2', 1.0, 14.6, 'Attack2', False, 0.0, 13.6)]
+[T] Attack1 mute True [('Attack1', 1.0, 13.8, 'Attack1', False, 0.0, 12.8)]
+[T] Run mute True [('Run', 1.0, 17.8, 'Run', False, 0.0, 16.8)]
+[T] Walk mute True [('Walk', 1.0, 27.4, 'Walk', False, 0.0, 26.4)]
+[T] Idle mute True [('Idle', 1.0, 85.8, 'Idle', False, 0.0, 84.8)]
+[R] Idle frames 0..85: restAngle(first)= 97.31 restAngle(second)= 96.34 restAngle(mid)=102.71
+[R] Walk frames 0..26: restAngle(first)= 90.72 restAngle(second)= 90.57 restAngle(mid)= 95.76
+[R] Attack1 frames 0..13: restAngle(first)= 96.74 restAngle(second)= 96.02 restAngle(mid)= 96.58
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

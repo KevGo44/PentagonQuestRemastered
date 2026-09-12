@@ -1,0 +1,28 @@
+=== hero
+[H] action=Clip Idle, 3.5333333015441895s speed=1.0 joints=66
+[H] joint=Spine1
+[H]   t=0.0  (-1.4901161E-8, 0.0, 0.0, 1.0)
+[H]   t=1.0  (0.0147344805, 0.025974326, 0.018928908, 0.99937475)
+[H]   MOVED = true   time=1.0000000521540642
+[H] WeaponSocket children=1  ShieldSocket children=1  -> sword=true shield=true
+=== mira
+[H] action=Clip Idle, 3.5333333015441895s speed=1.0 joints=66
+[H] joint=Spine1
+[H]   t=0.0  (3.7252907E-9, 0.0, 0.0, 1.0)
+[H]   t=1.0  (0.014734409, 0.02626786, 0.018519415, 0.99937475)
+[H]   MOVED = true   time=1.0000000521540642
+[H] WeaponSocket children=1  ShieldSocket children=1  -> sword=true shield=true
+=== goblin
+[H] action=Clip Idle, 3.5333333015441895s speed=1.0 joints=26
+[H] joint=Spine1
+[H]   t=0.0  (-2.9802322E-8, 3.036702E-24, -6.98398E-23, 1.0)
+[H]   t=1.0  (0.014734455, 0.025974333, 0.018928913, 0.99937475)
+[H]   MOVED = true   time=1.0000000521540642
+[H] WeaponSocket children=1  ShieldSocket children=1  -> sword=true shield=true
+=== king
+[H] action=Clip Idle, 3.5333333015441895s speed=1.0 joints=26
+[H] joint=Spine1
+[H]   t=0.0  (-1.4901161E-8, 1.099778E-22, 1.4411591E-24, 1.0)
+[H]   t=1.0  (0.014734382, 0.025974326, 0.018928908, 0.99937475)
+[H]   MOVED = true   time=1.0000000521540642
+[H] WeaponSocket children=1  ShieldSocket children=1  -> sword=true shield=true

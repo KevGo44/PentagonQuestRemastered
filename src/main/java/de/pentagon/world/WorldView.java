@@ -10,6 +10,7 @@ import de.pentagon.assets.*;
 import de.pentagon.core.GameSession;
 import de.pentagon.physics.PhysicsWorld;
 import java.util.*;
+import java.util.function.Supplier;
 import jme3tools.optimize.GeometryBatchFactory;
 
 public final class WorldView {
@@ -21,11 +22,21 @@ public final class WorldView {
 
   private record Torch(PointLight light, Vector3f position, float phase) {}
 
+  /** A filled kit slot; orientation and level of detail only apply to one of the two sources. */
+  private record Slot(Spatial spatial, boolean module) {}
+
+  /** Which wall module a cell wants, and the yaw that turns its authored front face outward. */
+  private record WallKit(String id, float yaw) {}
+
+  /** Passed where a module ships its final look because the placeholder colour is region-wide. */
+  private static final int NO_TINT = -1;
+
   private final List<Torch> torches = new ArrayList<>();
   private final AssetPipeline assets;
   private final PhysicsWorld physics;
   private final Random random = new Random(51);
   private final Material iron, gold;
+  private final Map<String, Spatial> modules = new HashMap<>();
   public final DungeonLayout layout;
 
   public WorldView(
@@ -45,8 +56,9 @@ public final class WorldView {
   }
 
   private void buildTiles() {
+    int floorTint = layout.region == Region.CAVERNS ? 0x687771 : 0x8c8b86;
     Material wall = assets.pbr("stone", layout.region.stone, .94f, 0),
-        floor = assets.pbr("stone", layout.region == Region.CAVERNS ? 0x687771 : 0x8c8b86, .86f, 0);
+        floor = assets.pbr("stone", floorTint, .86f, 0);
     float cell = DungeonLayout.CELL;
     Map<String, Node> chunks = new HashMap<>();
     physics.box(42, -.35f, 42, 47, .35f, 47);
@@ -56,32 +68,79 @@ public final class WorldView {
         String chunk = x / 6 + ":" + z / 6;
         Node n = chunks.computeIfAbsent(chunk, k -> new Node("Chunk_" + k));
         if (layout.walkable(x, z)) {
-          Geometry g = assets.box("FloorTile", cell * .5f, .12f, cell * .5f, floor);
-          g.setLocalTranslation(x * cell, -.13f, z * cell);
-          n.attachChild(g);
+          n.attachChild(
+              slot(
+                      floorTint,
+                      x * cell,
+                      -.13f,
+                      z * cell,
+                      .12f,
+                      () -> assets.box("FloorTile", cell * .5f, .12f, cell * .5f, floor),
+                      "kit_floor")
+                  .spatial());
           // A broken ceiling admits isolated light shafts; it never blocks navigation.
           if (!(x % 7 == 1 && z % 7 == 1)) {
-            Geometry ceiling = assets.box("VaultCeiling", cell * .5f, .18f, cell * .5f, wall);
-            ceiling.setLocalTranslation(x * cell, 7.1f, z * cell);
+            Spatial ceiling =
+                slot(
+                        layout.region.stone,
+                        x * cell,
+                        7.1f,
+                        z * cell,
+                        .18f,
+                        () -> assets.box("VaultCeiling", cell * .5f, .18f, cell * .5f, wall),
+                        "kit_ceiling")
+                    .spatial();
             ceiling.setShadowMode(ShadowMode.Receive);
             n.attachChild(ceiling);
           }
-          if (x % 4 == 0) {
-            Geometry beam = assets.box("CeilingRib", .16f, .16f, cell * .5f, wall);
-            beam.setLocalTranslation(x * cell, 6.4f, z * cell);
-            n.attachChild(beam);
-          }
+          if (x % 4 == 0)
+            n.attachChild(
+                slot(
+                        layout.region.stone,
+                        x * cell,
+                        6.4f,
+                        z * cell,
+                        .16f,
+                        () -> assets.box("CeilingRib", .16f, .16f, cell * .5f, wall),
+                        "kit_rib")
+                    .spatial());
         } else {
-          Geometry block = assets.box("Wall", cell * .5f, 3.4f, cell * .5f, wall);
-          block.setLocalTranslation(x * cell, 3.3f, z * cell);
-          block.getMesh().scaleTextureCoordinates(new Vector2f(1, 2));
-          n.attachChild(block);
-          Geometry crown = assets.box("Cornice", cell * .55f, .16f, cell * .55f, iron);
-          crown.setLocalTranslation(x * cell, 4.8f, z * cell);
-          n.attachChild(crown);
+          WallKit kit = wallKit(x, z);
+          Slot block =
+              slot(
+                  layout.region.stone,
+                  x * cell,
+                  3.3f,
+                  z * cell,
+                  3.4f,
+                  () -> {
+                    Geometry g = assets.box("Wall", cell * .5f, 3.4f, cell * .5f, wall);
+                    g.getMesh().scaleTextureCoordinates(new Vector2f(1, 2));
+                    return g;
+                  },
+                  kit.id(),
+                  "kit_wall");
+          // Only a module has a front face. The procedural block is square in plan, but its
+          // texture repeat would turn with it, so it is never rotated.
+          if (block.module())
+            block
+                .spatial()
+                .setLocalRotation(new Quaternion().fromAngleAxis(kit.yaw(), Vector3f.UNIT_Y));
+          n.attachChild(block.spatial());
+          n.attachChild(
+              slot(
+                      NO_TINT,
+                      x * cell,
+                      4.8f,
+                      z * cell,
+                      .16f,
+                      () -> assets.box("Cornice", cell * .55f, .16f, cell * .55f, iron),
+                      "kit_cornice")
+                  .spatial());
         }
       }
-    // Merge adjacent wall colliders into runs; much cheaper than a body per brick.
+    // Merge adjacent wall colliders into runs; much cheaper than a body per brick. The runs come
+    // from the layout, never from a module, so collision is identical with and without the kit.
     for (int z = 0; z < DungeonLayout.SIZE; z++) {
       int x = 0;
       while (x < DungeonLayout.SIZE) {
@@ -101,8 +160,101 @@ public final class WorldView {
     }
   }
 
+  /**
+   * Resolves a kit module through the single import gateway, trying the ids in order so a specific
+   * variant can be added later without touching this class, and hands out a clone that shares the
+   * prototype's materials. Cloning materials per cell would give every tile its own instance, and
+   * GeometryBatchFactory groups by material — the chunk merge would then collapse into one batch
+   * per tile.
+   */
+  private Spatial module(int tint, String... ids) {
+    for (String id : ids) {
+      if (!modules.containsKey(id)) {
+        Spatial resolved = assets.model("props/" + id, () -> null);
+        if (resolved != null && tint != NO_TINT) tint(resolved, tint);
+        modules.put(id, resolved);
+      }
+      Spatial prototype = modules.get(id);
+      if (prototype != null) return prototype.clone(false);
+    }
+    return null;
+  }
+
+  /**
+   * Fills one kit slot. A module is placed {@code half} lower than the procedural box, because prop
+   * pivots sit bottom-centre while a Box is centred on its translation. The underside of the block
+   * therefore stays where it is, which is the surface the layout-derived colliders were measured
+   * against.
+   */
+  private Slot slot(
+      int tint, float x, float y, float z, float half, Supplier<Geometry> box, String... ids) {
+    Spatial module = module(tint, ids);
+    if (module == null) {
+      Geometry g = box.get();
+      g.setLocalTranslation(x, y, z);
+      return new Slot(g, false);
+    }
+    module.setLocalTranslation(x, y - half, z);
+    return new Slot(module, true);
+  }
+
+  /**
+   * Region colour reaches a module the way it reaches the procedural stone: as a factor on
+   * BaseColor, so the module keeps its own maps and UVs and only has to ship a neutral albedo. The
+   * factor is normalised by its own luminance — the recipe recorded in docs/asset-liste.md —
+   * because the region tones are mid-greys and multiplying by one raw would darken the module by
+   * roughly a factor of six. The material is cloned first: loadModel hands out a spatial whose
+   * material still belongs to the asset cache, so writing through it would bleed into the next
+   * region.
+   */
+  private void tint(Spatial module, int color) {
+    ColorRGBA c = AssetPipeline.color(color);
+    float luminance = .2126f * c.r + .7152f * c.g + .0722f * c.b;
+    if (luminance <= 0) return;
+    ColorRGBA factor = c.mult(1 / luminance);
+    factor.a = 1;
+    module.depthFirstTraversal(
+        s -> {
+          if (!(s instanceof Geometry g)) return;
+          MatParam param = g.getMaterial().getParam("BaseColor");
+          if (param == null || !(param.getValue() instanceof ColorRGBA base)) return;
+          Material tinted = g.getMaterial().clone();
+          tinted.setColor("BaseColor", base.mult(factor));
+          g.setMaterial(tinted);
+        });
+  }
+
+  /**
+   * Classifies a wall cell by the sides that face walkable floor. Sides are indexed +Z, +X, -Z, -X,
+   * one quarter turn about +Y apart, so a module authored facing +Z is aimed at side i by a yaw of
+   * i quarter turns. DungeonLayout.wall only reports cells with at least one such side, so there is
+   * always a face to show and kit_wall_free stays a reserve.
+   */
+  private WallKit wallKit(int x, int z) {
+    boolean[] open = {
+      layout.walkable(x, z + 1),
+      layout.walkable(x + 1, z),
+      layout.walkable(x, z - 1),
+      layout.walkable(x - 1, z)
+    };
+    int count = 0;
+    for (boolean side : open) if (side) count++;
+    for (int i = 0; i < 4; i++) {
+      if (count == 1 && open[i]) return new WallKit("kit_wall_face", i * FastMath.HALF_PI);
+      if (count == 2 && open[i] && open[(i + 1) % 4])
+        return new WallKit("kit_wall_corner", i * FastMath.HALF_PI);
+      if (count == 2 && i < 2 && open[i] && open[(i + 2) % 4])
+        return new WallKit("kit_wall_span", i * FastMath.HALF_PI);
+      // The pier shows three faces and is aimed by its closed side, which faces -X unrotated.
+      if (count == 3 && !open[(i + 3) % 4])
+        return new WallKit("kit_wall_pier", i * FastMath.HALF_PI);
+    }
+    return new WallKit("kit_wall_free", 0);
+  }
+
   private void buildRooms() {
     Material stone = assets.pbr("stone", layout.region.stone, .9f, 0);
+    int carpetTint = layout.region == Region.REFUGE ? 0x243c48 : 0x492a2d;
     int index = 0;
     for (var room : layout.rooms) {
       float x = room.x() * DungeonLayout.CELL,
@@ -121,21 +273,39 @@ public final class WorldView {
       }
       if (layout.region != Region.CAVERNS) {
         arch(x, z - dz + .6f, stone);
-        Geometry carpet =
-            assets.box(
-                "WornBannerCarpet",
-                Math.min(2.2f, dx * .4f),
+        float carpetX = Math.min(2.2f, dx * .4f), carpetZ = dz * .75f;
+        Slot carpet =
+            slot(
+                carpetTint,
+                x,
                 .009f,
-                dz * .75f,
-                assets.pbr("", layout.region == Region.REFUGE ? 0x243c48 : 0x492a2d, .97f, 0));
-        carpet.setLocalTranslation(x, .009f, z);
-        decor.attachChild(carpet);
-        for (int sign : new int[] {-1, 1}) {
-          Geometry banner =
-              assets.box("HangingBanner", .62f, 1.3f, .03f, assets.pbr("", 0x392a32, .9f, 0));
-          banner.setLocalTranslation(x + sign * dx, 4.4f, z);
-          decor.attachChild(banner);
-        }
+                z,
+                .009f,
+                () ->
+                    assets.box(
+                        "WornBannerCarpet",
+                        carpetX,
+                        .009f,
+                        carpetZ,
+                        assets.pbr("", carpetTint, .97f, 0)),
+                "kit_carpet");
+        // The carpet footprint follows the room, so the module is authored as a one metre tile and
+        // stretched in X and Z only; its modelled thickness stays untouched.
+        if (carpet.module()) carpet.spatial().setLocalScale(carpetX * 2, 1, carpetZ * 2);
+        decor.attachChild(carpet.spatial());
+        for (int sign : new int[] {-1, 1})
+          decor.attachChild(
+              slot(
+                      NO_TINT,
+                      x + sign * dx,
+                      4.4f,
+                      z,
+                      1.3f,
+                      () ->
+                          assets.box(
+                              "HangingBanner", .62f, 1.3f, .03f, assets.pbr("", 0x392a32, .9f, 0)),
+                      "kit_banner")
+                  .spatial());
       } else
         for (int i = 0; i < 6; i++) {
           float rx = x + (random.nextFloat() - .5f) * dx * 1.6f,
@@ -149,15 +319,19 @@ public final class WorldView {
     Node n = new Node("Pillar");
     n.setLocalTranslation(x, 0, z);
     decor.attachChild(n);
-    Geometry base = assets.box("Plinth", .66f, .18f, .66f, mat);
-    base.setLocalTranslation(0, .18f, 0);
-    n.attachChild(base);
-    Geometry column = assets.box("Shaft", .4f, 2.8f, .4f, mat);
-    column.setLocalTranslation(0, 3, 0);
-    n.attachChild(column);
-    Geometry cap = assets.box("Capital", .68f, .24f, .68f, mat);
-    cap.setLocalTranslation(0, 5.9f, 0);
-    n.attachChild(cap);
+    Spatial module = module(layout.region.stone, "kit_pillar");
+    if (module != null) n.attachChild(module);
+    else {
+      Geometry base = assets.box("Plinth", .66f, .18f, .66f, mat);
+      base.setLocalTranslation(0, .18f, 0);
+      n.attachChild(base);
+      Geometry column = assets.box("Shaft", .4f, 2.8f, .4f, mat);
+      column.setLocalTranslation(0, 3, 0);
+      n.attachChild(column);
+      Geometry cap = assets.box("Capital", .68f, .24f, .68f, mat);
+      cap.setLocalTranslation(0, 5.9f, 0);
+      n.attachChild(cap);
+    }
     physics.box(x, 3, z, .48f, 3, .48f);
     // Also include pillars in camera/projectile ray tests.
     n.removeFromParent();
@@ -169,19 +343,24 @@ public final class WorldView {
     arch.setLocalTranslation(x, 0, z);
     decor.attachChild(arch);
     float radius = 3.55f;
-    for (int i = 0; i <= 12; i++) {
-      float angle = i * FastMath.PI / 12;
-      Geometry voussoir = assets.box("ArchStone", .48f, .22f, .36f, stone);
-      voussoir.setLocalTranslation(
-          FastMath.cos(angle) * radius, 3.3f + FastMath.sin(angle) * radius, 0);
-      voussoir.setLocalRotation(
-          new Quaternion().fromAngleAxis(angle + FastMath.HALF_PI, Vector3f.UNIT_Z));
-      arch.attachChild(voussoir);
-    }
+    Spatial module = module(layout.region.stone, "kit_arch");
+    if (module != null) arch.attachChild(module);
+    else
+      for (int i = 0; i <= 12; i++) {
+        float angle = i * FastMath.PI / 12;
+        Geometry voussoir = assets.box("ArchStone", .48f, .22f, .36f, stone);
+        voussoir.setLocalTranslation(
+            FastMath.cos(angle) * radius, 3.3f + FastMath.sin(angle) * radius, 0);
+        voussoir.setLocalRotation(
+            new Quaternion().fromAngleAxis(angle + FastMath.HALF_PI, Vector3f.UNIT_Z));
+        arch.attachChild(voussoir);
+      }
     for (int sign : new int[] {-1, 1}) {
-      Geometry support = assets.box("ArchSupport", .24f, 1.65f, .35f, stone);
-      support.setLocalTranslation(sign * radius, 1.65f, 0);
-      arch.attachChild(support);
+      if (module == null) {
+        Geometry support = assets.box("ArchSupport", .24f, 1.65f, .35f, stone);
+        support.setLocalTranslation(sign * radius, 1.65f, 0);
+        arch.attachChild(support);
+      }
       physics.box(x + sign * radius, 1.65f, z, .24f, 1.65f, .35f);
     }
     arch.removeFromParent();
@@ -189,15 +368,21 @@ public final class WorldView {
   }
 
   private void rock(float x, float z, float size) {
-    Sphere near = new Sphere(12, 16, 1), far = new Sphere(5, 7, 1);
-    com.jme3.util.mikktspace.MikktspaceTangentGenerator.generate(near);
-    com.jme3.util.mikktspace.MikktspaceTangentGenerator.generate(far);
-    Geometry rock = new Geometry("CaveRock", near);
-    rock.setMaterial(assets.pbr("stone", 0x63736b, .96f, 0));
-    rock.setLocalScale(size, size * 1.6f, size);
-    rock.setLocalTranslation(x, size * .6f, z);
-    rock.addControl(new DistanceLodControl(near, far));
-    occluders.attachChild(rock);
+    Spatial boulder = module(NO_TINT, "kit_rock");
+    if (boulder == null) {
+      Sphere near = new Sphere(12, 16, 1), far = new Sphere(5, 7, 1);
+      com.jme3.util.mikktspace.MikktspaceTangentGenerator.generate(near);
+      com.jme3.util.mikktspace.MikktspaceTangentGenerator.generate(far);
+      Geometry rock = new Geometry("CaveRock", near);
+      rock.setMaterial(assets.pbr("stone", 0x63736b, .96f, 0));
+      // The control swaps the mesh of a Geometry, so it cannot carry an imported module; a module
+      // has to hold its own triangle count down instead.
+      rock.addControl(new DistanceLodControl(near, far));
+      boulder = rock;
+    }
+    boulder.setLocalScale(size, size * 1.6f, size);
+    boulder.setLocalTranslation(x, size * .6f, z);
+    occluders.attachChild(boulder);
     physics.box(x, size * .6f, z, size * .7f, size, size * .7f);
   }
 
@@ -205,12 +390,18 @@ public final class WorldView {
     Node n = new Node("Torch");
     n.setLocalTranslation(x, 0, z);
     decor.attachChild(n);
-    Geometry stand = assets.box("BrazierStand", .09f, 1.3f, .09f, iron);
-    stand.setLocalTranslation(0, 1.3f, 0);
-    n.attachChild(stand);
-    Geometry bowl = assets.box("Brazier", .27f, .1f, .27f, gold);
-    bowl.setLocalTranslation(0, 2.6f, 0);
-    n.attachChild(bowl);
+    Spatial module = module(NO_TINT, "kit_brazier");
+    if (module != null) n.attachChild(module);
+    else {
+      Geometry stand = assets.box("BrazierStand", .09f, 1.3f, .09f, iron);
+      stand.setLocalTranslation(0, 1.3f, 0);
+      n.attachChild(stand);
+      Geometry bowl = assets.box("Brazier", .27f, .1f, .27f, gold);
+      bowl.setLocalTranslation(0, 2.6f, 0);
+      n.attachChild(bowl);
+    }
+    // The flame stays procedural in either case: its glow material feeds the bloom pass and the
+    // light below is what update() animates.
     Geometry flame = assets.sphere("Flame", .16f, assets.glow(0xffbc69, 2));
     flame.setLocalScale(1, 2.2f, 1);
     flame.setLocalTranslation(0, 2.86f, 0);
@@ -311,8 +502,18 @@ public final class WorldView {
       Spatial imported =
           assets.model("props/" + spec.kind().name().toLowerCase(Locale.ROOT), () -> null);
       if (imported != null) {
+        // A module replaces the procedural stonework, but not the light-emitting parts: their
+        // glow material feeds the bloom pass and no glTF material can produce it. Dropping them
+        // would take the visual cue off every interactable the player has to find. A CRYSTAL is
+        // the exception - there the glow sphere is the whole object, so its module replaces it.
+        List<Spatial> emissive = new ArrayList<>();
+        if (spec.kind() != DungeonLayout.Kind.CRYSTAL)
+          for (Spatial child : new ArrayList<>(n.getChildren()))
+            if (child.getName().equals("Crystal") || child.getName().equals("PortalVeil"))
+              emissive.add(child);
         n.detachAllChildren();
         n.attachChild(imported);
+        for (Spatial part : emissive) n.attachChild(part);
       }
     }
     refreshObject(spec, session);

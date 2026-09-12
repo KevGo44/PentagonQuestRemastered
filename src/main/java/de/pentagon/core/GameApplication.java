@@ -15,6 +15,7 @@ import de.pentagon.assets.AssetPipeline;
 import de.pentagon.assets.EnvironmentLighting;
 import de.pentagon.audio.AudioDirector;
 import de.pentagon.save.SaveService;
+import de.pentagon.save.SettingsService;
 import de.pentagon.ui.HudView;
 import de.pentagon.world.AtmosphereFilter;
 import java.nio.file.*;
@@ -27,7 +28,10 @@ public final class GameApplication extends SimpleApplication
   public HudView ui;
   public CampaignState game;
   public AtmosphereFilter atmosphere;
+  private SettingsService preferences;
+  private SettingsService.Settings settings = new SettingsService.Settings();
   private ScreenMode mode = ScreenMode.MAIN_MENU;
+  private ScreenMode settingsReturn = ScreenMode.PAUSED;
   private final Path saveDirectory;
   private final boolean smoke, noAudio;
   private boolean highQuality;
@@ -54,6 +58,13 @@ public final class GameApplication extends SimpleApplication
     assets = new AssetPipeline(assetManager);
     saves = new SaveService(saveDirectory);
     audio = new AudioDirector(assetManager, !noAudio);
+    preferences = new SettingsService(saveDirectory);
+    settings = preferences.load();
+    audio.master(settings.master);
+    audio.music(settings.music);
+    audio.effects(settings.effects);
+    audio.radio(settings.radio);
+    audio.muted(settings.muted);
     cameraSetup();
     lighting();
     ui = new HudView(this);
@@ -138,6 +149,27 @@ public final class GameApplication extends SimpleApplication
     return mode;
   }
 
+  /** Settings are reachable from the title screen and from the pause page; return where we came. */
+  public void openSettings() {
+    settingsReturn = mode == ScreenMode.MAIN_MENU ? ScreenMode.MAIN_MENU : ScreenMode.PAUSED;
+    screen(ScreenMode.SETTINGS);
+  }
+
+  public void closeSettings() {
+    storeSettings();
+    screen(settingsReturn);
+  }
+
+  public void storeSettings() {
+    if (preferences == null || audio == null) return;
+    settings.master = audio.master();
+    settings.music = audio.music();
+    settings.effects = audio.effects();
+    settings.radio = audio.radio();
+    settings.muted = audio.muted();
+    preferences.save(settings);
+  }
+
   public void screen(ScreenMode next) {
     mode = next;
     inputManager.setCursorVisible(next != ScreenMode.PLAYING);
@@ -192,6 +224,8 @@ public final class GameApplication extends SimpleApplication
   @Override
   public void onAction(String name, boolean pressed, float tpf) {
     if (game == null || game.player == null) return;
+    // Releasing the button ends a slider drag wherever the cursor happens to be.
+    if (!pressed && name.equals("Attack") && ui != null) ui.release();
     if (mode == ScreenMode.PLAYING && game.session.player.health <= 0) return;
     if (pressed) {
       if (name.equals("Quality")) {
@@ -217,7 +251,8 @@ public final class GameApplication extends SimpleApplication
         return;
       }
       if (name.equals("Pause")) {
-        if (mode == ScreenMode.PLAYING) screen(ScreenMode.PAUSED);
+        if (mode == ScreenMode.SETTINGS) closeSettings();
+        else if (mode == ScreenMode.PLAYING) screen(ScreenMode.PAUSED);
         else if (mode != ScreenMode.MAIN_MENU
             && mode != ScreenMode.GAME_OVER
             && mode != ScreenMode.TRANSITION) screen(ScreenMode.PLAYING);
@@ -267,7 +302,8 @@ public final class GameApplication extends SimpleApplication
       audio.update(
           tpf,
           game != null && game.combat != null && game.combat.inCombat(),
-          mode != ScreenMode.PLAYING);
+          // The settings page must not duck, or the sliders would lie about the level.
+          mode != ScreenMode.PLAYING && mode != ScreenMode.SETTINGS);
   }
 
   @Override
@@ -278,6 +314,7 @@ public final class GameApplication extends SimpleApplication
 
   @Override
   public void destroy() {
+    storeSettings();
     if (audio != null) audio.cleanup();
     super.destroy();
   }

@@ -8,6 +8,7 @@ public enum ScreenMode {
   JOURNAL,
   SKILLS,
   MAP,
+  SETTINGS,
   DIALOGUE,
   GAME_OVER,
   ENDING,

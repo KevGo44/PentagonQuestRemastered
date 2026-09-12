@@ -12,7 +12,7 @@ final class SmokeScenario {
   private final GameApplication app;
   private final ScreenshotAppState shots;
   private float timer;
-  private int step;
+  private int step, shotDelay;
   private final List<Float> frames = new ArrayList<>();
   private Enemy target;
   private float beforeHealth, moveStart;
@@ -27,18 +27,29 @@ final class SmokeScenario {
     }
   }
 
+  /**
+   * Asks for a screenshot two frames out. A screenshot lands at the end of the frame it is asked
+   * for, and a stage that builds a region does so in that same frame - so the picture caught every
+   * character in its bind pose, arms out, because nothing had posed them yet. That is an artefact
+   * of the evidence, not of the game, but evidence that lies is worse than none.
+   */
+  private void shoot() {
+    shotDelay = 2;
+  }
+
   void update(float dt) {
     if (app.game == null || app.game.world == null) return;
+    if (shotDelay > 0 && --shotDelay == 0) shots.takeScreenshot();
     if (step > 1) frames.add(dt);
     timer += dt;
     if (timer < 2.5f) return;
     timer = 0;
     System.out.println("[SMOKE] stage " + step);
     switch (step++) {
-      case 0 -> shots.takeScreenshot();
+      case 0 -> shoot();
       case 1 -> app.game.newGame();
       case 2 -> {
-        shots.takeScreenshot();
+        shoot();
         moveStart = app.game.player.node.getWorldTranslation().z;
         app.game.player.forward = true;
       }
@@ -55,28 +66,28 @@ final class SmokeScenario {
         app.screen(ScreenMode.INVENTORY);
       }
       case 5 -> {
-        shots.takeScreenshot();
+        shoot();
         app.screen(ScreenMode.SKILLS);
       }
       case 6 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.loadRegion(Region.CRYPT, false);
         app.screen(ScreenMode.PLAYING);
       }
       case 7 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.loadRegion(Region.CAVERNS, false);
       }
       case 8 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.loadRegion(Region.PRISON, false);
       }
       case 9 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.loadRegion(Region.THRONE, false);
       }
       case 10 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.loadRegion(Region.REFUGE, false);
         app.screen(ScreenMode.PLAYING);
       }
@@ -88,7 +99,7 @@ final class SmokeScenario {
         app.screen(ScreenMode.JOURNAL);
       }
       case 13 -> {
-        shots.takeScreenshot();
+        shoot();
         app.game.newGame();
         app.game.session.player.health = 0;
         app.game.respawn();
@@ -181,7 +192,7 @@ final class SmokeScenario {
       case 23 -> {
         require(target.phase == 3, "Boss enters third phase");
         teleport(target.position().x, target.position().z + 5);
-        shots.takeScreenshot();
+        shoot();
         app.game.combat.damageEnemy(target, 10000);
       }
       case 24 -> {
@@ -191,7 +202,7 @@ final class SmokeScenario {
         require(
             app.mode() == ScreenMode.ENDING && app.game.session.flag("ending_seal"), "Seal ending");
         require(app.game.session.rewardedQuests.size() == 10, "All ten quests can be completed");
-        shots.takeScreenshot();
+        shoot();
       }
       case 25 -> {
         app.screen(ScreenMode.PLAYING);
@@ -237,7 +248,7 @@ final class SmokeScenario {
       }
       case 29 -> {
         require(app.mode() == ScreenMode.GAME_OVER, "Death animation reaches Game Over");
-        shots.takeScreenshot();
+        shoot();
         app.game.respawn();
         require(
             app.game.session.player.health > 0 && app.mode() == ScreenMode.PLAYING,
@@ -260,7 +271,7 @@ final class SmokeScenario {
                 && processors.get(1) instanceof com.jme3.post.FilterPostProcessor,
             "High quality restores shadows before post-processing");
         app.screen(ScreenMode.MAIN_MENU);
-        shots.takeScreenshot();
+        shoot();
       }
       case 32 -> finish();
       default -> {}

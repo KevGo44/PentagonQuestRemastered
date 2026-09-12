@@ -1,0 +1,95 @@
+=== models/props/chest.glb
+[P] class=Node tris=72 verts=144
+[P] bound=BoundingBox [Center: (0.0, 0.42, 0.0)  xExtent: 0.67  yExtent: 0.42  zExtent: 0.46]
+[P] geom=chestMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+[P] geom=chestMesh_1 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 1.0
+[P]   BaseColorMap = Texture2D[name=image4.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image3.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image5.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalType = 1.0
+=== models/props/shrine.glb
+[P] class=Node tris=48 verts=96
+[P] bound=BoundingBox [Center: (0.0, 0.26, 0.0)  xExtent: 0.7  yExtent: 0.26  zExtent: 0.7]
+[P] geom=shrineMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/rune.glb
+[P] class=Node tris=36 verts=72
+[P] bound=BoundingBox [Center: (0.0, 0.6, 0.0)  xExtent: 0.65  yExtent: 0.6  zExtent: 0.45]
+[P] geom=runeMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/seal.glb
+[P] class=Node tris=36 verts=72
+[P] bound=BoundingBox [Center: (0.0, 0.6, 0.0)  xExtent: 0.65  yExtent: 0.6  zExtent: 0.45]
+[P] geom=sealMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/lore.glb
+[P] class=Node tris=36 verts=72
+[P] bound=BoundingBox [Center: (0.0, 0.6, 0.0)  xExtent: 0.65  yExtent: 0.6  zExtent: 0.45]
+[P] geom=loreMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/throne.glb
+[P] class=Node tris=82 verts=164
+[P] bound=BoundingBox [Center: (0.0, 2.55, -0.049999952)  xExtent: 1.3  yExtent: 2.55  zExtent: 1.1500001]
+[P] geom=throneMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+[P] geom=throneMesh_1 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 1.0
+[P]   BaseColorMap = Texture2D[name=image4.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image3.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image5.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalType = 1.0
+=== models/props/portal.glb
+[P] class=Node tris=72 verts=136
+[P] bound=BoundingBox [Center: (0.0, 2.625, 0.0)  xExtent: 1.95  yExtent: 2.625  zExtent: 0.48]
+[P] geom=portalMesh_0 matdef=Common/MatDefs/Light/PBRLighting.j3md
+[P]   BaseColor param = ColorRGBA Color[1.0, 1.0, 1.0, 1.0]
+[P]   Roughness = 1.0
+[P]   Metallic = 0.0
+[P]   BaseColorMap = Texture2D[name=image1.png, image=Image[size=512x512, format=ABGR8]]
+[P]   NormalMap = Texture2D[name=image0.png, image=Image[size=512x512, format=BGR8]]
+[P]   MetallicRoughnessMap = Texture2D[name=image2.png, image=Image[size=512x512, format=BGR8]]
+[P]   NormalType = 1.0
+=== models/props/crystal.glb
+[P] FEHLER com.jme3.asset.AssetNotFoundException: models/props/crystal.glb

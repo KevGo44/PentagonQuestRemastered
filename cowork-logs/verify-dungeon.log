@@ -1,0 +1,22 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< de.pentagon:aschensiegel >----------------------
+[INFO] Building Pentagon: Das Aschensiegel 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ aschensiegel ---
+[INFO] Deleting C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.754 s
+[INFO] Finished at: 2026-09-12T18:18:24+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean (default-clean) on project aschensiegel: Failed to clean project: Failed to delete C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target\cowork-logs\verify-dungeon.log -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

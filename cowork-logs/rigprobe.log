@@ -1,0 +1,18 @@
+=== hero
+[G] composers=1 skinningControls=1
+[G] distinct armatures on skins=1 jointCounts=[66]
+[G] composer clip Idle tracks=66 jointTracks=66 matchedToSkinArmature=[66] unmatched=0
+=== mira
+[G] composers=1 skinningControls=1
+[G] distinct armatures on skins=1 jointCounts=[66]
+[G] composer clip Idle tracks=66 jointTracks=66 matchedToSkinArmature=[66] unmatched=0
+=== eren
+[G] composers=1 skinningControls=1
+[G] distinct armatures on skins=1 jointCounts=[66]
+[G] composer clip Idle tracks=66 jointTracks=66 matchedToSkinArmature=[66] unmatched=0
+=== goblin
+[G] composers=1 skinningControls=1
+[G] distinct armatures on skins=1 jointCounts=[26]
+[G] composer clip Idle tracks=26 jointTracks=26 matchedToSkinArmature=[26] unmatched=0
+
+--

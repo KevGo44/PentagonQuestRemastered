@@ -1,0 +1,60 @@
+Sept. 12, 2026 10:51:00 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[PELVIS] hero    Idle     mean=   91,1  min=   89,4  max=   91,5  spread=  2,1
+[PELVIS] hero    Walk     mean=   89,0  min=   86,7  max=   90,0  spread=  3,3
+[PELVIS] hero    Run      mean=   88,6  min=   84,7  max=   92,2  spread=  7,5
+[PELVIS] hero    Attack1  mean=   85,0  min=   78,3  max=   90,1  spread= 11,8
+[PELVIS] hero    Attack2  mean=  -84,9  min=  -96,9  max=  154,9  spread=251,8
+[PELVIS] hero    Attack3  mean=  111,9  min= -163,9  max=  134,9  spread=298,8
+[PELVIS] hero    Dodge    mean=   91,4  min= -172,2  max=  142,1  spread=314,3
+[PELVIS] hero    Block    mean=   90,8  min=   88,7  max=   91,3  spread=  2,6
+[PELVIS] hero    Hit      mean=   88,3  min=   84,5  max=   91,1  spread=  6,6
+[PELVIS] hero    Death    mean=   74,4  min=   44,2  max=   90,2  spread= 46,0
+[PELVIS] hero    Cast     mean=   77,2  min=   35,8  max=   99,2  spread= 63,4
+[PELVIS] mira    Idle     mean=   90,9  min=   89,4  max=   91,3  spread=  1,9
+[PELVIS] mira    Walk     mean=   89,0  min=   86,1  max=   90,3  spread=  4,2
+[PELVIS] mira    Run      mean=   88,5  min=   84,9  max=   92,5  spread=  7,6
+[PELVIS] mira    Attack1  mean=   94,6  min=   89,9  max=  102,7  spread= 12,8
+[PELVIS] mira    Attack2  mean=   84,5  min= -178,7  max=  100,8  spread=279,4
+[PELVIS] mira    Attack3  mean=   88,1  min=   81,8  max=   95,7  spread= 13,9
+[PELVIS] mira    Dodge    mean=   91,4  min= -173,5  max=  141,3  spread=314,8
+[PELVIS] mira    Block    mean=   90,5  min=   88,6  max=   90,9  spread=  2,3
+[PELVIS] mira    Hit      mean=   88,2  min=   84,3  max=   91,0  spread=  6,7
+[PELVIS] mira    Death    mean=   74,9  min=   44,7  max=   90,2  spread= 45,5
+[PELVIS] mira    Cast     mean=   77,4  min=   35,2  max=   99,0  spread= 63,8
+[PELVIS] eren    Idle     mean=   91,0  min=   89,4  max=   91,4  spread=  2,0
+[PELVIS] eren    Walk     mean=   89,1  min=   86,7  max=   90,0  spread=  3,4
+[PELVIS] eren    Run      mean=   88,4  min=   84,5  max=   91,9  spread=  7,4
+[PELVIS] eren    Attack1  mean=   84,6  min=   77,8  max=   90,0  spread= 12,2
+[PELVIS] eren    Attack2  mean=  -85,1  min=  -96,9  max=  164,5  spread=261,4
+[PELVIS] eren    Attack3  mean=  111,8  min= -163,9  max=  134,7  spread=298,6
+[PELVIS] eren    Dodge    mean=   91,0  min= -175,3  max=  140,4  spread=315,8
+[PELVIS] eren    Block    mean=   90,7  min=   88,7  max=   91,1  spread=  2,5
+[PELVIS] eren    Hit      mean=   88,2  min=   84,5  max=   90,9  spread=  6,5
+[PELVIS] eren    Death    mean=   75,1  min=   45,3  max=   90,2  spread= 44,9
+[PELVIS] eren    Cast     mean=   77,0  min=   35,3  max=   99,1  spread= 63,8
+[PELVIS] orc     Idle     mean=   91,0  min=   89,4  max=   91,4  spread=  2,0
+[PELVIS] orc     Walk     mean=   89,1  min=   86,7  max=   90,0  spread=  3,4
+[PELVIS] orc     Run      mean=   88,4  min=   84,5  max=   91,9  spread=  7,4
+[PELVIS] orc     Attack1  mean=   84,6  min=   77,8  max=   90,0  spread= 12,2
+[PELVIS] orc     Attack2  mean=  -85,1  min=  -96,9  max=  164,5  spread=261,4
+[PELVIS] orc     Attack3  mean=  111,8  min= -163,9  max=  134,7  spread=298,6
+[PELVIS] orc     Dodge    mean=   91,0  min= -175,3  max=  140,4  spread=315,8
+[PELVIS] orc     Block    mean=   90,7  min=   88,7  max=   91,1  spread=  2,5
+[PELVIS] orc     Hit      mean=   88,2  min=   84,5  max=   90,9  spread=  6,5
+[PELVIS] orc     Death    mean=   75,1  min=   45,3  max=   90,2  spread= 44,9
+[PELVIS] orc     Cast     mean=   77,0  min=   35,3  max=   99,1  spread= 63,8
+[PELVIS] king    Idle     mean=   91,0  min=   89,4  max=   91,4  spread=  2,0
+[PELVIS] king    Walk     mean=   89,1  min=   86,7  max=   90,0  spread=  3,4
+[PELVIS] king    Run      mean=   88,4  min=   84,5  max=   91,9  spread=  7,4
+[PELVIS] king    Attack1  mean=   84,6  min=   77,8  max=   90,0  spread= 12,2
+[PELVIS] king    Attack2  mean=  -85,1  min=  -96,9  max=  164,5  spread=261,4
+[PELVIS] king    Attack3  mean=  111,8  min= -163,9  max=  134,7  spread=298,6
+[PELVIS] king    Dodge    mean=   91,0  min= -175,3  max=  140,4  spread=315,8
+[PELVIS] king    Block    mean=   90,7  min=   88,7  max=   91,1  spread=  2,5
+[PELVIS] king    Hit      mean=   88,2  min=   84,5  max=   90,9  spread=  6,5
+[PELVIS] king    Death    mean=   75,1  min=   45,3  max=   90,2  spread= 44,9
+[PELVIS] king    Cast     mean=   77,0  min=   35,3  max=   99,1  spread= 63,8

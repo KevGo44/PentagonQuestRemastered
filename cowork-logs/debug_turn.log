@@ -1,0 +1,21 @@
+00:00.016  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:39:36 | INFO: Data are loaded, start creating Blender stuff
+22:39:36 | INFO: Blender create Mesh node Face.005
+22:39:36 | INFO: glTF import finished in 0.35s
+[D] tracks muted: [('Cast', True), ('Death', True), ('Hit', True)] count 11
+[D] slots ['OBArmature.004'] assigned <bpy_struct, ActionSlot("OBArmature.004") at 0x0000026873ADA858>
+[D] after slot assign: <bpy_struct, ActionSlot("OBArmature.004") at 0x0000026873ADA858>
+[D] yaw at 0 = -53.1  pose Root quat = (1.0, 0.0, 0.0, 0.0)
+[D] pose Root matrix (armature space):
+[D]     1.0000   0.0000   0.0000   0.0000
+[D]     0.0000   0.0000  -1.0000   0.0000
+[D]    -0.0000   1.0000   0.0000   0.0000
+[D]     0.0000   0.0000   0.0000   1.0000
+[D] root rot curves 4 keys [2, 2, 2, 2]
+[D] key0 values [1.0, 0.0, 0.0, 0.0] at frame 0.0
+[D] hips rot key0 [0.8868, 0.0759, -0.455, 0.0268]
+[D] after +90 about local Y: yaw at 0 = -88.68 pose Root quat = (0.7071, 0.0, 0.7071, 0.0)
+[D] then +90 about local Z: yaw at 0 = -178.68
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

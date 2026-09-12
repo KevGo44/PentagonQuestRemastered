@@ -1,0 +1,212 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< de.pentagon:aschensiegel >----------------------
+[INFO] Building Pentagon: Das Aschensiegel 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ aschensiegel ---
+[INFO] Deleting C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ aschensiegel ---
+[INFO] Copying 67 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ aschensiegel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 33 source files with javac [debug release 17] to target\classes
+[INFO] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/main/java/de/pentagon/assets/CharacterFactory.java: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+[INFO] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/main/java/de/pentagon/assets/CharacterFactory.java: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ aschensiegel ---
+[INFO] skip non existing resourceDirectory C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ aschensiegel ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ aschensiegel ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running de.pentagon.AssetTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.057 s -- in de.pentagon.AssetTest
+[INFO] Running de.pentagon.CampaignTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.137 s -- in de.pentagon.CampaignTest
+[INFO] Running de.pentagon.CombatTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in de.pentagon.CombatTest
+[INFO] Running de.pentagon.ProgressionTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in de.pentagon.ProgressionTest
+[INFO] Running de.pentagon.SaveTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.268 s -- in de.pentagon.SaveTest
+[INFO] Running de.pentagon.SettingsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s -- in de.pentagon.SettingsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ aschensiegel ---
+[INFO] Building jar: C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target\aschensiegel-1.0.0.jar
+[INFO] 
+[INFO] --- shade:3.6.0:shade (default) @ aschensiegel ---
+[INFO] Including org.jmonkeyengine:jme3-core:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-desktop:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-lwjgl3:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.lwjglx:lwjgl3-awt:jar:0.2.3 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jawt:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opencl:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-windows:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-windows-x86:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-linux:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-linux-arm32:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-linux-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-macos:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl:jar:natives-macos-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-windows:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-windows-x86:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-linux:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-linux-arm32:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-linux-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-macos:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-glfw:jar:natives-macos-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-windows:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-windows-x86:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-linux:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-linux-arm32:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-linux-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-macos:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-jemalloc:jar:natives-macos-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-windows:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-windows-x86:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-linux:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-linux-arm32:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-linux-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-macos:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-opengl:jar:natives-macos-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-windows:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-windows-x86:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-linux:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-linux-arm32:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-linux-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-macos:3.3.6 in the shaded jar.
+[INFO] Including org.lwjgl:lwjgl-openal:jar:natives-macos-arm64:3.3.6 in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-effects:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-plugins:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-plugins-json:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-plugins-json-gson:jar:3.8.1-stable in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-jogg:jar:3.8.1-stable in the shaded jar.
+[INFO] Including com.github.stephengold:j-ogg-vorbis:jar:1.0.6 in the shaded jar.
+[INFO] Including com.github.stephengold:Minie:jar:9.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Heart:jar:9.2.0 in the shaded jar.
+[INFO] Including com.simsilica:sim-math:jar:1.6.0 in the shaded jar.
+[INFO] Including org.slf4j:slf4j-api:jar:1.7.32 in the shaded jar.
+[INFO] Including org.jmonkeyengine:jme3-terrain:jar:3.8.1-stable in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-Linux64:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-Linux_ARM32hf:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-Linux_ARM64:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-MacOSX64:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-MacOSX_ARM64:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.github.stephengold:Libbulletjme-Windows64:jar:SpRelease:22.0.3 in the shaded jar.
+[INFO] Including com.google.code.gson:gson:jar:2.13.1 in the shaded jar.
+[INFO] Including com.google.errorprone:error_prone_annotations:jar:2.38.0 in the shaded jar.
+[WARNING] lwjgl-openal-3.3.6-natives-macos.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/x64/org/lwjgl/openal/libopenal.dylib.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-linux.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/x64/org/lwjgl/jemalloc/libjemalloc.so.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-linux-arm64.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm64/org/lwjgl/openal/libopenal.so.sha1
+[WARNING] lwjgl-opengl-3.3.6-natives-linux-arm64.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm64/org/lwjgl/opengl/liblwjgl_opengl.so.sha1
+[WARNING] lwjgl-3.3.6-natives-macos.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/x64/org/lwjgl/liblwjgl.dylib.sha1
+[WARNING] lwjgl-opengl-3.3.6-natives-macos.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/x64/org/lwjgl/opengl/liblwjgl_opengl.dylib.sha1
+[WARNING] lwjgl-3.3.6-natives-linux-arm64.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm64/org/lwjgl/liblwjgl.so.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-macos-arm64.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/jemalloc/libjemalloc.dylib.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-linux.jar, lwjgl-glfw-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/x64/org/lwjgl/glfw/libglfw.so.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-windows-x86.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x86/org/lwjgl/jemalloc/jemalloc.dll.sha1
+[WARNING] lwjgl-opengl-3.3.6-natives-linux-arm32.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm32/org/lwjgl/opengl/liblwjgl_opengl.so.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-windows.jar, lwjgl-glfw-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x64/org/lwjgl/glfw/glfw.dll.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-windows.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x64/org/lwjgl/openal/OpenAL.dll.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-windows-x86.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x86/org/lwjgl/openal/OpenAL.dll.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-linux.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/x64/org/lwjgl/openal/libopenal.so.sha1
+[WARNING] lwjgl-opengl-3.3.6-natives-windows-x86.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x86/org/lwjgl/opengl/lwjgl_opengl.dll.sha1
+[WARNING] lwjgl-3.3.6-natives-windows.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x64/org/lwjgl/lwjgl.dll.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-linux-arm64.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm64/org/lwjgl/jemalloc/libjemalloc.so.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-windows.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x64/org/lwjgl/jemalloc/jemalloc.dll.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-linux-arm32.jar, lwjgl-glfw-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm32/org/lwjgl/glfw/libglfw.so.sha1
+[WARNING] lwjgl-3.3.6-natives-linux-arm32.jar, lwjgl-3.3.6-natives-linux-arm64.jar, lwjgl-3.3.6-natives-linux.jar, lwjgl-3.3.6-natives-macos-arm64.jar, lwjgl-3.3.6-natives-macos.jar, lwjgl-3.3.6-natives-windows-x86.jar, lwjgl-3.3.6-natives-windows.jar, lwjgl-3.3.6.jar, lwjgl-glfw-3.3.6-natives-linux-arm32.jar, lwjgl-glfw-3.3.6-natives-linux-arm64.jar, lwjgl-glfw-3.3.6-natives-linux.jar, lwjgl-glfw-3.3.6-natives-macos-arm64.jar, lwjgl-glfw-3.3.6-natives-macos.jar, lwjgl-glfw-3.3.6-natives-windows-x86.jar, lwjgl-glfw-3.3.6-natives-windows.jar, lwjgl-glfw-3.3.6.jar, lwjgl-jawt-3.3.6.jar, lwjgl-jemalloc-3.3.6-natives-linux-arm32.jar, lwjgl-jemalloc-3.3.6-natives-linux-arm64.jar, lwjgl-jemalloc-3.3.6-natives-linux.jar, lwjgl-jemalloc-3.3.6-natives-macos-arm64.jar, lwjgl-jemalloc-3.3.6-natives-macos.jar, lwjgl-jemalloc-3.3.6-natives-windows-x86.jar, lwjgl-jemalloc-3.3.6-natives-windows.jar, lwjgl-jemalloc-3.3.6.jar, lwjgl-openal-3.3.6-natives-linux-arm32.jar, lwjgl-openal-3.3.6-natives-linux-arm64.jar, lwjgl-openal-3.3.6-natives-linux.jar, lwjgl-openal-3.3.6-natives-macos-arm64.jar, lwjgl-openal-3.3.6-natives-macos.jar, lwjgl-openal-3.3.6-natives-windows-x86.jar, lwjgl-openal-3.3.6-natives-windows.jar, lwjgl-openal-3.3.6.jar, lwjgl-opencl-3.3.6.jar, lwjgl-opengl-3.3.6-natives-linux-arm32.jar, lwjgl-opengl-3.3.6-natives-linux-arm64.jar, lwjgl-opengl-3.3.6-natives-linux.jar, lwjgl-opengl-3.3.6-natives-macos-arm64.jar, lwjgl-opengl-3.3.6-natives-macos.jar, lwjgl-opengl-3.3.6-natives-windows-x86.jar, lwjgl-opengl-3.3.6-natives-windows.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping classes: 
+[WARNING]   - META-INF.versions.11.module-info
+[WARNING] lwjgl-opengl-3.3.6-natives-linux.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/x64/org/lwjgl/opengl/liblwjgl_opengl.so.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-linux-arm32.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm32/org/lwjgl/openal/libopenal.so.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-windows-x86.jar, lwjgl-glfw-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x86/org/lwjgl/glfw/glfw.dll.sha1
+[WARNING] lwjgl-3.3.6-natives-linux-arm32.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm32/org/lwjgl/liblwjgl.so.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-macos-arm64.jar, lwjgl-glfw-3.3.6.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/glfw/libglfw.dylib.sha1
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/glfw/libglfw_async.dylib.sha1
+[WARNING] Heart-9.2.0.jar, Libbulletjme-Linux64-22.0.3-SpRelease.jar, Libbulletjme-Linux_ARM32hf-22.0.3-SpRelease.jar, Libbulletjme-Linux_ARM64-22.0.3-SpRelease.jar, Libbulletjme-MacOSX64-22.0.3-SpRelease.jar, Libbulletjme-MacOSX_ARM64-22.0.3-SpRelease.jar, Libbulletjme-Windows64-22.0.3-SpRelease.jar, Minie-9.0.3.jar, aschensiegel-1.0.0.jar, error_prone_annotations-2.38.0.jar, gson-2.13.1.jar, j-ogg-vorbis-1.0.6.jar, jme3-core-3.8.1-stable.jar, jme3-desktop-3.8.1-stable.jar, jme3-effects-3.8.1-stable.jar, jme3-jogg-3.8.1-stable.jar, jme3-lwjgl3-3.8.1-stable.jar, jme3-plugins-3.8.1-stable.jar, jme3-plugins-json-3.8.1-stable.jar, jme3-plugins-json-gson-3.8.1-stable.jar, jme3-terrain-3.8.1-stable.jar, lwjgl-3.3.6-natives-linux-arm32.jar, lwjgl-3.3.6-natives-linux-arm64.jar, lwjgl-3.3.6-natives-linux.jar, lwjgl-3.3.6-natives-macos-arm64.jar, lwjgl-3.3.6-natives-macos.jar, lwjgl-3.3.6-natives-windows-x86.jar, lwjgl-3.3.6-natives-windows.jar, lwjgl-3.3.6.jar, lwjgl-glfw-3.3.6-natives-linux-arm32.jar, lwjgl-glfw-3.3.6-natives-linux-arm64.jar, lwjgl-glfw-3.3.6-natives-linux.jar, lwjgl-glfw-3.3.6-natives-macos-arm64.jar, lwjgl-glfw-3.3.6-natives-macos.jar, lwjgl-glfw-3.3.6-natives-windows-x86.jar, lwjgl-glfw-3.3.6-natives-windows.jar, lwjgl-glfw-3.3.6.jar, lwjgl-jawt-3.3.6.jar, lwjgl-jemalloc-3.3.6-natives-linux-arm32.jar, lwjgl-jemalloc-3.3.6-natives-linux-arm64.jar, lwjgl-jemalloc-3.3.6-natives-linux.jar, lwjgl-jemalloc-3.3.6-natives-macos-arm64.jar, lwjgl-jemalloc-3.3.6-natives-macos.jar, lwjgl-jemalloc-3.3.6-natives-windows-x86.jar, lwjgl-jemalloc-3.3.6-natives-windows.jar, lwjgl-jemalloc-3.3.6.jar, lwjgl-openal-3.3.6-natives-linux-arm32.jar, lwjgl-openal-3.3.6-natives-linux-arm64.jar, lwjgl-openal-3.3.6-natives-linux.jar, lwjgl-openal-3.3.6-natives-macos-arm64.jar, lwjgl-openal-3.3.6-natives-macos.jar, lwjgl-openal-3.3.6-natives-windows-x86.jar, lwjgl-openal-3.3.6-natives-windows.jar, lwjgl-openal-3.3.6.jar, lwjgl-opencl-3.3.6.jar, lwjgl-opengl-3.3.6-natives-linux-arm32.jar, lwjgl-opengl-3.3.6-natives-linux-arm64.jar, lwjgl-opengl-3.3.6-natives-linux.jar, lwjgl-opengl-3.3.6-natives-macos-arm64.jar, lwjgl-opengl-3.3.6-natives-macos.jar, lwjgl-opengl-3.3.6-natives-windows-x86.jar, lwjgl-opengl-3.3.6-natives-windows.jar, lwjgl-opengl-3.3.6.jar, lwjgl3-awt-0.2.3.jar, sim-math-1.6.0.jar, slf4j-api-1.7.32.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] error_prone_annotations-2.38.0.jar, gson-2.13.1.jar define 1 overlapping classes: 
+[WARNING]   - META-INF.versions.9.module-info
+[WARNING] lwjgl-opengl-3.3.6-natives-windows.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x64/org/lwjgl/opengl/lwjgl_opengl.dll.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-macos.jar, lwjgl-glfw-3.3.6.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/macos/x64/org/lwjgl/glfw/libglfw.dylib.sha1
+[WARNING]   - META-INF/macos/x64/org/lwjgl/glfw/libglfw_async.dylib.sha1
+[WARNING] lwjgl-3.3.6-natives-linux.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/x64/org/lwjgl/liblwjgl.so.sha1
+[WARNING] lwjgl-opengl-3.3.6-natives-macos-arm64.jar, lwjgl-opengl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/opengl/liblwjgl_opengl.dylib.sha1
+[WARNING] lwjgl-openal-3.3.6-natives-macos-arm64.jar, lwjgl-openal-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/openal/libopenal.dylib.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-macos.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/x64/org/lwjgl/jemalloc/libjemalloc.dylib.sha1
+[WARNING] lwjgl-jemalloc-3.3.6-natives-linux-arm32.jar, lwjgl-jemalloc-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm32/org/lwjgl/jemalloc/libjemalloc.so.sha1
+[WARNING] lwjgl-3.3.6-natives-macos-arm64.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/macos/arm64/org/lwjgl/liblwjgl.dylib.sha1
+[WARNING] lwjgl-3.3.6-natives-windows-x86.jar, lwjgl-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/windows/x86/org/lwjgl/lwjgl.dll.sha1
+[WARNING] lwjgl-glfw-3.3.6-natives-linux-arm64.jar, lwjgl-glfw-3.3.6.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/linux/arm64/org/lwjgl/glfw/libglfw.so.sha1
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target\aschensiegel-1.0.0.jar with C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\target\aschensiegel-1.0.0-shaded.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.956 s
+[INFO] Finished at: 2026-09-12T23:00:09+02:00
+[INFO] ------------------------------------------------------------------------

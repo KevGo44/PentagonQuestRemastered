@@ -1,0 +1,16 @@
+Sept. 12, 2026 11:21:34 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[CLEAR] Idle     blade to right leg 0,556 m, lowest tip 0,30 m | shield 24 to 91 deg off the front
+[CLEAR] Walk     blade to right leg 0,468 m, lowest tip 0,33 m | shield 22 to 42 deg off the front
+[CLEAR] Run      blade to right leg 0,469 m, lowest tip 0,18 m | shield 6 to 63 deg off the front
+[CLEAR] Attack1  blade to right leg 0,720 m, lowest tip 0,18 m | shield 33 to 98 deg off the front
+[CLEAR] Attack2  blade to right leg 0,723 m, lowest tip 0,76 m | shield 80 to 143 deg off the front
+[CLEAR] Attack3  blade to right leg 0,841 m, lowest tip 0,70 m | shield 15 to 116 deg off the front
+[CLEAR] Dodge    blade to right leg 0,485 m, lowest tip -0,40 m | shield 11 to 104 deg off the front
+[CLEAR] Block    blade to right leg 0,980 m, lowest tip 0,81 m | shield 9 to 64 deg off the front
+[CLEAR] Hit      blade to right leg 0,969 m, lowest tip 0,86 m | shield 13 to 34 deg off the front
+[CLEAR] Death    blade to right leg 0,696 m, lowest tip -0,23 m | shield 12 to 104 deg off the front
+[CLEAR] Cast     blade to right leg 0,452 m, lowest tip -0,24 m | shield 9 to 131 deg off the front

@@ -1,0 +1,47 @@
+Sept. 12, 2026 11:15:34 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[LIMIT] Idle   forearm leaves the shield at best 1 to 66 deg off the front
+[LIMIT] Walk   forearm leaves the shield at best 48 to 68 deg off the front
+[LIMIT] Run    forearm leaves the shield at best 27 to 84 deg off the front
+[LIMIT] Block  forearm leaves the shield at best 57 to 79 deg off the front
+[LIMIT] Hit    forearm leaves the shield at best 56 to 77 deg off the front
+[ROLL]   0 deg: mean forward 0,336 (70 deg off)
+[ROLL]  10 deg: mean forward 0,337 (70 deg off)
+[ROLL]  20 deg: mean forward 0,328 (71 deg off)
+[ROLL]  30 deg: mean forward 0,309 (72 deg off)
+[ROLL]  40 deg: mean forward 0,280 (74 deg off)
+[ROLL]  50 deg: mean forward 0,243 (76 deg off)
+[ROLL]  60 deg: mean forward 0,198 (79 deg off)
+[ROLL]  70 deg: mean forward 0,148 (82 deg off)
+[ROLL]  80 deg: mean forward 0,093 (85 deg off)
+[ROLL]  90 deg: mean forward 0,035 (88 deg off)
+[ROLL] 100 deg: mean forward -0,024 (91 deg off)
+[ROLL] 110 deg: mean forward -0,082 (95 deg off)
+[ROLL] 120 deg: mean forward -0,138 (98 deg off)
+[ROLL] 130 deg: mean forward -0,189 (101 deg off)
+[ROLL] 140 deg: mean forward -0,235 (104 deg off)
+[ROLL] 150 deg: mean forward -0,274 (106 deg off)
+[ROLL] 160 deg: mean forward -0,304 (108 deg off)
+[ROLL] 170 deg: mean forward -0,325 (109 deg off)
+[ROLL] 180 deg: mean forward -0,336 (110 deg off)
+[ROLL] 190 deg: mean forward -0,337 (110 deg off)
+[ROLL] 200 deg: mean forward -0,328 (109 deg off)
+[ROLL] 210 deg: mean forward -0,309 (108 deg off)
+[ROLL] 220 deg: mean forward -0,280 (106 deg off)
+[ROLL] 230 deg: mean forward -0,243 (104 deg off)
+[ROLL] 240 deg: mean forward -0,198 (101 deg off)
+[ROLL] 250 deg: mean forward -0,148 (98 deg off)
+[ROLL] 260 deg: mean forward -0,093 (95 deg off)
+[ROLL] 270 deg: mean forward -0,035 (92 deg off)
+[ROLL] 280 deg: mean forward 0,024 (89 deg off)
+[ROLL] 290 deg: mean forward 0,082 (85 deg off)
+[ROLL] 300 deg: mean forward 0,138 (82 deg off)
+[ROLL] 310 deg: mean forward 0,189 (79 deg off)
+[ROLL] 320 deg: mean forward 0,235 (76 deg off)
+[ROLL] 330 deg: mean forward 0,274 (74 deg off)
+[ROLL] 340 deg: mean forward 0,304 (72 deg off)
+[ROLL] 350 deg: mean forward 0,325 (71 deg off)
+[BEST] roll 10 deg, mean forward 0,337

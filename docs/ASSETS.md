@@ -10,7 +10,7 @@ src/main/resources/
   models/props/       shrine, portal, chest, lore, rune, seal, crystal, throne
   textures/           Albedo / Normal / Roughness / Metallic
   animations/         Dokumentierter Clipvertrag; Clips selbst liegen im Character-Asset
-  audio/              WAV-Stems und Effekte
+  audio/              WAV-Stems, Effekte und der gestreamte Radiotitel
   fonts/              Eigene gerasterte Fontatlanten
   shaders/            Atmosphärenfilter
 ```
@@ -23,6 +23,8 @@ Die drei großen Kristalladern der Höhlen verwenden bereits `models/props/cryst
 
 * Metrische Einheiten; 1 Einheit = 1 m.
 * jME: +Y oben, +Z vorwärts; Blender-Exporter: `export_yup=True`.
+* **Die gelieferten Rigs animieren auf die glTF-Front (+Z)** — aber erst seit dem 12. September 2026, und nur, weil die Clips dafür umgerechnet wurden. Mixamos ganzes „sword and shield"-Set ist in einer seitlichen Deckungshaltung authored, rund 53° aus der Front gedreht, während Walk und Run geradeaus zeigen; eine Figur aus beiden Quellen **steht seitlich und läuft vorwärts**. Zusätzlich trug jede exportierte Animation einen führenden Abtastwert der Ruhepose, weil die NLA-Strips bei Frame 1 begannen und der Export ab Frame 0 abtastete — im Spiel ein T-Pose-Blitz bei **jedem** Clipwechsel. Beides ist in `art/blender/anim_normalise.py` repariert: jeder Clip wird über die Root-Kurve auf die Front gedreht (gehaltene Clips auf ihren Mittelwert, einmalige auf ihr erstes Bild), die Strips beginnen bei Frame 0, und der Idle kommt aus „sword and shield idle (4)", der seine Haltung auf ein Grad hält — eingepfropft über Copy-Transforms-Constraints und einen Bake, weil die Restposen von geliefertem Rig und Mixamo-Quelle um bis zu 22° je Bone auseinanderliegen. **Die Drehachse ist gemessen, nicht abgelesen:** `art/blender/axis_test.py` dreht Root um alle drei Achsen; nur lokal Z ist ein reiner Gier-Dreh, lokal Z senkt den Winkel (die Restmatrix legt lokal Y nahe, das kippt den Körper um 37°). `AssetTest` prüft für alle acht Charaktere und alle elf Clips, dass das erste Bild auf der Front steht.
+* Blickrichtung ist **nicht kopflos aus Gelenken zu berechnen**: Schulterlinie, Zehenrichtung und Beckenrahmen schwanken über die Clips um 60° und mehr. Belastbar ist allein die Beckenachse `Thigh.L − Thigh.R` — die Oberschenkelwurzeln sitzen fest an der Hüfte — und auch die nur am ersten Bild. Alles andere gehört ins Bild: `art/probe/ClipSheet` rendert alle elf Clips nebeneinander.
 * Charakterpivot am Boden zwischen den Füßen; Standardhöhe ca. 1,95 m.
 * Objekttransformation: Rotation angewendet, Skalierung `(1,1,1)`.
 * Laufanimationen ohne Root Motion. Bullet kontrolliert Position und Richtung.
@@ -41,11 +43,30 @@ Root
     Thigh.R → Shin.R → Foot.R
 ```
 
-Sockets: `WeaponSocket` an `Hand.R`, `ShieldSocket` an `Hand.L`. Finale Modelle müssen dieselben Attachment-Pivots tragen. Benötigte Clips: **Idle, Walk, Run, Attack1, Attack2, Attack3, Dodge, Block, Hit, Death, Cast**. `CharacterFactory` prüft Composer und SkinningControl sowie alle Clipnamen. Die Engine-API dafür: [SkinningControl](https://javadoc.jmonkeyengine.org/v3.8.0-stable/com/jme3/anim/SkinningControl.html).
+Sockets: `WeaponSocket` an `Hand.R`, `ShieldSocket` an `Hand.L` — **nur beim Spieler**. `CharacterFactory.create(id, farbe, king, armed)` hängt die Ausrüstung nur bei `armed = true` an, und das setzt allein `PlayerController`; Mira und Eren sind keine Kämpfer, die Gegner bringen Klauen und Rüstung mit dem Mesh. Beide Hände laufen mit lokal **+Y entlang der Finger, +X über den Daumen hinaus und +Z aus der Handfläche** (an den gelieferten Rigs gemessen: die vier Fingerwurzeln liegen innerhalb von neun Grad um +Y, der Zeigefinger auf +X, der kleine Finger auf −X, der Daumen steht nach +Z ab). Daraus folgt der Sitz: die Faust hält den Griff **quer** zur Handfläche, also verlässt die Klinge die Hand entlang lokal X, plus eine Vierteldrehung um die Klinge selbst, damit die Flachseiten zur Seite zeigen; der Schild sitzt **quer auf dem Arm**, mit der Fläche entlang der Unterarmachse (lokal +Y) und 0,175 m vom Handgelenk. So wird ein Buckelschild getragen, und nur so zeigt er nach vorn: abgesucht über alle Richtungen im Handrahmen und bewertet über Idle, Walk, Run, Block und Hit deckt die Unterarmachse **0,84 bis 0,93** der Front, die Handfläche −0,50 bis −0,11 (zeigt nach hinten, weil Mixamos Set die linke Handfläche zum Körper dreht) und der Handrücken 0,11 bis 0,50 (zeigt zur Seite). Der Unterarm läuft vom Handgelenk nach hinten und bleibt damit vollständig hinter der Scheibe. Der Schwertsockel sitzt 0,095 m vom Handgelenk in der Faustmitte. Finale Modelle müssen dieselben Attachment-Pivots tragen. Benötigte Clips: **Idle, Walk, Run, Attack1, Attack2, Attack3, Dodge, Block, Hit, Death, Cast**. `CharacterFactory` prüft Composer und SkinningControl sowie alle Clipnamen. Die Engine-API dafür: [SkinningControl](https://javadoc.jmonkeyengine.org/v3.8.0-stable/com/jme3/anim/SkinningControl.html).
 
 Angriffszeiten: Attack1 0,52 s / Treffer ab 0,15 s; Attack2 0,58 s / Treffer ab 0,19 s; Attack3 0,78 s / Treffer ab 0,28 s. Die Endposition einer Bewegungsschleife muss der Anfangsposition entsprechen. Finishing/Hit-Animationen werden durch die Simulation beendet.
 
-Props haben ihren Pivot unten in der Mitte. Zielmaße entsprechen den Platzhaltern: Truhe etwa 1,3×0,84×0,9 m; Altar 1,3×1,2×0,9 m; Tor 3,7×5,25×0,8 m; Schrein 1,4×1,8×1,4 m; Kristall 1,4×2,4×1,4 m. Die Modulwände/Böden bleiben derzeit codegeneriert; für eine komplett neue modulare Architektur wird `WorldView` erweitert.
+Waffe und Schild sind die Ausnahme von der Pivotregel: sie sind **griffzentriert** authored — der Ursprung liegt in der Griffmitte, die Klinge läuft nach +Y (Knauf −0,098, Parierstange +0,110, Spitze +0,882), die Schildfläche zeigt nach +Z und der Buckel steht bis +0,082 vor. Die Rückfallgeometrie in `CharacterFactory` folgt derselben Konvention, damit ein fehlendes Modell denselben Sitz hat.
+
+Props haben ihren Pivot **unten in der Mitte**, der Knoten sitzt auf `y = 0`. Ein vorhandenes Modul ersetzt die prozedurale Steinarbeit vollständig (`WorldView.buildObject`); die **leuchtenden Teile bleiben erhalten**, weil ihr `glow`-Material den Bloom-Pass speist und kein glTF-Material das kann. Ausnahme ist `CRYSTAL`: dort *ist* die Leuchtkugel das Objekt, ein Modul ersetzt sie.
+
+Geliefert (Stand 12. September 2026), Maße in der Engine nachgemessen:
+
+| ID | Maße (m) | Dreiecke | Materialien |
+|---|---|---:|---|
+| `props/chest.glb` | 1,34 × 0,84 × 0,92 | 72 | `PQP_Wood`, `PQK_Iron` |
+| `props/shrine.glb` | 1,40 × 0,52 × 1,40 | 48 | `PQP_Stone` |
+| `props/rune.glb`, `seal.glb`, `lore.glb` | 1,30 × 1,20 × 0,90 | 36 | `PQP_Stone` |
+| `props/throne.glb` | 2,60 × 5,10 × 2,30 | 82 | `PQP_Stone`, `PQK_Iron` |
+| `props/portal.glb` | 3,90 × 5,25 × 0,96 | 72 | `PQP_Stone` |
+| `props/crystal.gltf` | Bestand, eigener Binärbuffer | — | — |
+| `props/sword.glb` | 0,24 × 0,98 × 0,05 | 2 400 | `PQW_Steel`, `PQK_Iron`, `PQW_Leather` |
+| `props/shield.glb` | 0,65 × 0,65 × 0,10 | 204 | `PQP_Wood`, `PQK_Iron` |
+
+Schrein und Altar sind **niedriger** als die alten Zielmaße (1,4 × 1,8 und 1,3 × 1,2 einschließlich Kristall), weil die Kristalle jetzt erhalten bleiben und nicht mehr mitmodelliert werden müssen. `refreshObject` skaliert Truhe, Siegel und Kristall nach dem Öffnen auf 0,6 — die Module müssen auch dort lesbar sein.
+
+**Der Dungeon-Kit ist nicht mehr codegeneriert.** Fünfzehn Module unter `props/kit_*` ersetzen Boden, Wand, Decke, Rippe, Kranz, Pfeiler, Bogen, Kohlebecken, Banner, Teppich und Fels; die Rechenregel, die Maße und die Verifikation stehen in `docs/dungeon-kit.md`. Der Platzhalterpfad bleibt vollständig erhalten und greift, sobald eine Moduldatei fehlt.
 
 ## Blender
 
@@ -60,7 +81,14 @@ blender --background --python tools/blender_export.py -- \
   --output src/main/resources/models/props/chest.glb
 ```
 
-Das Skript ist für Blender 4.x ausgelegt, prüft Bone-/Clipnamen und die Armature-Skalierung. Auf diesem Rechner steht Blender nicht zur Verfügung; der Export selbst wurde deshalb nicht ausgeführt. Python-Syntax und jME-glTF-Laufzeitimport werden separat geprüft.
+Das Skript ist für Blender 4.x ausgelegt, prüft Bone-/Clipnamen und die Armature-Skalierung.
+
+**Korrektur (12. September 2026):** Der Satz „Auf diesem Rechner steht Blender nicht zur Verfügung" stimmt nicht mehr. Auf diesem Rechner läuft **Blender 5.2.1 LTS**, und alle seit dem 12. September gelieferten Assets sind damit exportiert worden — fünf Gegner, fünfzehn Kit-Module und sieben Props. Der Weg ist nicht `tools/blender_export.py`, sondern zwei eigene Skripte, die den Ablauf festhalten statt ihn jedes Mal neu zu erfinden:
+
+* `art/blender/enemy_pipeline.py` — Meshy-Lieferung bis fertigem Charakter-GLB: Verschweißen, Normalisieren auf 1,95 m, Arme in Erens Ruhepose (Geodäte **oder** Freischnitt, je nach Figur), Dezimieren, Rig, Texturen, NLA-Export. Enthält die Messfunktionen `arm_radius_profile`, `weld_check`, `fix_unweighted` und `remove_islands`.
+* `art/blender/kit_builder.py` — der parametrische Generator für die vier Wandvarianten aus einem Profil.
+
+Verbindliche Exporteinstellungen, jede einzeln belegt: `export_animation_mode="NLA_TRACKS"` (`ACTIONS` verdoppelt Animationen), `use_active_scene=True` (jME stürzt bei mehreren Szenen ab), `export_yup=True`, `export_force_sampling=True`, `export_apply=False` für geriggte Meshes. **Bildrate der Szene auf 30 fps** — Erens Clips sind dafür gebacken, bei 24 fps verfehlen die Angriffe `AttackTimeline`.
 
 ## Darstellung
 
@@ -69,3 +97,5 @@ PBR-Materialien besitzen Albedo-, Normal-, Roughness- und Metallic-Maps. Farben/
 Fackeln flackern über zwei Frequenzen. Drei kaskadierte Schattenkarten (PSSM) nutzen Software-PCF für den getesteten Apple-Treiber. SSAO, Bloom und ein eigener FilterPostProcessor-Filter liefern Tiefenwirkung, ACES-artiges Tonemapping und Vignette. Der Filter integriert Höhendichte in zwölf Schritten bis zur sichtbaren Oberfläche und ergänzt lokale Lichtschächte. **Das ist eine begrenzte, analytische Volumetrik, keine vollständige Schattenvolumetrik oder globale Beleuchtung.**
 
 Die synthetischen WAVs und prozeduralen Texturen lassen sich mit `AssetBaker.java` reproduzieren. Fontatlanten werden aus Java-Logical-Fonts erzeugt; die Rasterung kann je nach installierter Systemschrift leicht variieren.
+
+`audio/pentagonradio.wav` ist die einzige aufgenommene Datei und wird **nicht** von `AssetBaker.java` erzeugt; beim Neubacken der synthetischen Assets muss sie erhalten bleiben. Sie lädt als Stream statt als Buffer, weil 48 kHz Stereo über drei Minuten rund 34 MB rohes PCM sind. Looping funktioniert, weil der WAV-Loader `SeekableStream` implementiert und der Renderer am Titelende `setTime(0)` aufruft.

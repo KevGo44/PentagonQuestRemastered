@@ -1,0 +1,37 @@
+00:00.016  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:45:42 | INFO: Data are loaded, start creating Blender stuff
+22:45:42 | INFO: Blender create Mesh node Eyebrows.003
+22:45:42 | INFO: glTF import finished in 0.44s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 52 bones matched
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+22:45:47 | INFO: Starting glTF 2.0 export
+22:45:47 | INFO: Extracting primitive: Eyebrows.003
+22:45:47 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:47 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:47 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:47 | INFO: Primitives created: 5
+22:45:52 | INFO: Finished glTF 2.0 export in 5.188652038574219 s
+
+[OK] mira 6584784 bytes
+22:45:52 | INFO: Data are loaded, start creating Blender stuff
+22:45:52 | INFO: Blender create Mesh node Eren_BodyMesh
+22:45:53 | INFO: glTF import finished in 0.88s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..76, 52 bones matched
+22:45:58 | INFO: Starting glTF 2.0 export
+22:45:58 | INFO: Extracting primitive: Eren_BodyMesh
+22:45:58 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:58 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:58 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:45:58 | INFO: Primitives created: 5
+22:46:03 | INFO: Finished glTF 2.0 export in 4.772011756896973 s
+
+[OK] eren 5661528 bytes
+22:46:03 | INFO: Data are loaded, start creating Blender stuff
+22:46:03 | INFO: Blender create Mesh node Goblin_BodyMesh.002
+22:46:03 | INFO: glTF import finished in 0.48s
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+Idle: only 22 bones could be matched to sword and shield idle (4).fbx
+FBX version: 7700

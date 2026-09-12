@@ -1,0 +1,10 @@
+Sept. 12, 2026 11:16:39 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[SEARCH] best normal in hand space (-0.16317587, 0.34202012, -0.9254166), mean forward 0,621 (52 deg off)
+[AIM] (0.0, 1.0, 0.0)  Idle mean= 0,91 worst= 0,90  Walk mean= 0,84 worst= 0,75  Run mean= 0,84 worst= 0,46  Block mean= 0,93 worst= 0,84  Hit mean= 0,92 worst= 0,83
+[AIM] (-0.0, -0.0, -1.0)  Idle mean= 0,40 worst= 0,39  Walk mean= 0,50 worst= 0,37  Run mean= 0,11 worst=-0,21  Block mean= 0,30 worst= 0,02  Hit mean= 0,36 worst= 0,23
+[AIM] (0.0, 0.0, 1.0)  Idle mean=-0,40 worst=-0,43  Walk mean=-0,50 worst=-0,61  Run mean=-0,11 worst=-0,49  Block mean=-0,30 worst=-0,36  Hit mean=-0,36 worst=-0,55
+[AIM] (-0.16317587, 0.34202012, -0.9254166)  Idle mean= 0,70 worst= 0,69  Walk mean= 0,73 worst= 0,66  Run mean= 0,41 worst= 0,10  Block mean= 0,60 worst= 0,40  Hit mean= 0,65 worst= 0,55

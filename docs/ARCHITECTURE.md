@@ -24,7 +24,7 @@ flowchart LR
 | `ai` | Gegnerparameter und explizite Zustandsmaschine |
 | `inventory` | Katalog, Stapel, Ausrüstung; Schlüsselitems belegen keine normalen Plätze |
 | `quest` | Datengetriebene Ziele, Freischaltungen, einmalige Belohnungen |
-| `save` | Validierung, atomarer Austausch, Backup-Recovery |
+| `save` | Validierung, atomarer Austausch, Backup-Recovery, Audioeinstellungen |
 | `assets` | Import, PBR-Materialcache, Skelett-/Socket-Verträge, LOD, IBL |
 | `physics` | Native Physik und Lebenszyklus statischer Kollisionskörper |
 | `audio` | Musik-Crossfade, Ambient-Layer und begrenzte Effektstimmen |
@@ -36,7 +36,7 @@ flowchart LR
 
 Die fünf Dungeonabschnitte werden einzeln geladen. Jeder hat mehrere physisch verbundene Räume; Übergänge zwischen Abschnitten erfolgen bewusst über interaktive Tore. Es handelt sich nicht um eine nahtlos gestreamte Open World.
 
-Bildschirmzustände: Hauptmenü, Spiel, Pause, Inventar, Journal, Fähigkeiten, Karte, Dialog, Game Over, Epilog und Übergang. Overlays halten Bullet, KI und Charakteranimationen an. Eingaben werden beim Wechsel zurückgesetzt, damit keine Bewegung hängen bleibt.
+Bildschirmzustände: Hauptmenü, Spiel, Pause, Inventar, Journal, Fähigkeiten, Karte, Einstellungen, Dialog, Game Over, Epilog und Übergang. Die Einstellungsseite merkt sich, ob sie aus dem Hauptmenü oder aus der Pause geöffnet wurde, und kehrt dorthin zurück. Sie ist außerdem der einzige Overlay-Zustand, der die Musik nicht absenkt, damit die Regler die tatsächliche Lautstärke zeigen. Overlays halten Bullet, KI und Charakteranimationen an. Eingaben werden beim Wechsel zurückgesetzt, damit keine Bewegung hängen bleibt.
 
 ## Physik und Kampf
 
@@ -55,6 +55,8 @@ Bildschirmzustände: Hauptmenü, Spiel, Pause, Inventar, Journal, Fähigkeiten, 
 ## Speichern
 
 Eine JSON-Datei mit `version=1` enthält Region, Spielerposition, Ausrüstung, Werte, Skills, Gold, Schlüssel, Entscheidungen, Gegnerstatus, Truhen, Questrewards, entdeckte Karte, Checkpoint und Spielzeit. Gson serialisiert ausschließlich Datenklassen, keine Engine-Objekte. Die Validierung verwirft unbekannte Versionen, ungültige Werte und übergroße Dateien.
+
+Audioeinstellungen liegen bewusst außerhalb des Spielstands in `settings.json`: Sie überleben eine neue Kampagne, und ein beschädigter Spielstand kann sie nicht mitreißen. Anders als beim Spielstand ist Scheitern hier immer still — `load()` liefert die Standardwerte, `save()` schluckt Schreibfehler, weil eine Einstellungsdatei niemals eine laufende Partie unterbrechen darf.
 
 Ein temporäres Dokument wird im selben Ordner geschrieben und möglichst atomar ersetzt. Vorher wird ein vorhandener gültiger Spielstand gesichert. Eine beschädigte Hauptdatei überschreibt kein intaktes Backup. Beim Laden wird ein Backup-Fallback sichtbar gemeldet. Eine neue Kampagne besitzt einen eigenen In-Memory-Checkpoint und kann nach dem Tod nicht versehentlich in einen früheren Spielstand springen.
 

@@ -1,0 +1,31 @@
+00:00.015  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:44:29 | INFO: Data are loaded, start creating Blender stuff
+22:44:29 | INFO: Blender create Mesh node Face.005
+22:44:29 | INFO: glTF import finished in 0.35s
+FBX version: 7700
+[G] grafted Idle from sword and shield idle (4).fbx: frames 0..73, 52 bones matched
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+22:44:31 | INFO: Starting glTF 2.0 export
+22:44:31 | INFO: Extracting primitive: Face.005
+22:44:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:44:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:44:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:44:32 | INFO: Primitives created: 5
+22:44:37 | INFO: Finished glTF 2.0 export in 5.13769268989563 s
+
+[OK] hero 6540720 bytes
+[FIX] hero    Idle     turn=  -53.4 frames=  73.0 yaw=[0.2, -0.1, -0.2, -0.3, -0.1, 0.2, 0.3, -0.1, -0.3, -0.3, -0.0, 0.3, 0.4]
+[FIX] hero    Walk     turn=   -1.3 frames=  33.0 yaw=[2.5, -0.6, -5.0, -6.5, -6.7, -5.5, -3.6, -0.2, 3.2, 6.5, 7.2, 6.3, 2.5]
+[FIX] hero    Run      turn=   -1.1 frames=  21.0 yaw=[-9.5, -10.4, -6.0, -3.8, 0.0, 5.7, 9.0, 11.3, 6.6, 2.4, 1.5, -0.4, -9.5]
+[FIX] hero    Attack1  turn=  -36.5 frames=  16.0 yaw=[0.0, 12.0, 33.0, 41.0, 47.3, 55.0, 56.7, 56.9, 55.6, 55.0, 54.4, 51.7, 47.5]
+[FIX] hero    Attack2  turn= -177.6 frames=  17.0 yaw=[0.0, -20.1, -70.3, -98.7, -139.3, -151.0, -158.2, -164.6, -173.9, 158.6, 145.6, 121.8, 111.0]
+[FIX] hero    Attack3  turn=   50.9 frames=  23.0 yaw=[-0.0, 1.3, -16.7, -33.3, -40.5, -44.7, -48.5, -51.0, -64.0, -77.2, -86.7, -93.5, -96.4]
+[FIX] hero    Dodge    turn=  -41.9 frames=  70.0 yaw=[0.0, 10.2, 25.5, 35.7, 42.0, 51.4, 104.7, 40.2, -11.9, -9.5, -13.2, -4.8, -0.8]
+[FIX] hero    Block    turn=  -65.6 frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.1, -0.2, -0.3, -0.1, -0.1, 0.0]
+[FIX] hero    Hit      turn=  -59.8 frames=  21.0 yaw=[-5.7, -2.8, 1.4, 3.8, 6.0, 3.7, 2.8, 0.8, -0.2, -1.2, -2.8, -3.6, -5.1]
+[FIX] hero    Death    turn=  -53.1 frames=  69.0 yaw=[0.0, 18.9, 15.4, 13.9, 13.3, 11.1, 8.6, 11.2, 37.6, 55.9, 60.9, 62.9, 60.2]
+[FIX] hero    Cast     turn=  -53.1 frames=  89.0 yaw=[0.0, 37.7, 61.7, 61.9, 57.3, 48.8, 48.0, 79.8, 73.9, 74.9, 78.0, 38.4, 0.0]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

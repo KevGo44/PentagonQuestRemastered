@@ -1,0 +1,14 @@
+[R] batched=false rotated=false hits=4 worldBound=BoundingBox [Center: (42.0, 3.41, 73.53)  xExtent: 1.4  yExtent: 3.51  zExtent: 1.4300001]
+[R]    horizontal ray at y=4.9 hits=4
+[R]    close ray at y=3.0 hits=4
+[R] batched=false rotated=true hits=2 worldBound=BoundingBox [Center: (42.0, 3.41, 73.47)  xExtent: 1.4000001  yExtent: 3.51  zExtent: 1.4300002]
+[R]    horizontal ray at y=4.9 hits=2
+[R]    close ray at y=3.0 hits=2
+[R] batched=true rotated=false hits=4 worldBound=BoundingBox [Center: (42.0, 3.41, 73.53)  xExtent: 1.4000015  yExtent: 3.51  zExtent: 1.4300003]
+[R]    horizontal ray at y=4.9 hits=4
+[R]    close ray at y=3.0 hits=4
+[R] batched=true rotated=true hits=4 worldBound=BoundingBox [Center: (42.0, 3.41, 73.47)  xExtent: 1.4000015  yExtent: 3.51  zExtent: 1.4300003]
+[R]    horizontal ray at y=4.9 hits=4
+[R]    close ray at y=3.0 hits=4
+
+--

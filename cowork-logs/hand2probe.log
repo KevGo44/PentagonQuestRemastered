@@ -1,0 +1,10 @@
+[L] Hand.R pos=(-0.6178986, -0.0728339, -1.5122591)
+[L]   local +X -> model (-0,01, 1,00, 0,00)   forward(-Z) dot=-0,00
+[L]   local +Y -> model (-1,00, -0,01, -0,02)   forward(-Z) dot=0,02
+[L]   local +Z -> model (-0,02, -0,01, 1,00)   forward(-Z) dot=-1,00
+[L]   RightHandMiddle1 at local (0,014, 0,227, -0,003), dist=0,228
+[L] Hand.L pos=(0.6178985, -0.07252118, -1.5122596)
+[L]   local +X -> model (-0,01, -1,00, -0,01)   forward(-Z) dot=0,01
+[L]   local +Y -> model (1,00, -0,01, -0,02)   forward(-Z) dot=0,02
+[L]   local +Z -> model (0,02, -0,01, 1,00)   forward(-Z) dot=-1,00
+[L]   LeftHandMiddle1 at local (-0,014, 0,228, -0,003), dist=0,228

@@ -168,7 +168,7 @@ public final class CampaignState extends BaseAppState {
     app.getViewPort().setBackgroundColor(AssetPipeline.color(region.fog));
     player.node.updateGeometricState();
     world.root.updateGeometricState();
-    player.camera(app.getCamera(), world.occluders, .1f, true);
+    player.camera(app.getCamera(), .1f, true, world.occluders, world.interactives);
     app.ui.invalidate();
     pause(app.mode() != ScreenMode.PLAYING);
   }
@@ -229,7 +229,7 @@ public final class CampaignState extends BaseAppState {
       player.warp(lastSafe.x, lastSafe.z);
       app.notice("Zum letzten sicheren Boden zurückgesetzt.");
     } else if (player.body.isOnGround() && world.layout.walkable(p.x, p.z)) lastSafe.set(p);
-    player.camera(app.getCamera(), world.occluders, dt, false);
+    player.camera(app.getCamera(), dt, false, world.occluders, world.interactives);
     var visited =
         session.explored.computeIfAbsent(session.region.name(), k -> new LinkedHashSet<>());
     int cx = Math.round(p.x / DungeonLayout.CELL), cz = Math.round(p.z / DungeonLayout.CELL);
@@ -264,7 +264,7 @@ public final class CampaignState extends BaseAppState {
       for (Enemy enemy : enemies) enemy.stop();
     }
     deathTime += dt;
-    player.camera(app.getCamera(), world.occluders, dt, false);
+    player.camera(app.getCamera(), dt, false, world.occluders, world.interactives);
     if (deathTime >= 1.1f) app.screen(ScreenMode.GAME_OVER);
   }
 

@@ -1,9 +1,11 @@
 package de.pentagon.entities;
 
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.*;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.*;
 import de.pentagon.assets.*;
 import de.pentagon.combat.AttackTimeline;
@@ -30,7 +32,7 @@ public final class PlayerController {
   private float footstep;
 
   public PlayerController(AssetPipeline assets, PhysicsWorld physics) {
-    rig = new CharacterFactory(assets).create("hero", 0x547079, false);
+    rig = new CharacterFactory(assets).create("hero", 0x547079, false, true);
     node.attachChild(rig.root());
     body = new BetterCharacterControl(.38f, 1.85f, 75);
     body.setJumpForce(new Vector3f(0, 420, 0));
@@ -169,6 +171,18 @@ public final class PlayerController {
   }
 
   public void camera(Camera camera, Node occluders, float dt, boolean snap) {
+    camera(camera, dt, snap, occluders);
+  }
+
+  /**
+   * Places the trailing camera and pulls it in where geometry is in the way.
+   *
+   * <p>Every node that can block the view has to be passed in. Interactables used to be missing,
+   * and that is measurable: on entering a region the player spawns at the gate, the camera sits
+   * 6 m behind and 3.5 m up, and the gate lintel spans 4.55 to 5.25 m - so the camera landed
+   * inside the stonework while all five rays reported nothing.
+   */
+  public void camera(Camera camera, float dt, boolean snap, Node... blockers) {
     Vector3f target = node.getWorldTranslation().add(0, 1.42f, 0);
     Vector3f desired =
         new Vector3f(
@@ -190,10 +204,14 @@ public final class PlayerController {
       CollisionResults results = new CollisionResults();
       Ray ray = new Ray(target.add(offset), direction);
       ray.setLimit(distance);
-      occluders.collideWith(ray, results);
-      if (results.size() > 0)
-        allowed =
-            Math.min(allowed, Math.max(.5f, results.getClosestCollision().getDistance() - .3f));
+      for (Node blocker : blockers) if (blocker != null) blocker.collideWith(ray, results);
+      for (CollisionResult hit : results) {
+        // The portal veil is the one thing the camera must still pass through: it is the doorway
+        // the player walks into, not an obstacle.
+        if (hit.getGeometry().getQueueBucket() == Bucket.Transparent) continue;
+        allowed = Math.min(allowed, Math.max(.5f, hit.getDistance() - .3f));
+        break;
+      }
     }
     Vector3f end = target.add(direction.mult(allowed));
     // Snap inward on collision; smooth only outward so interpolation cannot cross a wall.

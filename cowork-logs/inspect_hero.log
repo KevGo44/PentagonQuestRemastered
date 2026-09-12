@@ -1,0 +1,17 @@
+00:00.063  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+22:33:15 | INFO: Data are loaded, start creating Blender stuff
+22:33:15 | INFO: Blender create Mesh node Face.005
+22:33:16 | INFO: glTF import finished in 0.90s
+Traceback (most recent call last):
+  File "C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\art\blender\inspect_hero.py", line 17, in <module>
+    hips = [fc for fc in a.fcurves if "Hips" in fc.data_path and "rotation" in fc.data_path]
+                         ^^^^^^^^^
+AttributeError: 'Action' object has no attribute 'fcurves'
+[I] fps 24 start 1 end 250
+[I] armature Armature.004 bones 66 rot (0.0, 0.0, 0.0)
+[I] object Armature.004 ARMATURE parent None
+[I] object Hero.002 MESH parent Armature.004
+[I] object Icosphere MESH parent None
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

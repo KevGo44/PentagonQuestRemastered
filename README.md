@@ -42,6 +42,7 @@ Der Launcher setzt auf macOS `-XstartOnFirstThread`. AWT läuft für ImageIO im 
 | E | Dialog, Beute, Schrein, Rätsel, Bereichswechsel |
 | I / J / K / M | Inventar / Aufträge / Fähigkeiten / Karte |
 | Escape | Pause oder Ansicht schließen |
+| Einstellungen | Über Hauptmenü oder Pause: Regler für Gesamt, Musik und Effekte |
 | F5 / F9 | Speichern / letzten Spielstand laden |
 | F3 / F10 / F12 | Grafikprofil / Ton umschalten / Screenshot |
 | 1–3 | Antwort in einem Dialog auswählen |
@@ -53,6 +54,7 @@ Die orange Markierung kündigt gegnerische Angriffe an. Orks schlagen langsam un
 ## Spielstände und Dateien
 
 * Normaler Spielstand: `~/.pentagon-aschensiegel/saves/campaign.json`.
+* Einstellungen: `~/.pentagon-aschensiegel/saves/settings.json`. Eine beschädigte Datei fällt still auf die Standardwerte zurück und blockiert nie den Start.
 * Automatische Sicherung des vorherigen gültigen Spielstands: `campaign.backup.json`.
 * Smoke-Test: ausschließlich `target/smoke-saves/`, unabhängig vom normalen Spielstand.
 * Screenshots: `~/.pentagon-aschensiegel/screenshots/`, im Smoke-Test `target/screenshots/`.
@@ -69,6 +71,7 @@ Java 17 als Bytecode-Ziel, jME **3.8.1-stable**, Minie **9.0.3** für natives Bu
 * [Blender-Import und Asset-Verträge](docs/ASSETS.md)
 * [Prüfungen und bekannte Grenzen](docs/VERIFICATION.md)
 * [Analyse des Originals](docs/ORIGINAL.md)
+* [Briefing für fremde Sessions und Asset-Zulieferung](docs/COWORK-BRIEFING.md)
 
 ```bash
 ./build.sh verify                     # Tests + ausführbares Paket
