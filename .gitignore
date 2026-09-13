@@ -13,6 +13,6 @@ saves/
 libbulletjme*
 *.dylib
 
-# Belege, die docs/asset-liste.md zitiert - bewusst versioniert
+# Belege, die docs/assets/asset-liste.md zitiert - bewusst versioniert
 !cowork-logs/
 !cowork-logs/*.log

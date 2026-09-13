@@ -6,4 +6,4 @@
 
 `props/crystal.gltf` is a first-party glTF reference asset used in the actual caverns. Do not rename its referenced `.bin` buffer without updating the JSON.
 
-Full contract and Blender commands: `docs/ASSETS.md`.
+Full contract and Blender commands: `docs/assets/ASSETS.md`.

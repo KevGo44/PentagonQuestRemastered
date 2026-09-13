@@ -45,9 +45,22 @@ public final class Enemy {
 
   public Enemy(
       DungeonLayout.Spawn spawn, AssetPipeline assets, PhysicsWorld physics, GameSession session) {
+    this(spawn, assets, physics, session, de.pentagon.combat.Difficulty.EASY);
+  }
+
+  public Enemy(
+      DungeonLayout.Spawn spawn,
+      AssetPipeline assets,
+      PhysicsWorld physics,
+      GameSession session,
+      de.pentagon.combat.Difficulty difficulty) {
     id = spawn.id();
     type = spawn.type();
-    maxHealth = type.hp * (type == EnemyType.KING && session.flag("prisoners_freed") ? .8f : 1);
+    maxHealth =
+        Math.round(
+            type.hp
+                * (type == EnemyType.KING && session.flag("prisoners_freed") ? .8f : 1)
+                * difficulty.enemyHealth);
     health = maxHealth;
     GameSession.EnemySave saved = session.enemies.get(id);
     home = new Vector3f(spawn.x(), 0, spawn.z());

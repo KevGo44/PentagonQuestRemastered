@@ -7,7 +7,7 @@ WorldView tries these ids before the masonry kit when the region is CAVERNS (see
   kit_wall_cave_face, kit_wall_cave_face2, kit_wall_cave_corner, kit_wall_cave_span,
   kit_wall_cave_pier                     2.80 x 7.12 x 2.80 blocks, visible sides in relief
 
-Same contract as docs/dungeon-kit.md: bottom-centre pivots, the module fills the whole cell, a
+Same contract as docs/assets/dungeon-kit.md: bottom-centre pivots, the module fills the whole cell, a
 wall's unrotated visible side faces glTF +Z (Blender -Y), corner +Z/+X, span +Z/-Z, pier
 +Z/+X/-Z. Every relief fades to zero at the cell edges so neighbours meet without cracks - the
 price is that the pattern repeats per cell, which the two variants and the region tint hide well
@@ -15,7 +15,7 @@ enough in torchlight. The floor rises no more than 3 cm over its nominal top (th
 is flat) and dips up to 9 cm; stalactites reach 0.9 m below the ceiling slab, well over a head.
 Flat shading throughout: the facets are what catch the torches. Material PQC_Rock carries the
 cave rock albedo (art/textures/kit_cave_albedo.png: dark cracked stone, mean linear luminance
-0.089, inside the wall band of docs/dungeon-kit.md section 6; the mottled boulder albedo at 0.118
+0.089, inside the wall band of docs/assets/dungeon-kit.md section 6; the mottled boulder albedo at 0.118
 made the first walls read as sand under the torches); WorldView multiplies the region tone into
 BaseColor like for every module.
 """

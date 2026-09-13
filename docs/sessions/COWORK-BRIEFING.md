@@ -2,8 +2,9 @@
 
 Diese Datei ist der Einstiegspunkt für jede Session, die dieses Projekt nicht kennt. Sie beschreibt
 die Verträge, die eingehalten werden müssen, damit gelieferte Assets tatsächlich im Spiel landen.
-Inhaltliche Details stehen in [ARCHITECTURE.md](ARCHITECTURE.md), [ASSETS.md](ASSETS.md) und
-[GAME_DESIGN.md](GAME_DESIGN.md).
+Inhaltliche Details stehen in [ARCHITECTURE.md](../technik/ARCHITECTURE.md), [ASSETS.md](../assets/ASSETS.md) und
+[GAME_DESIGN.md](../spiel/GAME_DESIGN.md); den Überblick über alle Dokumente und wohin neue Inhalte gehören gibt
+[docs/README.md](../README.md).
 
 ## Das Projekt in fünf Sätzen
 
@@ -47,7 +48,7 @@ Daraus folgt alles Weitere:
 
 Die Prop-IDs sind die kleingeschriebenen Konstanten von `DungeonLayout.Kind`; sie dürfen nicht
 umbenannt werden. **Stand der Lieferung: `hero`, `mira` und `eren` sind echte
-Assets** (Details und Belege in [asset-liste.md](asset-liste.md)); alles andere ist noch
+Assets** (Details und Belege in [asset-liste.md](../assets/asset-liste.md)); alles andere ist noch
 Platzhalter. `props/crystal.gltf` ist bereits ein echtes Asset mit eigenem `.bin`-Buffer —
 dessen Referenz im JSON nicht brechen.
 
@@ -121,7 +122,7 @@ $mvn="C:\Users\kkfre\AppData\Local\Programs\IntelliJ IDEA Ultimate\plugins\maven
 & $mvn -B verify
 ```
 
-`verify` muss grün bleiben: derzeit **68 Tests**. `AssetTest` lädt echte Assets durch den jME-
+`verify` muss grün bleiben: derzeit **72 Tests**. `AssetTest` lädt echte Assets durch den jME-
 AssetManager und ist damit die erste Instanz, die ein kaputtes Modell bemerkt. Neue Assets sollten
 dort eine Zusicherung bekommen.
 
@@ -139,7 +140,7 @@ trotzdem falsch skaliert, verdreht oder im Boden versunken sein.
 * Formatierung: `tools/format.sh` (google-java-format 1.27.0, fest versioniert).
 * Kurze Accessoren ohne `get`-Präfix: `muted()`, `master()`, `master(float)`, `highQuality()`.
 * Kleine Wertetypen sind `record`s.
-* **Keine Erfolgsmeldungen ohne Beleg.** `docs/VERIFICATION.md` trennt strikt zwischen
+* **Keine Erfolgsmeldungen ohne Beleg.** `docs/technik/VERIFICATION.md` trennt strikt zwischen
   tatsächlich Ausgeführtem und nicht Geprüftem. Diese Ehrlichkeit ist Teil des Projekts: nicht
   „funktioniert", wenn es nur kompiliert.
 

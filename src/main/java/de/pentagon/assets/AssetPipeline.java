@@ -30,7 +30,7 @@ public final class AssetPipeline {
   }
 
   /**
-   * docs/style-reference/STYLE.md: the probe is a 1x1 constant cubemap, so polished metal has
+   * docs/assets/STYLE.md: the probe is a 1x1 constant cubemap, so polished metal has
    * nothing to reflect and falls to black. Every procedural material passes through here, so the
    * limit is enforced here rather than remembered at each call site.
    */

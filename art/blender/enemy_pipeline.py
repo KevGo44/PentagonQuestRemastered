@@ -1,7 +1,7 @@
 
 # Turns a Meshy character into a PentagonQuest enemy GLB.
 #
-# The recipe is the one proven on the orc (docs/asset-liste.md, "Ork integriert"):
+# The recipe is the one proven on the orc (docs/assets/asset-liste.md, "Ork integriert"):
 # weld UV-seam duplicates, normalise to 1.95 m, bring the arms into Eren's rest pose with a
 # geodesic weight field, decimate, then bind Eren's rig UNCHANGED - only the finger bones are
 # dropped - so Eren's own clips run without retargeting.

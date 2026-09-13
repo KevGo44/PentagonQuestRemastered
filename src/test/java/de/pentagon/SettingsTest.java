@@ -20,6 +20,8 @@ class SettingsTest {
     written.effects = 1f;
     written.muted = true;
     written.radio = false;
+    written.difficulty = 2;
+    written.firstPerson = true;
     service.save(written);
     SettingsService.Settings read = service.load();
     assertEquals(.4f, read.master, 1e-6);
@@ -27,6 +29,12 @@ class SettingsTest {
     assertEquals(1f, read.effects, 1e-6);
     assertTrue(read.muted);
     assertFalse(read.radio);
+    assertEquals(2, read.difficulty);
+    assertTrue(read.firstPerson);
+    // An out-of-range difficulty from a hand-edited file falls back to easy.
+    written.difficulty = 9;
+    service.save(written);
+    assertEquals(0, service.load().difficulty);
   }
 
   @Test
@@ -37,6 +45,8 @@ class SettingsTest {
     assertEquals(.8f, settings.effects, 1e-6);
     assertFalse(settings.muted);
     assertTrue(settings.radio, "The recorded track is the default exploration music");
+    assertEquals(0, settings.difficulty, "easy by default");
+    assertFalse(settings.firstPerson, "the trailing camera by default");
   }
 
   @Test

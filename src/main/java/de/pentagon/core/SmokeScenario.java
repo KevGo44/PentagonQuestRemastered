@@ -2,7 +2,7 @@ package de.pentagon.core;
 
 import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.math.*;
-import de.pentagon.entities.Enemy;
+import de.pentagon.entities.*;
 import de.pentagon.world.Region;
 import java.nio.file.*;
 import java.util.*;
@@ -83,6 +83,7 @@ final class SmokeScenario {
         app.game.input("Spell", true);
         app.game.session.player.skillPoints = 2;
         app.screen(ScreenMode.INVENTORY);
+        shoot();
       }
       case 5 -> {
         shoot();
@@ -278,6 +279,8 @@ final class SmokeScenario {
                     .distance(app.game.player.node.getWorldTranslation().add(0, 1.42f, 0))
                 < 4,
             "Camera retracts against walls");
+        // [V]: the next region is built in first person, camera in the hero's head.
+        app.toggleView();
         app.game.loadRegion(Region.PRISON, false);
         clearEnemies();
         interact("PRISON_eren");
@@ -289,6 +292,7 @@ final class SmokeScenario {
             app.game.session.inventory.count("ember_blade") == 1,
             "Bargain grants the unique blade");
         app.game.loadRegion(Region.THRONE, false);
+        shoot();
       }
       case 28 -> {
         require(
@@ -299,6 +303,37 @@ final class SmokeScenario {
                     .maxHealth
                 == de.pentagon.ai.EnemyType.KING.hp,
             "Bargain preserves the king's full strength");
+        Vector3f eye =
+            app.game.player.node.getWorldTranslation().add(0, PlayerController.EYE_HEIGHT, 0);
+        require(
+            app.game.player.firstPerson()
+                && app.getCamera().getLocation().distance(eye) < .6f
+                && app.game.player.rig.skinning().getArmature().getJoint("Head").getLocalScale().x
+                    < .01f
+                && app.game.player.rig.root().getCullHint()
+                    != com.jme3.scene.Spatial.CullHint.Always,
+            "First person puts the camera behind the hero's collapsed head and keeps his arms");
+        app.toggleView();
+        // Difficulty: cycles through all three and scales an enemy blow at once. On VERY_HARD a
+        // king's blow (46 x 3.2) is capped at 70 % of the bar - the first mistake is survivable.
+        app.game.session.player.restore();
+        int max = app.game.session.player.maxHealth();
+        app.cycleDifficulty();
+        app.cycleDifficulty();
+        require(
+            app.difficulty() == de.pentagon.combat.Difficulty.VERY_HARD,
+            "Difficulty setting cycles to very hard");
+        app.game.combat.hurtByEnemy(
+            de.pentagon.ai.EnemyType.KING.damage,
+            app.game.player.node.getWorldTranslation().add(app.game.player.facing),
+            true,
+            null);
+        float lost = max - app.game.session.player.health;
+        require(
+            lost > max * .6f && lost <= max * .7f,
+            "Very hard: a king's blow takes 60-70 % of the bar, never all of it (" + lost + ")");
+        app.cycleDifficulty();
+        require(app.difficulty() == de.pentagon.combat.Difficulty.EASY, "Back to easy");
         app.game.session.player.health = 0;
       }
       case 29 -> {
@@ -408,7 +443,8 @@ final class SmokeScenario {
           "PASS: all five rendered regions; WASD/Bullet movement; actual melee hit; camera"
               + " collision; GPU skinning; PBR/glTF; audio; all 10 quests; both endings with their"
               + " closing sequences; save/load; independent new-game checkpoint; death and respawn;"
-              + " graphics quality switching; corridor trap timing.\n"
+              + " graphics quality switching; corridor trap timing; first person view; difficulty"
+              + " scaling.\n"
               + "Campaign checks teleport between objectives and use deterministic enemy damage;"
               + " this is not a human playthrough or balance review.\n");
       Files.writeString(

@@ -1,0 +1,280 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+14:57:25 | INFO: Data are loaded, start creating Blender stuff
+14:57:25 | INFO: Blender create Mesh node Face.005
+14:57:25 | INFO: glTF import finished in 0.48s
+FBX version: 7700
+[G] grafted Parry from sword and shield block (2).fbx: 15 source frames
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+14:57:26 | INFO: Starting glTF 2.0 export
+14:57:26 | INFO: Extracting primitive: Face.005
+14:57:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:27 | INFO: Primitives created: 5
+14:57:30 | INFO: Finished glTF 2.0 export in 3.481574773788452 s
+
+[OK] hero 6351768 bytes
+14:57:31 | INFO: Data are loaded, start creating Blender stuff
+14:57:31 | INFO: Blender create Mesh node Eyebrows.003
+14:57:32 | INFO: glTF import finished in 0.94s
+14:57:33 | INFO: Starting glTF 2.0 export
+14:57:33 | INFO: Extracting primitive: Eyebrows.003
+14:57:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:33 | INFO: Primitives created: 5
+14:57:37 | INFO: Finished glTF 2.0 export in 4.438177824020386 s
+
+[OK] mira 6900028 bytes
+14:57:39 | INFO: Data are loaded, start creating Blender stuff
+14:57:39 | INFO: Blender create Mesh node Eren_BodyMesh
+14:57:39 | INFO: glTF import finished in 0.58s
+14:57:40 | INFO: Starting glTF 2.0 export
+14:57:40 | INFO: Extracting primitive: Eren_BodyMesh
+14:57:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:40 | INFO: Primitives created: 5
+14:57:43 | INFO: Finished glTF 2.0 export in 3.2239267826080322 s
+
+[OK] eren 5471436 bytes
+14:57:44 | INFO: Data are loaded, start creating Blender stuff
+14:57:44 | INFO: Blender create Mesh node Goblin_BodyMesh.002
+14:57:45 | INFO: glTF import finished in 0.36s
+14:57:45 | INFO: Starting glTF 2.0 export
+14:57:45 | INFO: Extracting primitive: Goblin_BodyMesh.002
+14:57:45 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:45 | INFO: Primitives created: 1
+14:57:47 | INFO: Finished glTF 2.0 export in 1.5756216049194336 s
+
+[OK] goblin 2415936 bytes
+14:57:47 | INFO: Data are loaded, start creating Blender stuff
+14:57:47 | INFO: Blender create Mesh node OrcMesh
+14:57:48 | INFO: glTF import finished in 0.32s
+14:57:48 | INFO: Starting glTF 2.0 export
+14:57:48 | INFO: Extracting primitive: OrcMesh
+14:57:48 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:48 | INFO: Primitives created: 1
+14:57:50 | INFO: Finished glTF 2.0 export in 1.524930477142334 s
+
+[OK] orc 2572428 bytes
+14:57:50 | INFO: Data are loaded, start creating Blender stuff
+14:57:50 | INFO: Blender create Mesh node WardenMesh.004
+14:57:50 | INFO: glTF import finished in 0.36s
+14:57:51 | INFO: Starting glTF 2.0 export
+14:57:51 | INFO: Extracting primitive: WardenMesh.004
+14:57:51 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:51 | INFO: Primitives created: 1
+14:57:53 | INFO: Finished glTF 2.0 export in 1.7023024559020996 s
+
+[OK] warden 2837580 bytes
+14:57:53 | INFO: Data are loaded, start creating Blender stuff
+14:57:53 | INFO: Blender create Mesh node ShamanMesh
+14:57:54 | INFO: glTF import finished in 0.36s
+14:57:54 | INFO: Starting glTF 2.0 export
+14:57:54 | INFO: Extracting primitive: ShamanMesh
+14:57:54 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:54 | INFO: Primitives created: 1
+14:57:55 | INFO: Finished glTF 2.0 export in 1.5735352039337158 s
+
+[OK] shaman 2664568 bytes
+14:57:56 | INFO: Data are loaded, start creating Blender stuff
+14:57:56 | INFO: Blender create Mesh node KingMesh
+14:57:56 | INFO: glTF import finished in 0.39s
+14:57:57 | INFO: Starting glTF 2.0 export
+14:57:57 | INFO: Extracting primitive: KingMesh
+14:57:57 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:57:57 | INFO: Primitives created: 1
+14:57:58 | INFO: Finished glTF 2.0 export in 1.613088846206665 s
+
+[OK] king 2651972 bytes
+[STR] hero    Dodge    pelvis yaw worst  103.9 ->    0.0 deg
+[PIN] hero    Idle     hips drift 0.008 m, kept
+[PIN] hero    Walk     hips drift 0.000 m, kept
+[PIN] hero    Run      hips drift 0.000 m, kept
+[PIN] hero    Attack1  hips drift 0.000 m, kept
+[PIN] hero    Attack2  hips drift 0.000 m, kept
+[PIN] hero    Attack3  hips drift 0.088 m, kept
+[PIN] hero    Dodge    hips drift 0.047 m, kept
+[PIN] hero    Block    hips drift 0.000 m, kept
+[PIN] hero    Hit      hips drift 0.000 m, kept
+[PIN] hero    Death    hips drift 0.000 m, kept
+[PIN] hero    Cast     hips drift 0.065 m, kept
+[NEW] hero    Parry    15 frames, turn  -65.1, end ramp    6.2
+[YAW] hero    Idle     frames=  73.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.1, 0.2, 0.3, -0.1, -0.3, -0.3, -0.0, 0.3, 0.4]
+[YAW] hero    Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] hero    Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.0, 5.0, 10.1, 10.8, 6.6, 2.9, 1.7, -1.4, -9.5]
+[YAW] hero    Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 55.0, 54.3, 52.5, 47.5]
+[YAW] hero    Attack2  frames=  17.0 yaw=[-0.0, -50.1, -105.1, -145.2, 147.8, 79.1, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, 0.0]
+[YAW] hero    Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.9, 52.9, 48.1, 26.3, 4.8, -6.1, -6.1, -3.1, 0.0]
+[YAW] hero    Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.2, -0.1, 0.0, 0.0, -0.0, -0.0]
+[YAW] hero    Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] hero    Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] hero    Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.6, 55.5, 60.5, 62.8, 60.2]
+[YAW] hero    Cast     frames=  18.0 yaw=[0.0, 6.2, 13.0, 15.4, 15.5, 15.5, 15.6, 15.5, 15.2, 13.0, 9.2, 4.7, 0.0]
+[YAW] hero    Parry    frames=  15.0 yaw=[-0.0, -0.4, -1.6, -3.9, -7.0, -8.6, -7.0, -3.0, -0.7, 0.0, 0.2, 0.1, -0.0]
+[STR] mira    Dodge    pelvis yaw worst  103.8 ->    0.0 deg
+[PIN] mira    Idle     hips drift 0.007 m, kept
+[PIN] mira    Walk     hips drift 0.059 m, kept
+[PIN] mira    Run      hips drift 0.036 m, kept
+[PIN] mira    Attack1  hips drift 0.115 m, kept
+[PIN] mira    Attack2  hips drift 0.000 m, kept
+[PIN] mira    Attack3  hips drift 0.084 m, kept
+[PIN] mira    Dodge    hips drift 0.042 m, kept
+[PIN] mira    Block    hips drift 0.007 m, kept
+[PIN] mira    Hit      hips drift 0.058 m, kept
+[PIN] mira    Death    hips drift 0.120 m, kept
+[PIN] mira    Cast     hips drift 0.060 m, kept
+[YAW] mira    Idle     frames= 298.0 yaw=[-0.7, -0.7, -0.7, 0.1, 1.6, 0.6, -0.6, -5.0, -3.1, -0.5, 4.7, 3.2, -0.7]
+[YAW] mira    Walk     frames=  33.0 yaw=[2.4, -0.3, -4.4, -6.5, -6.4, -5.6, -3.2, -0.1, 3.1, 6.5, 7.5, 5.8, 2.4]
+[YAW] mira    Run      frames=  21.0 yaw=[-9.5, -10.6, -7.3, -3.2, 0.5, 5.5, 10.3, 10.8, 6.5, 2.8, 1.3, -1.9, -9.5]
+[YAW] mira    Attack1  frames=  16.0 yaw=[0.0, 13.4, 36.5, 58.1, 59.3, 46.7, 27.6, 11.5, 1.7, 0.6, 2.6, 4.6, 6.7]
+[YAW] mira    Attack2  frames=  17.0 yaw=[0.0, -49.9, -105.1, -145.1, 147.9, 79.2, 59.1, 32.8, -2.3, -21.6, -11.4, -4.8, -0.0]
+[YAW] mira    Attack3  frames=  23.0 yaw=[-0.0, -7.8, -7.9, 2.1, 29.7, 52.5, 47.3, 26.2, 4.8, -6.0, -5.1, -2.6, 0.0]
+[YAW] mira    Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.3, -0.3, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] mira    Block    frames=  40.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.1, -0.2, -0.2, -0.1, -0.0]
+[YAW] mira    Hit      frames=  23.0 yaw=[-5.1, -2.3, 1.7, 5.9, 5.8, 3.8, 2.0, 0.5, -0.7, -2.0, -3.3, -4.5, -4.5]
+[YAW] mira    Death    frames=  69.0 yaw=[0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.4, 11.3, 35.8, 54.8, 59.6, 61.9, 59.3]
+[YAW] mira    Cast     frames=  18.0 yaw=[0.0, 6.2, 13.0, 15.3, 15.4, 15.5, 15.5, 15.5, 15.1, 13.0, 9.1, 4.7, 0.0]
+[STR] eren    Dodge    pelvis yaw worst  102.8 ->    0.0 deg
+[PIN] eren    Idle     hips drift 0.026 m, kept
+[PIN] eren    Walk     hips drift 0.000 m, kept
+[PIN] eren    Run      hips drift 0.000 m, kept
+[PIN] eren    Attack1  hips drift 0.000 m, kept
+[PIN] eren    Attack2  hips drift 0.000 m, kept
+[PIN] eren    Attack3  hips drift 0.083 m, kept
+[PIN] eren    Dodge    hips drift 0.044 m, kept
+[PIN] eren    Block    hips drift 0.000 m, kept
+[PIN] eren    Hit      hips drift 0.000 m, kept
+[PIN] eren    Death    hips drift 0.000 m, kept
+[PIN] eren    Cast     hips drift 0.061 m, kept
+[YAW] eren    Idle     frames= 120.0 yaw=[-0.0, -0.0, -0.0, 0.2, 0.2, 0.1, 0.0, -0.1, -0.0, -0.1, -0.1, -0.2, -0.0]
+[YAW] eren    Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] eren    Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.1, 5.0, 10.1, 10.8, 6.5, 2.9, 1.8, -1.4, -9.5]
+[YAW] eren    Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 54.9, 54.1, 52.3, 47.4]
+[YAW] eren    Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, 0.0]
+[YAW] eren    Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] eren    Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.0, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] eren    Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] eren    Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] eren    Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.3, 54.7, 59.6, 62.0, 59.4]
+[YAW] eren    Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, 0.0]
+[STR] goblin  Dodge    pelvis yaw worst  105.5 ->    0.0 deg
+[PIN] goblin  Idle     hips drift 0.007 m, kept
+[PIN] goblin  Walk     hips drift 0.000 m, kept
+[PIN] goblin  Run      hips drift 0.000 m, kept
+[PIN] goblin  Attack1  hips drift 0.000 m, kept
+[PIN] goblin  Attack2  hips drift 0.000 m, kept
+[PIN] goblin  Attack3  hips drift 0.083 m, kept
+[PIN] goblin  Dodge    hips drift 0.096 m, kept
+[PIN] goblin  Block    hips drift 0.000 m, kept
+[PIN] goblin  Hit      hips drift 0.000 m, kept
+[PIN] goblin  Death    hips drift 0.000 m, kept
+[PIN] goblin  Cast     hips drift 0.061 m, kept
+[YAW] goblin  Idle     frames=  76.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.0, 0.2, 0.3, -0.3, -0.3, -0.2, 0.1, 0.4, 0.3]
+[YAW] goblin  Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] goblin  Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.0, 4.9, 10.1, 10.9, 6.6, 2.9, 1.7, -1.4, -9.5]
+[YAW] goblin  Attack1  frames=  16.0 yaw=[-0.0, 15.8, 29.7, 41.0, 48.8, 54.0, 56.7, 56.8, 55.9, 55.1, 54.4, 52.6, 47.7]
+[YAW] goblin  Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, -0.0]
+[YAW] goblin  Attack3  frames=  23.0 yaw=[-0.0, -7.7, -7.9, 2.0, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] goblin  Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.1, -0.6, -0.1, 0.0, 0.0, -0.0, -0.0]
+[YAW] goblin  Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] goblin  Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.7, -5.1]
+[YAW] goblin  Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.6, 38.1, 56.8, 61.8, 64.2, 61.5]
+[YAW] goblin  Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, -0.0]
+[STR] orc     Dodge    pelvis yaw worst  102.8 ->    0.0 deg
+[PIN] orc     Idle     hips drift 0.007 m, kept
+[PIN] orc     Walk     hips drift 0.000 m, kept
+[PIN] orc     Run      hips drift 0.000 m, kept
+[PIN] orc     Attack1  hips drift 0.000 m, kept
+[PIN] orc     Attack2  hips drift 0.000 m, kept
+[PIN] orc     Attack3  hips drift 0.083 m, kept
+[PIN] orc     Dodge    hips drift 0.044 m, kept
+[PIN] orc     Block    hips drift 0.000 m, kept
+[PIN] orc     Hit      hips drift 0.000 m, kept
+[PIN] orc     Death    hips drift 0.000 m, kept
+[PIN] orc     Cast     hips drift 0.061 m, kept
+[YAW] orc     Idle     frames=  76.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.0, 0.3, 0.3, -0.3, -0.3, -0.2, 0.1, 0.4, 0.3]
+[YAW] orc     Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] orc     Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.1, 5.0, 10.1, 10.8, 6.5, 2.9, 1.8, -1.4, -9.5]
+[YAW] orc     Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 54.9, 54.1, 52.3, 47.4]
+[YAW] orc     Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, -0.0]
+[YAW] orc     Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] orc     Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.0, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] orc     Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] orc     Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] orc     Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.3, 54.7, 59.6, 62.0, 59.4]
+[YAW] orc     Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, 0.0]
+[STR] warden  Dodge    pelvis yaw worst  102.8 ->    0.0 deg
+[PIN] warden  Idle     hips drift 0.007 m, kept
+[PIN] warden  Walk     hips drift 0.000 m, kept
+[PIN] warden  Run      hips drift 0.000 m, kept
+[PIN] warden  Attack1  hips drift 0.000 m, kept
+[PIN] warden  Attack2  hips drift 0.000 m, kept
+[PIN] warden  Attack3  hips drift 0.083 m, kept
+[PIN] warden  Dodge    hips drift 0.044 m, kept
+[PIN] warden  Block    hips drift 0.000 m, kept
+[PIN] warden  Hit      hips drift 0.000 m, kept
+[PIN] warden  Death    hips drift 0.000 m, kept
+[PIN] warden  Cast     hips drift 0.061 m, kept
+[YAW] warden  Idle     frames=  76.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.0, 0.3, 0.3, -0.3, -0.3, -0.2, 0.1, 0.4, 0.3]
+[YAW] warden  Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] warden  Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.1, 5.0, 10.1, 10.8, 6.5, 2.9, 1.8, -1.4, -9.5]
+[YAW] warden  Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 54.9, 54.1, 52.3, 47.4]
+[YAW] warden  Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, -0.0]
+[YAW] warden  Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] warden  Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.0, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] warden  Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] warden  Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] warden  Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.3, 54.7, 59.6, 62.0, 59.4]
+[YAW] warden  Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, 0.0]
+[STR] shaman  Dodge    pelvis yaw worst  102.8 ->    0.0 deg
+[PIN] shaman  Idle     hips drift 0.007 m, kept
+[PIN] shaman  Walk     hips drift 0.000 m, kept
+[PIN] shaman  Run      hips drift 0.000 m, kept
+[PIN] shaman  Attack1  hips drift 0.000 m, kept
+[PIN] shaman  Attack2  hips drift 0.000 m, kept
+[PIN] shaman  Attack3  hips drift 0.083 m, kept
+[PIN] shaman  Dodge    hips drift 0.044 m, kept
+[PIN] shaman  Block    hips drift 0.000 m, kept
+[PIN] shaman  Hit      hips drift 0.000 m, kept
+[PIN] shaman  Death    hips drift 0.000 m, kept
+[PIN] shaman  Cast     hips drift 0.061 m, kept
+[YAW] shaman  Idle     frames=  76.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.0, 0.3, 0.3, -0.3, -0.3, -0.2, 0.1, 0.4, 0.3]
+[YAW] shaman  Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] shaman  Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.1, 5.0, 10.1, 10.8, 6.5, 2.9, 1.8, -1.4, -9.5]
+[YAW] shaman  Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 54.9, 54.1, 52.3, 47.4]
+[YAW] shaman  Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, -0.0]
+[YAW] shaman  Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] shaman  Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.0, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] shaman  Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] shaman  Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] shaman  Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.3, 54.7, 59.6, 62.0, 59.4]
+[YAW] shaman  Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, 0.0]
+[STR] king    Dodge    pelvis yaw worst  102.8 ->    0.0 deg
+[PIN] king    Idle     hips drift 0.007 m, kept
+[PIN] king    Walk     hips drift 0.000 m, kept
+[PIN] king    Run      hips drift 0.000 m, kept
+[PIN] king    Attack1  hips drift 0.000 m, kept
+[PIN] king    Attack2  hips drift 0.000 m, kept
+[PIN] king    Attack3  hips drift 0.083 m, kept
+[PIN] king    Dodge    hips drift 0.044 m, kept
+[PIN] king    Block    hips drift 0.000 m, kept
+[PIN] king    Hit      hips drift 0.000 m, kept
+[PIN] king    Death    hips drift 0.000 m, kept
+[PIN] king    Cast     hips drift 0.061 m, kept
+[YAW] king    Idle     frames=  76.0 yaw=[0.2, -0.1, -0.2, -0.2, -0.0, 0.3, 0.3, -0.3, -0.3, -0.2, 0.1, 0.4, 0.3]
+[YAW] king    Walk     frames=  33.0 yaw=[2.5, -0.3, -4.4, -6.6, -6.7, -5.6, -3.1, 0.0, 3.2, 6.3, 7.4, 6.0, 2.5]
+[YAW] king    Run      frames=  21.0 yaw=[-9.5, -10.4, -7.3, -3.3, 0.1, 5.0, 10.1, 10.8, 6.5, 2.9, 1.8, -1.4, -9.5]
+[YAW] king    Attack1  frames=  16.0 yaw=[0.0, 15.8, 29.8, 41.0, 48.8, 53.9, 56.7, 56.7, 55.8, 54.9, 54.1, 52.3, 47.4]
+[YAW] king    Attack2  frames=  17.0 yaw=[-0.0, -50.0, -105.0, -145.1, 147.9, 79.2, 59.3, 32.8, -2.5, -21.7, -11.5, -4.8, -0.0]
+[YAW] king    Attack3  frames=  23.0 yaw=[0.0, -7.7, -7.9, 2.1, 29.8, 52.6, 47.8, 26.2, 4.8, -6.1, -5.9, -2.9, -0.0]
+[YAW] king    Dodge    frames=  23.0 yaw=[0.0, -0.0, -0.2, 0.0, 0.3, -1.3, 4.2, -0.0, -0.1, 0.0, 0.0, -0.0, 0.0]
+[YAW] king    Block    frames=  42.0 yaw=[0.0, -0.0, -0.0, 0.1, 0.2, 0.2, 0.1, 0.0, -0.2, -0.3, -0.1, -0.0, 0.0]
+[YAW] king    Hit      frames=  21.0 yaw=[-5.7, -3.2, 0.2, 4.3, 6.0, 3.9, 2.3, 0.7, -0.2, -1.1, -2.4, -3.8, -5.1]
+[YAW] king    Death    frames=  69.0 yaw=[-0.0, 19.1, 15.8, 13.9, 13.3, 11.2, 8.5, 11.7, 37.3, 54.7, 59.6, 62.0, 59.4]
+[YAW] king    Cast     frames=  18.0 yaw=[-0.0, 6.2, 13.0, 15.3, 15.5, 15.5, 15.5, 15.5, 15.2, 13.0, 9.1, 4.7, 0.0]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

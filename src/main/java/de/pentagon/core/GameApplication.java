@@ -152,6 +152,30 @@ public final class GameApplication extends SimpleApplication
     return highQuality;
   }
 
+  /** The current difficulty; read live by the combat system so a change applies at once. */
+  public de.pentagon.combat.Difficulty difficulty() {
+    return de.pentagon.combat.Difficulty.of(settings.difficulty);
+  }
+
+  public void cycleDifficulty() {
+    settings.difficulty = difficulty().next().ordinal();
+    storeSettings();
+    if (ui != null) ui.invalidate();
+    notice("Schwierigkeit: " + difficulty().title);
+  }
+
+  public boolean firstPerson() {
+    return settings.firstPerson;
+  }
+
+  /** [V]: swaps between the trailing camera and first person; the choice is remembered. */
+  public void toggleView() {
+    settings.firstPerson = !settings.firstPerson;
+    if (game != null && game.player != null) game.player.firstPerson(settings.firstPerson);
+    storeSettings();
+    notice(settings.firstPerson ? "Sicht: Erste Person" : "Sicht: Verfolgerkamera");
+  }
+
   public ScreenMode mode() {
     return mode;
   }
@@ -216,6 +240,7 @@ public final class GameApplication extends SimpleApplication
     key("Mute", KeyInput.KEY_F10);
     // The pause page promises F12; the engine's own screenshot key is Print, which it never says.
     key("Screenshot", KeyInput.KEY_F12);
+    key("View", KeyInput.KEY_V);
     key("Choice1", KeyInput.KEY_1);
     key("Choice2", KeyInput.KEY_2);
     key("Choice3", KeyInput.KEY_3);
@@ -248,6 +273,10 @@ public final class GameApplication extends SimpleApplication
       }
       if (name.equals("Screenshot")) {
         screenshots.takeScreenshot();
+        return;
+      }
+      if (name.equals("View") && mode == ScreenMode.PLAYING) {
+        toggleView();
         return;
       }
       if (name.equals("Enter") && mode == ScreenMode.MAIN_MENU) {

@@ -15,6 +15,10 @@ art/gen/pinned. Measured with art/probe/ClipTimeline (column hipsDrift) against 
 * Parry (hero only): "sword and shield block (2)" - a shield jolt, 16 frames at 30 fps - grafted
   as an extra, optional clip named Parry. CharacterFactory.CLIPS does not require it; the game
   uses it when it is there.
+* Dodge ran crooked: "Stand To Roll" is a shoulder roll, and the pelvis yawed out to 103 degrees
+  in the middle of it (art/probe YawSeries), so the hero rolled diagonally across the direction
+  the game pushed him. STRAIGHTEN turns the Root frame by frame so the pelvis line stays on the
+  front for the whole clip - a straight forward roll with the shoulders still doing the work.
 """
 
 import bpy, os, math, sys
@@ -24,6 +28,7 @@ CLIPS = ["Idle", "Walk", "Run", "Attack1", "Attack2", "Attack3",
          "Dodge", "Block", "Hit", "Death", "Cast"]
 FPS = 30
 PIN_ABOVE = .3
+STRAIGHTEN = ["Dodge"]
 # name -> [(clip, source fbx)] grafted in addition to CLIPS
 EXTRA = {"hero": [("Parry", "sword and shield block (2).fbx")]}
 RENAME = {"UpperArm.L": "LeftArm", "Forearm.L": "LeftForeArm", "Hand.L": "LeftHand",
@@ -198,6 +203,27 @@ def pin_hips(arm, action):
     return before, after
 
 
+def straighten(arm, action):
+    """Locks the pelvis yaw to the front on every whole frame of the clip. The retimed clips keep
+    their keys at fractional frames (70 -> 23 leaves them a third of a frame apart) and the glTF
+    export samples whole frames, so the Root gets a key on every whole frame first. Blender's
+    reading is the one to trust: an afternoon went into an engine-side probe that disagreed by 30
+    to 50 degrees, until it turned out to project the pelvis line onto the wrong plane."""
+    drive(arm, action)
+    rot, loc = root_curves(action)
+    start, end = action.frame_range
+    for fc in rot + loc:
+        for f in range(int(math.floor(start)), int(math.ceil(end)) + 1):
+            fc.keyframe_points.insert(f, fc.evaluate(f), options={"FAST"})
+        fc.update()
+    frames = sorted({k.co.x for k in rot[0].keyframe_points})
+    yaws = {f: pelvis_yaw(arm, f) for f in frames}
+    before = max(abs(v) for v in yaws.values())
+    turn_root(action, lambda x: yaws.get(x, 0.0))
+    after = max(abs(pelvis_yaw(arm, f)) for f in frames)
+    return before, after
+
+
 def process(name, source, target, mixamo, report):
     bpy.ops.wm.read_homefile(use_empty=True)
     scene = bpy.context.scene
@@ -210,6 +236,9 @@ def process(name, source, target, mixamo, report):
     if missing:
         raise SystemExit(f"{source}: missing actions {missing}")
     clips = list(CLIPS)
+    for clip in STRAIGHTEN:
+        before, after = straighten(arm, bpy.data.actions[clip])
+        report.append(f"[STR] {name:<7} {clip:<8} pelvis yaw worst {before:6.1f} -> {after:6.1f} deg")
     for clip in CLIPS:
         action = bpy.data.actions[clip]
         loc = [fc for fc in curves(action) if fc.data_path == 'pose.bones["Hips"].location']

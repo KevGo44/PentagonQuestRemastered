@@ -4,6 +4,7 @@ import com.jme3.math.*;
 import com.jme3.scene.Spatial;
 import de.pentagon.combat.AttackTimeline;
 import de.pentagon.combat.CombatRules;
+import de.pentagon.combat.Difficulty;
 import de.pentagon.entities.Enemy;
 import de.pentagon.world.DungeonLayout;
 import java.util.function.*;
@@ -51,6 +52,21 @@ public final class EnemyBrain {
       DungeonLayout layout,
       BiPredicate<Vector3f, Vector3f> visible,
       Attacks attacks) {
+    update(e, dt, time, player, layout, visible, attacks, Difficulty.EASY);
+  }
+
+  /**
+   * @param difficulty scales the pauses between attacks ({@link Difficulty#pace}).
+   */
+  public void update(
+      Enemy e,
+      float dt,
+      float time,
+      Vector3f player,
+      DungeonLayout layout,
+      BiPredicate<Vector3f, Vector3f> visible,
+      Attacks attacks,
+      Difficulty difficulty) {
     if (!e.alive()) {
       // Death runs once and holds its last frame on its own; nothing to freeze here.
       e.deathTime += dt;
@@ -159,12 +175,13 @@ public final class EnemyBrain {
           e.telegraph.setCullHint(Spatial.CullHint.Always);
           if (e.state != Enemy.State.STUNNED) {
             e.state = Enemy.State.RECOVER;
-            e.timer = e.type == EnemyType.KING ? KING_RECOVER : RECOVER;
+            e.timer = (e.type == EnemyType.KING ? KING_RECOVER : RECOVER) * difficulty.pace;
           }
           e.cooldown =
-              e.type == EnemyType.SHAMAN
-                  ? SHAMAN_COOLDOWN
-                  : e.type == EnemyType.KING ? KING_COOLDOWN : COOLDOWN;
+              (e.type == EnemyType.SHAMAN
+                      ? SHAMAN_COOLDOWN
+                      : e.type == EnemyType.KING ? KING_COOLDOWN : COOLDOWN)
+                  * difficulty.pace;
         }
       }
       case RECOVER -> {

@@ -157,7 +157,7 @@ class AssetTest {
                     space.transformVector(
                         armature.getJoint("Thigh.R").getModelTransform().getTranslation(),
                         new Vector3f()));
-        lateral.y = 0;
+        flatten(lateral, armature);
         lateral.normalizeLocal();
         assertTrue(
             lateral.x > .97,
@@ -214,7 +214,7 @@ class AssetTest {
                     space.transformVector(
                         armature.getJoint("Thigh.R").getModelTransform().getTranslation(),
                         new Vector3f()));
-        lateral.y = 0;
+        flatten(lateral, armature);
         lateral.normalizeLocal();
         assertTrue(
             lateral.x > .94,
@@ -224,6 +224,46 @@ class AssetTest {
                 + " does not end on the front: "
                 + Math.round(Math.toDegrees(Math.acos(Math.min(1, lateral.x))))
                 + " degrees out");
+      }
+      // The roll goes straight. "Stand To Roll" is a shoulder roll and yawed the pelvis out to
+      // 103 degrees in the middle, so the hero rolled diagonally across the direction the game
+      // pushed him; art/blender/anim_pin.py locks the pelvis to the front on every key.
+      {
+        var posed = new CharacterFactory(new AssetPipeline(manager)).create(id, 0x556677, false);
+        ((com.jme3.anim.tween.action.BlendableAction) posed.composer().action("Dodge"))
+            .setTransitionLength(0);
+        posed.restart("Dodge");
+        float length = (float) posed.composer().getAnimClip("Dodge").getLength();
+        // Sampled on the clip's own frames (30 fps): the lock holds on every key, and between
+        // two keys the Root's and the hips' interpolations may disagree by a few degrees for a
+        // thirtieth of a second, which no eye catches.
+        for (int step = 0; step * (1 / 30f) < length; step++) {
+          posed.composer().setTime(Math.min(length - .001f, step * (1 / 30f)));
+          posed.root().updateLogicalState(0);
+          posed.root().updateGeometricState();
+          var armature = posed.skinning().getArmature();
+          armature.update();
+          var space = posed.skinning().getSpatial().getWorldTransform();
+          Vector3f lateral =
+              space
+                  .transformVector(
+                      armature.getJoint("Thigh.L").getModelTransform().getTranslation(),
+                      new Vector3f())
+                  .subtract(
+                      space.transformVector(
+                          armature.getJoint("Thigh.R").getModelTransform().getTranslation(),
+                          new Vector3f()));
+          flatten(lateral, armature);
+          lateral.normalizeLocal();
+          assertTrue(
+              lateral.x > .94,
+              id
+                  + " Dodge rolls crooked at step "
+                  + step
+                  + ": pelvis "
+                  + Math.round(Math.toDegrees(Math.acos(Math.min(1, lateral.x))))
+                  + " degrees out");
+        }
       }
       // The clips animate the joints, the physics capsule moves the character. Attack2 used to
       // carry 3.16 m of forward travel in Hips ("sword and shield attack (2)" is a leaping spin),
@@ -287,7 +327,7 @@ class AssetTest {
                 space.transformVector(
                     armature.getJoint("Thigh.R").getModelTransform().getTranslation(),
                     new Vector3f()));
-    lateral.y = 0;
+    flatten(lateral, armature);
     lateral.normalizeLocal();
     assertTrue(lateral.x > .94, "Parry ends on the front, pelvis line " + lateral);
   }
@@ -332,6 +372,26 @@ class AssetTest {
           reach > .05f && reach < .25f,
           gear.getName() + " sits " + reach + " m from the wrist, which is not inside the fist");
     }
+  }
+
+  /**
+   * Removes the vertical component of a joint-space vector. The delivered rigs' joint space is
+   * Blender's, height along -Z with the skinning spatial at identity (a hips joint at z = -1.16),
+   * so zeroing y - the obvious move - zeroed a horizontal axis instead. The facing checks never
+   * noticed because at rest the pelvis line is x alone; the roll check did: with the wrong axis a
+   * straight forward roll read as 30 to 50 degrees crooked while Blender measured zero. The up axis
+   * is read off the rig itself, Root to Hips in the bind pose, so a Y-up rig passes too.
+   */
+  private static void flatten(Vector3f v, com.jme3.anim.Armature armature) {
+    Vector3f up =
+        armature
+            .getJoint("Hips")
+            .getInitialTransform()
+            .getTranslation()
+            .subtract(armature.getJoint("Root").getInitialTransform().getTranslation());
+    if (up.lengthSquared() < 1e-6f) up.set(0, 1, 0);
+    up.normalizeLocal();
+    v.subtractLocal(up.mult(v.dot(up)));
   }
 
   /** Hand height over the character origin, world space; the bind pose holds both at shoulder. */
@@ -398,7 +458,7 @@ class AssetTest {
 
   @Test
   void styleLimitsAreEnforcedAtTheMaterialGateway() {
-    // docs/style-reference/STYLE.md: no polished metal under the constant probe. Every procedural
+    // docs/assets/STYLE.md: no polished metal under the constant probe. Every procedural
     // material passes through AssetPipeline.pbr, so that is where the limit lives.
     var assets = new AssetPipeline(manager);
     assertThrows(IllegalArgumentException.class, () -> assets.pbr("", 0x939a9e, .38f, .72f));

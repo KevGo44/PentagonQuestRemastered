@@ -34,9 +34,42 @@ public final class PlayerController {
       RIPOSTE_WINDOW = 2f,
       RIPOSTE_MULTIPLIER = 2.5f;
 
+  /**
+   * Trailing camera: distance behind the shoulder target, its base height, and how far the target
+   * sits to the hero's right so he no longer covers the point the reticle marks. The camera used to
+   * hang 6.3 m straight behind him at 2 m; the hero stood dead centre, and where he was looking was
+   * anyone's guess.
+   */
+  public static final float CAMERA_DISTANCE = 5.4f, CAMERA_HEIGHT = 1.6f, SHOULDER = .7f;
+
+  /** Eye height of the first-person camera, used until the rig's Head joint has been placed. */
+  public static final float EYE_HEIGHT = 1.62f;
+
+  /**
+   * First person: the camera sits this far behind the Head joint and this much above it, so the
+   * hero's own arms, sword and shield stay in the picture. The head itself is collapsed (its joint
+   * scaled to nothing) so it never blocks the view.
+   */
+  public static final float HEAD_BACK = .16f, HEAD_UP = .12f;
+
+  /** How far the aim ray reaches when it meets nothing. */
+  public static final float AIM_RANGE = 40;
+
+  /**
+   * The point under the reticle: where the camera's centre ray meets the world, set every frame by
+   * the campaign ({@link #aim}). Attacks and casts turn towards it - the camera hangs over the
+   * hero's shoulder, so its line and his are 0.7 m apart, and a spell fired along his yaw passed a
+   * target the reticle sat on.
+   */
+  public final Vector3f aimPoint = new Vector3f();
+
+  private boolean aimed;
+
   public final Node node = new Node("Player");
   public final CharacterFactory.Rig rig;
   public final BetterCharacterControl body;
+  private final Node facingMarker = new Node("FacingMarker");
+  private boolean firstPerson;
   public final AttackTimeline attack = new AttackTimeline();
   public final Vector3f facing = new Vector3f(0, 0, -1),
       movement = new Vector3f(),
@@ -61,6 +94,126 @@ public final class PlayerController {
     body.setJumpForce(new Vector3f(0, 420, 0));
     node.addControl(body);
     physics.space().add(body);
+    // A chevron on the floor a metre ahead, turning with the body: the hero's look direction
+    // made visible in the trailing view. The node is turned by the character control, so local
+    // +Z is always where he faces.
+    for (int sign : new int[] {-1, 1}) {
+      Geometry wing = assets.box("FacingWing", .02f, .012f, .2f, assets.flame(0x77bbbc, .5f, .55f));
+      wing.setQueueBucket(Bucket.Transparent);
+      wing.setShadowMode(com.jme3.renderer.queue.RenderQueue.ShadowMode.Off);
+      wing.setLocalRotation(new Quaternion().fromAngleAxis(sign * .6f, Vector3f.UNIT_Y));
+      wing.setLocalTranslation(sign * .13f, 0, -.14f);
+      facingMarker.attachChild(wing);
+    }
+    facingMarker.setLocalTranslation(0, .04f, 1.05f);
+    node.attachChild(facingMarker);
+    // Between the composer and the skinning: the clips carry scale keys for every joint, so a
+    // scale set once would be overwritten on the next frame.
+    Spatial animated = rig.composer().getSpatial();
+    int after = 0;
+    for (int i = 0; i < animated.getNumControls(); i++)
+      if (animated.getControl(i) == rig.composer()) after = i + 1;
+    animated.addControlAt(after, headHider);
+  }
+
+  private final HeadHider headHider = new HeadHider();
+
+  /** Collapses the Head joint after the animation has posed it, while first person is on. */
+  private final class HeadHider extends com.jme3.scene.control.AbstractControl {
+    boolean on;
+
+    @Override
+    protected void controlUpdate(float tpf) {
+      if (!on) return;
+      com.jme3.anim.Joint head = rig.skinning().getArmature().getJoint("Head");
+      if (head != null) head.setLocalScale(new Vector3f(.001f, .001f, .001f));
+    }
+
+    @Override
+    protected void controlRender(
+        com.jme3.renderer.RenderManager rm, com.jme3.renderer.ViewPort vp) {}
+  }
+
+  /**
+   * First person keeps the hero visible - his arms, sword and shield are the point - but collapses
+   * his head so the camera behind it looks past nothing, and hides the floor chevron.
+   */
+  public void firstPerson(boolean on) {
+    firstPerson = on;
+    headHider.on = on;
+    if (!on) {
+      com.jme3.anim.Joint head = rig.skinning().getArmature().getJoint("Head");
+      if (head != null) head.setLocalScale(new Vector3f(1, 1, 1));
+    }
+    facingMarker.setCullHint(on ? Spatial.CullHint.Always : Spatial.CullHint.Inherit);
+    // The trailing view rests at a downward tilt of 0.31; carried into first person that is a
+    // stare at the floor, so the eyes come up to level on the switch.
+    pitch = FastMath.clamp(on ? Math.min(pitch, .05f) : pitch, minPitch(), maxPitch());
+    if (on) faceCamera();
+  }
+
+  public boolean firstPerson() {
+    return firstPerson;
+  }
+
+  /**
+   * The trailing camera sits {@link #CAMERA_HEIGHT} + 4.5 sin(pitch) above its target, so the view
+   * is level only where that sum is about zero: the old floor of -0.1 left it 1.15 m above the
+   * shoulder and always tilted twelve degrees down - the reticle could never look straight ahead.
+   */
+  private float minPitch() {
+    return firstPerson ? -.75f : -.36f;
+  }
+
+  private float maxPitch() {
+    return firstPerson ? .75f : .85f;
+  }
+
+  /** Where the camera looks in first person; the trailing view looks along the yaw only. */
+  public Vector3f viewDirection() {
+    float p = firstPerson ? pitch + dodgeDip() : 0;
+    return new Vector3f(
+        FastMath.sin(yaw) * FastMath.cos(p), -FastMath.sin(p), FastMath.cos(yaw) * FastMath.cos(p));
+  }
+
+  /** In first person the eyes follow the roll: a nod down and up over the dodge. */
+  private float dodgeDip() {
+    if (dodgeLeft <= 0) return 0;
+    return FastMath.sin((1 - dodgeLeft / DODGE_TIME) * FastMath.PI) * .55f;
+  }
+
+  /** Horizontal direction from the hero to the point under the reticle. */
+  public Vector3f aimDirection() {
+    if (!aimed) return new Vector3f(FastMath.sin(yaw), 0, FastMath.cos(yaw));
+    Vector3f d = aimPoint.subtract(node.getWorldTranslation());
+    d.y = 0;
+    return d.lengthSquared() < .01f
+        ? new Vector3f(FastMath.sin(yaw), 0, FastMath.cos(yaw))
+        : d.normalizeLocal();
+  }
+
+  /**
+   * Casts the camera's centre ray against the world and the enemies and remembers where it lands;
+   * without a hit the point lies {@link #AIM_RANGE} out. Hits nearer the camera than the hero's own
+   * head are skipped in the trailing view, so a pillar beside the shoulder is not the target.
+   */
+  public void aim(Camera camera, java.util.List<Enemy> enemies, Node... blockers) {
+    Ray ray = new Ray(camera.getLocation(), camera.getDirection());
+    ray.setLimit(AIM_RANGE);
+    float nearest = AIM_RANGE;
+    float skip =
+        firstPerson ? .3f : camera.getLocation().distance(node.getWorldTranslation()) * .6f;
+    CollisionResults results = new CollisionResults();
+    for (Node blocker : blockers) if (blocker != null) blocker.collideWith(ray, results);
+    for (Enemy enemy : enemies) if (enemy.alive()) enemy.node.collideWith(ray, results);
+    for (CollisionResult hit : results) {
+      if (hit.getDistance() < skip) continue;
+      if (hit.getGeometry().getQueueBucket() == Bucket.Transparent) continue;
+      nearest = Math.min(nearest, hit.getDistance());
+      break;
+    }
+    aimPoint.set(ray.getOrigin()).addLocal(ray.getDirection().mult(nearest));
+    aimed = true;
   }
 
   public void resetInput() {
@@ -71,11 +224,14 @@ public final class PlayerController {
   public void warp(float x, float z) {
     body.warp(new Vector3f(x, .12f, z));
     body.setViewDirection(facing);
+    // The remembered aim point belongs to the old position; until the next frame has cast a
+    // new one, attacks turn along the camera yaw as before.
+    aimed = false;
   }
 
   public void look(float horizontal, float vertical) {
     yaw -= horizontal * 1.8f;
-    pitch = FastMath.clamp(pitch + vertical * 1.8f, -.1f, .85f);
+    pitch = FastMath.clamp(pitch + vertical * 1.8f, minPitch(), maxPitch());
   }
 
   public void block(boolean pressed) {
@@ -158,9 +314,17 @@ public final class PlayerController {
     return true;
   }
 
-  private void faceCamera() {
-    facing.set(FastMath.sin(yaw), 0, FastMath.cos(yaw));
+  /** Turns the hero towards the point under the reticle (or along the camera yaw before any). */
+  public void faceCamera() {
+    facing.set(aimDirection());
     body.setViewDirection(facing);
+  }
+
+  /** The direction a spell leaves {@code from} to pass through the point under the reticle. */
+  public Vector3f castDirection(Vector3f from) {
+    if (!aimed) return facing.clone();
+    Vector3f d = aimPoint.subtract(from);
+    return d.lengthSquared() < .01f ? facing.clone() : d.normalizeLocal();
   }
 
   public boolean update(float dt, GameSession s) {
@@ -196,7 +360,11 @@ public final class PlayerController {
     if (hitLeft > 0 || parryLeft > 0) speed = 0;
     if (dodgeLeft > 0) body.setWalkDirection(dodgeDirection.mult(DODGE_SPEED));
     else body.setWalkDirection(movement.mult(speed));
-    if (movement.lengthSquared() > .01f
+    if (firstPerson) {
+      // In first person the body always faces where the eyes look; WASD strafes.
+      facing.set(direction);
+      body.setViewDirection(facing);
+    } else if (movement.lengthSquared() > .01f
         && !attack.active()
         && castLeft == 0
         && hitLeft == 0
@@ -243,12 +411,42 @@ public final class PlayerController {
    * stonework while all five rays reported nothing.
    */
   public void camera(Camera camera, float dt, boolean snap, Node... blockers) {
-    Vector3f target = node.getWorldTranslation().add(0, 1.42f, 0);
+    if (firstPerson) {
+      // Behind the (collapsed) head, so the camera follows every step and the whole roll.
+      Node head = rig.skinning().getAttachmentsNode("Head");
+      Vector3f eye =
+          head.getWorldTranslation().lengthSquared() > 0
+              ? head.getWorldTranslation().add(0, HEAD_UP, 0)
+              : node.getWorldTranslation().add(0, EYE_HEIGHT, 0);
+      Vector3f look = viewDirection();
+      Vector3f flat = new Vector3f(FastMath.sin(yaw), 0, FastMath.cos(yaw));
+      // Looking down, the camera slides forward over the neck instead of showing it.
+      float back = HEAD_BACK - .12f * Math.max(0, pitch / maxPitch());
+      camera.setLocation(eye.subtract(flat.mult(back)));
+      camera.lookAt(camera.getLocation().add(look), Vector3f.UNIT_Y);
+      return;
+    }
+    Vector3f centre = node.getWorldTranslation().add(0, 1.5f, 0);
+    Vector3f forward = new Vector3f(FastMath.sin(yaw), 0, FastMath.cos(yaw)),
+        right = forward.cross(Vector3f.UNIT_Y).normalizeLocal();
+    // Over the right shoulder, but never into a wall: the side offset shrinks where a ray from
+    // the hero's centre meets geometry.
+    float shoulder = SHOULDER;
+    CollisionResults side = new CollisionResults();
+    Ray sideRay = new Ray(centre, right);
+    sideRay.setLimit(SHOULDER + .3f);
+    for (Node blocker : blockers) if (blocker != null) blocker.collideWith(sideRay, side);
+    for (CollisionResult hit : side) {
+      if (hit.getGeometry().getQueueBucket() == Bucket.Transparent) continue;
+      shoulder = Math.max(0, Math.min(shoulder, hit.getDistance() - .3f));
+      break;
+    }
+    Vector3f target = centre.add(right.mult(shoulder));
     Vector3f desired =
         new Vector3f(
-            -FastMath.sin(yaw) * 6.3f * FastMath.cos(pitch),
-            2f + FastMath.sin(pitch) * 5,
-            -FastMath.cos(yaw) * 6.3f * FastMath.cos(pitch));
+            -FastMath.sin(yaw) * CAMERA_DISTANCE * FastMath.cos(pitch),
+            CAMERA_HEIGHT + FastMath.sin(pitch) * 4.5f,
+            -FastMath.cos(yaw) * CAMERA_DISTANCE * FastMath.cos(pitch));
     float distance = desired.length();
     Vector3f direction = desired.normalize();
     float allowed = distance;

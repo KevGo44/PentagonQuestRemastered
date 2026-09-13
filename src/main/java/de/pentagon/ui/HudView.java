@@ -2,6 +2,7 @@ package de.pentagon.ui;
 
 import com.jme3.font.*;
 import com.jme3.font.Rectangle;
+import com.jme3.material.Material;
 import com.jme3.math.*;
 import com.jme3.scene.*;
 import com.jme3.scene.shape.Quad;
@@ -44,6 +45,9 @@ public final class HudView {
   private record Toast(String message, double expires) {}
 
   private Geometry health, stamina, xp, bossHealth;
+  private final List<Geometry> reticle = new ArrayList<>();
+  private Material reticleIdle, reticleHot;
+  private boolean reticleWasHot;
   private Node miniMap = new Node("MiniMap");
   private String selectedItem = "rust_sword";
   private ScreenMode shown;
@@ -129,7 +133,7 @@ public final class HudView {
     label(
         "controls",
         "WASD  Bewegen    MAUS  Blick    LMB  Kombo    RMB  Parieren    Q  Magie    LEER  Sprung   "
-            + " ALT  Rolle",
+            + " ALT  Rolle    V  Sicht",
         32,
         867,
         12,
@@ -145,7 +149,18 @@ public final class HudView {
     label("enemy", "", 485, 149, 16, PAPER);
     rectangle(hud, 485, 174, 470, 5, 0x293135, .5f, 0);
     bossHealth = rectangle(hud, 485, 174, 470, 5, 0xc57658, 1, 2);
-    label("crosshair", "+", 716, 444, 14, 0xbbc7c5);
+    // The reticle: four ticks round an open centre and a dot in it. The old "+" glyph sat a
+    // few pixels off centre and told nothing; this one marks the camera's aim - the direction
+    // attack() and cast() turn the hero to - and turns orange while an enemy stands in reach.
+    reticleIdle = assets.flat(0xd9e2e0, .85f);
+    reticleHot = assets.flat(0xe98a4a, .95f);
+    float cx = W / 2, cy = H / 2, gap = 6, tick = 7, thick = 1.6f;
+    reticle.add(rectangle(hud, cx - thick / 2, cy - gap - tick, thick, tick, 0, 1, 3));
+    reticle.add(rectangle(hud, cx - thick / 2, cy + gap, thick, tick, 0, 1, 3));
+    reticle.add(rectangle(hud, cx - gap - tick, cy - thick / 2, tick, thick, 0, 1, 3));
+    reticle.add(rectangle(hud, cx + gap, cy - thick / 2, tick, thick, 0, 1, 3));
+    reticle.add(rectangle(hud, cx - 1.2f, cy - 1.2f, 2.4f, 2.4f, 0, 1, 3));
+    for (Geometry g : reticle) g.setMaterial(reticleIdle);
     hud.attachChild(miniMap);
   }
 
@@ -193,6 +208,11 @@ public final class HudView {
                     : "ÄTHER BEREIT"));
     var object = game.nearby();
     texts.get("interact").setText(object == null ? "" : "[E]  " + object.label());
+    boolean hot = game.combat.targetInReach();
+    if (hot != reticleWasHot) {
+      reticleWasHot = hot;
+      for (Geometry g : reticle) g.setMaterial(hot ? reticleHot : reticleIdle);
+    }
     Enemy enemy = game.combat.nearest();
     texts
         .get("enemy")
@@ -270,6 +290,30 @@ public final class HudView {
     rectangle(page, x, track, Math.max(.6f, w * level), 8, GOLD, .95f, 3);
     rectangle(page, x + w * level - 3, track - 6, 6, 20, PAPER, 1, 4);
     sliders.add(new Slider(x, y, w, value, setter));
+  }
+
+  /** An equipment slot on the inventory page: label, the worn item, its bonus; click selects. */
+  private void slot(String label, String id, String bonus, float x, float y, boolean selected) {
+    Item item = ItemCatalog.get(id);
+    rectangle(page, x, y, 340, 66, selected ? 0x1f3a3d : 0x1c2d35, 1, 3);
+    rectangle(page, x, y, 3, 66, selected ? TEAL : GOLD, 1, 4);
+    text(page, label, x + 16, y + 10, 11, GOLD, false);
+    text(page, item.name(), x + 16, y + 28, 17, PAPER, false);
+    text(page, bonus, x + 16, y + 50, 12, TEAL, false);
+    buttons.add(
+        new Button(
+            x,
+            y,
+            340,
+            66,
+            () -> {
+              selectedItem = id;
+              invalidate();
+            }));
+  }
+
+  private static String signed(int delta) {
+    return delta >= 0 ? "+" + delta : Integer.toString(delta);
   }
 
   private void pageTitle(String eyebrow, String heading, String subtitle) {
@@ -403,26 +447,58 @@ public final class HudView {
               app.audio.toggleRadio();
               invalidate();
             });
-        text(page, "DARSTELLUNG", 700, 258, 13, GOLD, false);
+        text(page, "DARSTELLUNG & SPIEL", 700, 258, 13, GOLD, false);
         button(
             "Grafik: " + (app.highQuality() ? "Atmosphärisch" : "Schnell") + "   [F3]",
             700,
             296,
             470,
             app::toggleQuality);
+        button(
+            "Sicht: " + (app.firstPerson() ? "Erste Person" : "Verfolgerkamera") + "   [V]",
+            700,
+            354,
+            470,
+            () -> {
+              app.toggleView();
+              invalidate();
+            });
+        button("Schwierigkeit: " + app.difficulty().title, 700, 412, 470, app::cycleDifficulty);
+        wrapped(
+            page,
+            switch (app.difficulty()) {
+              case EASY ->
+                  "Einfach: das Spiel, wie es abgestimmt ist. Tränke fallen von jedem"
+                      + " vierten Gegner, drei zum Start.";
+              case MEDIUM ->
+                  "Mittel: Gegner schlagen 1,7-mal so hart, haben 30 % mehr Leben und"
+                      + " holen schneller aus; Fallen tun das Anderthalbfache. Tränke von jedem"
+                      + " sechsten Gegner, zwei zum Start.";
+              case VERY_HARD ->
+                  "Sehr schwer: Platz für ein, zwei Fehler, dann ist es vorbei."
+                      + " Jeder Gegner leert die Leiste in zwei bis drei Treffern, Fallen mit einem"
+                      + " Schlag fast; kein Gegner lässt einen Trank fallen, einer zum Start. Kein"
+                      + " einzelner Treffer nimmt mehr als 70 % - der erste Fehler ist immer noch"
+                      + " einer.";
+            },
+            700,
+            470,
+            580,
+            120,
+            15,
+            PAPER);
         wrapped(
             page,
             "Gesamt regelt alles. Musik betrifft Erkundung, Kampf und Ambient, Effekte die"
-                + " Kampf- und Schrittgeräusche.\n\n"
-                + "Pentagon Radio ist der durchgehende Titel. Schaltest du ihn ab, übernimmt"
-                + " wieder der synthetische Erkundungs-Stem. Die Kampfmusik blendet in beiden"
-                + " Fällen darüber, sobald ein Gegner angreift.\n\n"
-                + "Ton aus schaltet stumm, ohne deine Regler zu verändern.",
+                + " Kampf- und Schrittgeräusche. Pentagon Radio ist der durchgehende Titel;"
+                + " schaltest du ihn ab, übernimmt der synthetische Erkundungs-Stem.\n\n"
+                + "Die Schwierigkeit wirkt sofort, auch mitten im Kampf; Gegner, die schon"
+                + " stehen, behalten ihr Leben bis zum nächsten Ebenenwechsel.",
             700,
-            372,
+            600,
             580,
-            310,
-            17,
+            140,
+            15,
             MUTED);
         text(
             page,
@@ -443,16 +519,20 @@ public final class HudView {
                 + " von "
                 + Inventory.CAPACITY
                 + " Plätzen belegt");
+        // What is worn hangs on the figure at the right; the list holds only what is packed.
+        // A selection that is neither packed nor worn any more falls back to the weapon.
+        String weaponId = s.inventory.weapon().id(), armorId = s.inventory.armor().id();
+        if (s.inventory.count(selectedItem) == 0) selectedItem = weaponId;
         int i = 0;
         for (var e : s.inventory.stacks().entrySet()) {
-          Item item = ItemCatalog.get(e.getKey());
+          String id = e.getKey();
+          if (s.inventory.equipped(id)) continue;
+          Item item = ItemCatalog.get(id);
           int column = i / 10, row = i % 10;
           float x = 78 + column * 348, y = 239 + row * 51;
-          String id = e.getKey();
+          if (id.equals(selectedItem)) rectangle(page, x - 6, y, 4, 43, TEAL, 1, 3);
           button(
-              (s.inventory.equipped(id) ? "* " : "")
-                  + item.name()
-                  + (e.getValue() > 1 ? " x" + e.getValue() : ""),
+              item.name() + (e.getValue() > 1 ? " x" + e.getValue() : ""),
               x,
               y,
               330,
@@ -462,43 +542,114 @@ public final class HudView {
               });
           i++;
         }
-        Item selected = ItemCatalog.get(selectedItem);
-        rectangle(page, 827, 239, 533, 463, 0x16232a, 1, 2);
-        text(page, selected.rarity().name(), 854, 267, 12, GOLD, false);
-        text(page, selected.name(), 854, 309, 28, PAPER, true);
-        wrapped(page, selected.description(), 854, 364, 468, 110, 18, MUTED);
-        text(page, "Wirkung / Attribut: " + selected.power(), 854, 490, 18, TEAL, false);
-        button(
-            selected.kind() == Item.Kind.WEAPON || selected.kind() == Item.Kind.ARMOR
-                ? "Ausrüsten"
-                : "Benutzen / Ansehen",
+        if (i == 0)
+          text(page, "Nichts im Gepäck außer dem, was du trägst.", 78, 252, 15, MUTED, false);
+        // The figure: a plain silhouette with the two slots beside it.
+        rectangle(page, 827, 239, 533, 551, 0x16232a, 1, 2);
+        text(page, "DEIN CHARAKTER", 854, 258, 12, GOLD, false);
+        int body = 0x2c3d46;
+        float fx = 905, fy = 292;
+        rectangle(page, fx - 16, fy, 32, 36, body, 1, 3); // head
+        rectangle(page, fx - 30, fy + 44, 60, 84, body, 1, 3); // torso
+        rectangle(page, fx - 52, fy + 46, 18, 76, body, 1, 3); // left arm
+        rectangle(page, fx + 34, fy + 46, 18, 76, body, 1, 3); // right arm
+        rectangle(page, fx - 28, fy + 132, 24, 88, body, 1, 3); // left leg
+        rectangle(page, fx + 4, fy + 132, 24, 88, body, 1, 3); // right leg
+        // Slot connectors: sword from the right hand, armour from the chest.
+        rectangle(page, fx + 52, fy + 100, 40, 2, GOLD, .6f, 3);
+        rectangle(page, fx + 30, fy + 70, 62, 2, GOLD, .6f, 3);
+        slot(
+            "WAFFE",
+            weaponId,
+            "+" + s.inventory.weapon().power() + " Angriff",
+            1000,
+            fy + 36,
+            selectedItem.equals(weaponId));
+        slot(
+            "RÜSTUNG",
+            armorId,
+            "+" + s.inventory.armor().power() + " Rüstung",
+            1000,
+            fy + 122,
+            selectedItem.equals(armorId));
+        text(
+            page,
+            "STUFE "
+                + s.player.level
+                + "     LEBEN "
+                + Math.round(s.player.health)
+                + " / "
+                + s.player.maxHealth()
+                + "     AUSDAUER "
+                + s.player.maxStamina(),
             854,
-            544,
-            380,
-            () -> game.useItem(selectedItem));
-        if (selected.kind() != Item.Kind.KEY && selected.kind() != Item.Kind.RELIC)
-          button("Ablegen", 854, 597, 380, () -> game.dropItem(selectedItem));
+            532,
+            14,
+            PAPER,
+            false);
         text(
             page,
             "ANGRIFF  "
                 + s.player.damage(s.inventory)
                 + "      RÜSTUNG  "
-                + s.inventory.armor().power(),
+                + s.inventory.armor().power()
+                + "      ZAUBER  "
+                + s.player.spellDamage(),
             854,
-            649,
-            16,
+            556,
+            14,
             PAPER,
             false);
+        rectangle(page, 854, 582, 480, 1, 0x4b575b, .7f, 3);
+        // The selection: name, what it does, and what changes if it were worn instead.
+        Item selected = ItemCatalog.get(selectedItem);
+        boolean worn = s.inventory.equipped(selectedItem);
+        text(
+            page,
+            selected.rarity().name() + (worn ? "   /   ANGELEGT" : ""),
+            854,
+            600,
+            12,
+            worn ? TEAL : GOLD,
+            false);
+        text(page, selected.name(), 854, 634, 24, PAPER, true);
+        wrapped(page, selected.description(), 854, 676, 480, 44, 14, MUTED);
+        String effect =
+            switch (selected.kind()) {
+              case WEAPON -> {
+                int now = s.player.damage(s.inventory),
+                    then = now - s.inventory.weapon().power() + selected.power();
+                yield worn
+                    ? "Angriff " + now + " mit dieser Klinge"
+                    : "Angriff " + now + " → " + then + "  (" + signed(then - now) + ")";
+              }
+              case ARMOR -> {
+                int now = s.inventory.armor().power(), then = selected.power();
+                yield worn
+                    ? "Rüstung " + now + " mit diesem Stück"
+                    : "Rüstung " + now + " → " + then + "  (" + signed(then - now) + ")";
+              }
+              case POTION -> "Heilt " + selected.power() + " Leben";
+              case TONIC -> "Füllt die Ausdauer und löscht die Zauberpause";
+              default -> "Schlüsselstück der Reise";
+            };
+        text(page, effect, 854, 726, 16, TEAL, false);
+        if (!worn && (selected.kind() == Item.Kind.WEAPON || selected.kind() == Item.Kind.ARMOR))
+          button("Anlegen", 854, 748, 236, () -> game.useItem(selectedItem));
+        else if (selected.kind() == Item.Kind.POTION || selected.kind() == Item.Kind.TONIC)
+          button("Benutzen", 854, 748, 236, () -> game.useItem(selectedItem));
+        if (!worn && selected.kind() != Item.Kind.KEY && selected.kind() != Item.Kind.RELIC)
+          button("Ablegen", 1104, 748, 236, () -> game.dropItem(selectedItem));
         wrapped(
             page,
-            "Schnellzugriff: R verwendet zuerst kleine, dann große Heiltränke. Abgelegtes bleibt"
-                + " am Boden liegen und lässt sich mit E wieder aufheben. Schlüsselitems bleiben"
-                + " dauerhaft im Gepäck.",
+            "R verwendet zuerst kleine, dann große Heiltränke. Angelegtes hängt am Charakter und"
+                + " kehrt in die Liste zurück, sobald du etwas anderes anlegst. Abgelegtes bleibt"
+                + " am Boden liegen und lässt sich mit E wieder aufheben.",
             78,
             788,
-            970,
+            720,
             55,
-            14,
+            13,
             MUTED);
       }
       case JOURNAL -> {

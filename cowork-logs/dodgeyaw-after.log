@@ -1,0 +1,12 @@
+Sept. 13, 2026 2:58:36 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[FRAMEYAW] hero Dodge up=(1.0908883E-7, -0.025478175, -0.99967533) len=0,767 0:0 1:0 2:0 3:0 4:0 5:1 6:0 7:0 8:0 9:0 10:1 11:1 12:0 13:2 14:2 15:1 16:0 17:0 18:0 19:0 20:0 21:0 22:0
+Sept. 13, 2026 2:58:37 PM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+[FRAMEYAW] hero Dodge up=(6.8434886E-8, -0.025478264, -0.9996754) len=0,767 0:0 1:4 2:10 3:18 4:26 5:31 6:36 7:40 8:42 9:46 10:62 11:94 12:104 13:69 14:10 15:9 16:11 17:9 18:11 19:13 20:10 21:5 22:2

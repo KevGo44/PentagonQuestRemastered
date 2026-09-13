@@ -7,8 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 /**
- * Audio preferences beside the campaign save. Unlike a save game these must never interrupt play:
- * an unreadable or foreign file silently falls back to the defaults.
+ * Preferences beside the campaign save: audio, difficulty and the last view. Unlike a save game
+ * these must never interrupt play: an unreadable or foreign file silently falls back to the
+ * defaults.
  */
 public final class SettingsService {
   private static final int VERSION = 1;
@@ -24,10 +25,17 @@ public final class SettingsService {
     public boolean muted;
     public boolean radio = true;
 
+    /** Ordinal of {@link de.pentagon.combat.Difficulty}; 0 is EASY, the game as tuned. */
+    public int difficulty;
+
+    /** Last chosen view: false is the trailing camera, true first person ([V]). */
+    public boolean firstPerson;
+
     public void clamp() {
       master = AudioDirector.clamp(master);
       music = AudioDirector.clamp(music);
       effects = AudioDirector.clamp(effects);
+      difficulty = de.pentagon.combat.Difficulty.of(difficulty).ordinal();
     }
   }
 

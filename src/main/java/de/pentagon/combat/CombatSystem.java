@@ -23,6 +23,7 @@ public final class CombatSystem implements EnemyBrain.Attacks {
   private final AtmosphereFilter atmosphere;
   private final PhysicsWorld physics;
   private final Consumer<String> notice;
+  private final java.util.function.Supplier<Difficulty> difficulty;
   private final EnemyBrain brain = new EnemyBrain();
   private float damageGrace;
   private int riposte;
@@ -40,7 +41,9 @@ public final class CombatSystem implements EnemyBrain.Attacks {
       AudioDirector audio,
       AtmosphereFilter atmosphere,
       PhysicsWorld physics,
-      Consumer<String> notice) {
+      Consumer<String> notice,
+      java.util.function.Supplier<Difficulty> difficulty) {
+    this.difficulty = difficulty;
     this.player = player;
     this.session = session;
     this.world = world;
@@ -99,13 +102,22 @@ public final class CombatSystem implements EnemyBrain.Attacks {
     }
     if (player.attack.readyForNext() && session.player.spend(18)) {
       player.attack.next();
+      // Every follow-up turns to where the reticle is now, not where it was at the opener.
+      player.faceCamera();
       player.rig.restart("Attack" + (player.attack.combo() + 1));
       audio.play("swing");
       player.regenDelay = .7f;
     } else player.attack.finishIfExpired();
     for (Enemy enemy : enemies) {
       brain.update(
-          enemy, dt, time, player.node.getWorldTranslation(), world.layout, this::visible, this);
+          enemy,
+          dt,
+          time,
+          player.node.getWorldTranslation(),
+          world.layout,
+          this::visible,
+          this,
+          difficulty.get());
       if (!enemy.alive() && enemy.deathTime > 4 && enemy.node.getParent() != null)
         enemy.cleanup(physics);
     }
@@ -115,7 +127,7 @@ public final class CombatSystem implements EnemyBrain.Attacks {
         enemies,
         player.node.getWorldTranslation(),
         this::damageEnemy,
-        (source, damage) -> hurt(damage, source, false, null),
+        (source, damage) -> hurtByEnemy(damage, source, false, null),
         effects);
   }
 
@@ -134,7 +146,8 @@ public final class CombatSystem implements EnemyBrain.Attacks {
   public void castPlayer() {
     Vector3f from =
         player.node.getWorldTranslation().add(0, 1.2f, 0).addLocal(player.facing.mult(.8f));
-    projectiles.shoot(from, player.facing, true, session.player.spellDamage());
+    // Through the point under the reticle, in height as well: an enemy the reticle sits on is hit.
+    projectiles.shoot(from, player.castDirection(from), true, session.player.spellDamage());
     audio.play("spell");
   }
 
@@ -159,8 +172,7 @@ public final class CombatSystem implements EnemyBrain.Attacks {
       int levels = session.player.gainXp(enemy.type.xp);
       int gold = enemy.type == EnemyType.KING ? 100 : 8 + enemy.type.ordinal() * 5;
       session.player.gold += gold;
-      if (Math.floorMod(enemy.id.hashCode(), POTION_DROP_EVERY) == 0)
-        session.inventory.add("potion", 1);
+      if (difficulty.get().dropsPotion(enemy.id.hashCode())) session.inventory.add("potion", 1);
       notice.accept(enemy.type.title + " besiegt  +" + enemy.type.xp + " EP  +" + gold + " Gold");
       if (levels > 0) {
         notice.accept("STUFE " + session.player.level + "  -  Fähigkeitspunkt erhalten [K]");
@@ -183,7 +195,21 @@ public final class CombatSystem implements EnemyBrain.Attacks {
       enemy.state = Enemy.State.CHASE;
   }
 
-  public void hurt(float raw, Vector3f source, boolean unblockable, Enemy attacker) {
+  /** An enemy's blow, cast or shockwave, scaled by the difficulty setting. */
+  public void hurtByEnemy(float raw, Vector3f source, boolean unblockable, Enemy attacker) {
+    hurt(
+        difficulty.get().enemyHit(raw, false, session.player.maxHealth()),
+        source,
+        unblockable,
+        attacker);
+  }
+
+  /** A trap's blades: unblockable, scaled by the difficulty setting. */
+  public void hurtByTrap(float raw, Vector3f source) {
+    hurt(difficulty.get().enemyHit(raw, true, session.player.maxHealth()), source, true, null);
+  }
+
+  private void hurt(float raw, Vector3f source, boolean unblockable, Enemy attacker) {
     if (session.player.health <= 0 || damageGrace > 0 || player.invulnerable()) return;
     Vector3f delta = source.subtract(player.node.getWorldTranslation());
     delta.y = 0;
@@ -226,7 +252,8 @@ public final class CombatSystem implements EnemyBrain.Attacks {
     if (CombatRules.inArc(d.x, d.z, enemy.heading.x, enemy.heading.z, enemy.type.reach + .35f, .25f)
         && Math.abs(d.y) < 2.1f
         && visible(enemy.position(), player.node.getWorldTranslation()))
-      hurt(enemy.type.damage * (1 + (enemy.phase - 1) * .18f), enemy.position(), false, enemy);
+      hurtByEnemy(
+          enemy.type.damage * (1 + (enemy.phase - 1) * .18f), enemy.position(), false, enemy);
     audio.play("swing");
   }
 
@@ -244,7 +271,7 @@ public final class CombatSystem implements EnemyBrain.Attacks {
     audio.play("hit");
     Vector3f p = player.node.getWorldTranslation();
     if (enemy.position().distance(p) < 6 && p.y < .75f && visible(enemy.position(), p))
-      hurt(enemy.type.damage * 1.3f, enemy.position(), true, enemy);
+      hurtByEnemy(enemy.type.damage * 1.3f, enemy.position(), true, enemy);
     notice.accept("ASCHENWELLE  -  Springen oder ausweichen!");
   }
 
@@ -265,6 +292,23 @@ public final class CombatSystem implements EnemyBrain.Attacks {
                 e.alive()
                     && e.state != Enemy.State.PATROL
                     && e.position().distanceSquared(player.node.getWorldTranslation()) < 27 * 27);
+  }
+
+  /**
+   * True while a living enemy stands where the next opener would land: within its reach and in
+   * front of the camera's yaw, which is the direction attack() turns the hero to. The reticle turns
+   * orange on it.
+   */
+  public boolean targetInReach() {
+    Vector3f from = player.node.getWorldTranslation(), look = player.aimDirection();
+    for (Enemy enemy : enemies) {
+      if (!enemy.alive()) continue;
+      Vector3f d = enemy.position().subtract(from);
+      if (CombatRules.inArc(d.x, d.z, look.x, look.z, 2.6f + enemy.type.scale * .3f, .3f)
+          && Math.abs(d.y) < 2
+          && visible(from, enemy.position())) return true;
+    }
+    return false;
   }
 
   public Enemy nearest() {

@@ -7,7 +7,7 @@ Durchgang gelieferten Erweiterung von `WorldView`.
 
 Der Weg ist der in [ASSETS.md](ASSETS.md) ausdrücklich vorgesehene: „Die Modulwände/Böden bleiben
 derzeit codegeneriert; für eine komplett neue modulare Architektur wird `WorldView` erweitert."
-(`docs/ASSETS.md:48`). Genau das ist passiert — die prozeduralen Platzhalter bleiben vollständig
+(`docs/assets/ASSETS.md:48`). Genau das ist passiert — die prozeduralen Platzhalter bleiben vollständig
 erhalten und sind weiterhin die Rückfallebene.
 
 ---
@@ -282,7 +282,7 @@ Moduls multipliziert. Das Modul behält seine eigenen Maps, UVs und Normalen und
 
 Ein naives Multiplizieren mit dem Steinton verdunkelt um etwa Faktor sechs, weil die Gebietstöne
 mittlere Graustufen sind. Der Faktor wird deshalb über die eigene Leuchtdichte normiert — dieselbe
-Rezeptur, die `docs/asset-liste.md:399–420` für die gebackenen Charaktertönungen festhält:
+Rezeptur, die `docs/assets/asset-liste.md:399–420` für die gebackenen Charaktertönungen festhält:
 
 ```
 lum   = 0.2126·R + 0.7152·G + 0.0722·B        (linear)

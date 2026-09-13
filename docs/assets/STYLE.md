@@ -154,7 +154,7 @@ im Kampf.
 
 ## 3. Technische Vorgaben für die Generierung
 
-Für Meshy (Stand 2026-09, siehe Notizen in `docs/asset-liste.md`):
+Für Meshy (Stand 2026-09, siehe Notizen in `docs/assets/asset-liste.md`):
 
 | Parameter | Wert | Begründung |
 |---|---|---|

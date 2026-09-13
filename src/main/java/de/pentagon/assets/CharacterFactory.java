@@ -104,7 +104,7 @@ public final class CharacterFactory {
       throw new IllegalStateException(
           "Character asset "
               + id
-              + " requires AnimComposer and SkinningControl; see docs/ASSETS.md");
+              + " requires AnimComposer and SkinningControl; see docs/assets/ASSETS.md");
     for (String clip : CLIPS)
       if (!composer.hasAnimClip(clip))
         throw new IllegalStateException(id + " is missing animation " + clip);

@@ -1,7 +1,7 @@
 # Asset-Liste
 
 Abgeleitet aus dem Java-Code (Stand: Analyse vom 2026-09-11), nicht aus Wunschdenken.
-Maßgeblich sind [COWORK-BRIEFING.md](COWORK-BRIEFING.md) und [ASSETS.md](ASSETS.md).
+Maßgeblich sind [COWORK-BRIEFING.md](../sessions/COWORK-BRIEFING.md) und [ASSETS.md](ASSETS.md).
 
 Grundlage der Ableitung:
 
@@ -84,7 +84,7 @@ bewusst nicht Teil der Generierung sind — nicht, weil sie übersehen wurden.
 | Name | Kategorie | Priorität | Quelle | Status |
 |---|---|---|---|---|
 | Fallenplatte + Stacheln (`Kind.TRAP`, 6 Vorkommen) | Prop | 4 | prozedural in `WorldView`; von der Prop-Ladeschleife ausgenommen | kein Ladepfad |
-| Modulares Dungeon-Kit: Wände, Böden, Gewölbedecken, Rippen, Kranz, Säulen, Bögen, Kohlebecken, Banner, Teppich, Felsen | Umgebung | 4 | **15 Module unter `props/kit_*`**, parametrisch in Blender; Rechenregel und Verifikation in `docs/dungeon-kit.md` | **integriert: ja** (2026-09-12) |
+| Modulares Dungeon-Kit: Wände, Böden, Gewölbedecken, Rippen, Kranz, Säulen, Bögen, Kohlebecken, Banner, Teppich, Felsen | Umgebung | 4 | **15 Module unter `props/kit_*`**, parametrisch in Blender; Rechenregel und Verifikation in `docs/assets/dungeon-kit.md` | **integriert: ja** (2026-09-12) |
 | Waffenmodelle (`rust_sword`, `short_sword`, `long_sword`, `ember_blade`, `oath_blade`) | Waffe | 4 | Schwert ist fest im Rig am `WeaponSocket`; `ItemCatalog` kennt nur Werte, kein Mesh | kein Ladepfad |
 | Rüstungsmodelle (`cloth`, `leather`, `chain`, `warden_armor`) | Ausrüstung | 4 | rein statistisch, keine Sichtbarkeit im Code | kein Ladepfad |
 | Verbrauchsgüter/Schlüssel/Relikt (Tränke, Siegel, Krone) | Item | 4 | nur HUD-Text, keine Weltdarstellung | kein Ladepfad |
@@ -137,7 +137,7 @@ Briefing, will das aber offenlegen statt still zu korrigieren:
    … `Foot.R`) plus `WeaponSocket`/`ShieldSocket`. Mixamo liefert ~65 Bones als
    `mixamorig:Hips` usw. `CharacterFactory` prüft zur Laufzeit zwar nur Composer,
    SkinningControl und Clipnamen — aber die Sockets hängen an `Hand.R`/`Hand.L`, und
-   `docs/ASSETS.md` schreibt die Namen fest. Zwischen Mixamo und Ablage liegt also ein
+   `docs/assets/ASSETS.md` schreibt die Namen fest. Zwischen Mixamo und Ablage liegt also ein
    **zwingender Blender-Schritt**: Bones umbenennen/reduzieren, Clips umbenennen,
    `tools/blender_export.py --character` laufen lassen (das Skript prüft Bone- und
    Clipnamen bereits).
@@ -179,7 +179,7 @@ kommerzielle Nutzung also nur mit Namensnennung. Bezahlte Pläne geben volle kom
 ## Offen für Phase 2
 
 Stilanker fehlt noch. Bevor generiert wird, brauchen wir Referenzbilder in
-`docs/style-reference/`. Die Farbwerte aus dem Code sind ein guter Ausgangspunkt:
+`docs/assets/referenz/`. Die Farbwerte aus dem Code sind ein guter Ausgangspunkt:
 Held `#547079`, Goblin `#5b805c`, Ork `#667758`, Wächter `#87939c`, Aschenrufer `#79608f`,
 König `#8a5d4e`, Mira `#50747b`, Eren `#806e56`; Gebietstöne von `#6d7e88` (Zuflucht) bis
 `#6b636e` (Aschenthron).
@@ -282,7 +282,7 @@ nötig), Ranger-Outfit als Basis. Kein Meshy- oder Tripo-Credit verbraucht. Die 
 ursprünglich eingetragene Quelle „Meshy generiert" ist damit überholt; die Tabelle ist
 korrigiert.
 
-Tönung nach `docs/style-reference/STYLE.md`: **`#50747b`**, in die Albedo-Pixel gebacken
+Tönung nach `docs/assets/STYLE.md`: **`#50747b`**, in die Albedo-Pixel gebacken
 (numpy), weil glTF keine Shader-Nodes transportiert. Fünf Materialien `pq_mira_*`.
 
 ### Rig — zweiter Durchlauf war nötig
@@ -773,9 +773,9 @@ Zusätzlich erzeugt: **`wood-*`** (Plankenbrett). **Von keinem Material referenz
 Anschluss wäre `assets.pbr("", …)` → `assets.pbr("wood", …)` an der Truhe (`WorldView:451`).
 Bewusst nicht verdrahtet.
 
-### Modul-Vorbereitung: `WorldView` und `docs/dungeon-kit.md`
+### Modul-Vorbereitung: `WorldView` und `docs/assets/dungeon-kit.md`
 
-`docs/dungeon-kit.md` ist die Spezifikation, aus der die Blender-Module gebaut werden: jede Zahl
+`docs/assets/dungeon-kit.md` ist die Spezifikation, aus der die Blender-Module gebaut werden: jede Zahl
 aus dem Code abgeleitet und mit Fundstelle belegt.
 
 `WorldView` nimmt jetzt ein glTF-Modul, **wenn** eines unter `models/props/<id>` liegt, und sonst
@@ -1207,7 +1207,7 @@ Prompt, und ein abgelehnter Lauf kostet trotzdem.
 * Die **Roben und Schürzen** von Aschenrufer, Wächter und König sind starr gebunden und werden
   bei Walk und Run durch die Beine schneiden.
 * Gewichte sind bei allen fünf Gegnern **automatisch**, nicht gemalt.
-* `docs/ASSETS.md` und `docs/VERIFICATION.md` sind noch nicht auf den neuen Stand gebracht.
+* `docs/assets/ASSETS.md` und `docs/technik/VERIFICATION.md` sind noch nicht auf den neuen Stand gebracht.
 
 ---
 
@@ -1262,7 +1262,7 @@ Modul ersetzt sie also; ohne diese Ausnahme hätte `crystal.gltf` plus wieder an
 einen doppelten Kristall ergeben.
 
 Deshalb sind Schrein (0,52 m) und Altar (1,20 m) **niedriger** als die Zielmaße in
-`docs/ASSETS.md` von 1,8 bzw. 1,2 m: die Kristalle kommen nicht mehr aus dem Modul.
+`docs/assets/ASSETS.md` von 1,8 bzw. 1,2 m: die Kristalle kommen nicht mehr aus dem Modul.
 
 ### Vier von dreizehn Screenshots zeigen die Kamera in der Geometrie
 
@@ -2395,7 +2395,7 @@ Wiederholung je Zelle, die zwei Varianten (mit verschobenem Texturfenster) und d
 mildern. Boden hebt sich höchstens 3 cm über die Physikebene und senkt sich bis 9 cm; Stalaktiten
 hängen bis 0,9 m unter die Deckenplatte. Erste Textur war die gefleckte Findlingsalbedo (mittlere
 lineare Leuchtdichte 0,118) — unter den Fackeln Sand. Neue `kit_cave_albedo.png` (1024², dunkler
-rissiger Fels, 0,089, im Wandband aus `docs/dungeon-kit.md`). Dreiecke: Boden 246, Decke 342, Wand
+rissiger Fels, 0,089, im Wandband aus `docs/assets/dungeon-kit.md`). Dreiecke: Boden 246, Decke 342, Wand
 244–532. Bilder `room-caverns-1/4/5.png`.
 
 ### Verifikation
@@ -2422,3 +2422,195 @@ geänderte Datei nicht enthielt.
   die zu reinigenden Adern `0x3d9e98`, damit die Ziele heller bleiben als der Schmuck
   (`room-caverns-2.png`, `verify-smoke-kristalle.log`).
 * Die Balance ist gerechnet, nicht gespielt.
+
+
+---
+
+## Schwierigkeitsgrade, erste Person, Schulterkamera (2026-09-13, dritter Teil)
+
+### Drei Schwierigkeitsgrade — `combat/Difficulty`
+
+Der bisherige Stand ist **Einfach**. Die beiden anderen skalieren ihn, ohne die abgestimmten
+Werte anzufassen (der Rauchlauf und die Balance-Tests behalten ihre Bedeutung):
+
+| | Einfach | Mittel | Sehr schwer |
+|---|---|---|---|
+| Gegnerschaden | ×1 | ×1,7 | ×3,2 |
+| Gegnerleben | ×1 | ×1,3 | ×1,6 |
+| Pausen zwischen Angriffen | ×1 | ×0,85 | ×0,7 |
+| Fallenschaden | ×1 | ×1,5 | ×2 |
+| Deckel je Treffer (Anteil der Leiste) | — | 80 % | **70 %** |
+| Trank von jedem n-ten Gegner | 4. | 6. | nie |
+| Tränke zum Start / Schrein füllt auf | 3 | 2 | 1 |
+
+„Sehr schwer lässt Raum für maximal ein, zwei Fehler": ein Goblinbiss nimmt 49, ein Orkhieb 94,
+jeder Gegner leert die volle Leiste in **zwei bis drei** Treffern
+(`DifficultyTest.veryHardLeavesRoomForOneOrTwoMistakesAndNoMore`, alle fünf Typen gegen 140 LP
+und Stoffrüstung). Der Deckel ist die andere Hälfte des Satzes: kein einzelner Treffer nimmt mehr
+als 70 % — der König (46 × 3,2 = 147) wäre sonst ein Einschlag, so sind es 98, und der erste
+Fehler bleibt einer. Fallen treffen mit 120 → 98 ebenfalls überlebbar. Mittel liegt bei jedem Typ
+dazwischen (`mediumSitsBetween`).
+
+Die Einstellung liegt in `settings.json` (`SettingsService.Settings.difficulty`, außerhalb des
+Bereichs → Einfach), wird auf der Einstellungsseite durchgeschaltet und wirkt **sofort**:
+`CombatSystem` liest sie bei jedem Treffer (`hurtByEnemy`, `hurtByTrap`), `EnemyBrain` bei jedem
+Cooldown, Trankfunde und Schreinauffüllung ebenso; das Gegnerleben greift beim nächsten Spawn.
+Der Rauchlauf schaltet auf Sehr schwer, lässt einen Königshieb landen (60–70 % der Leiste) und
+schaltet zurück.
+
+### Erste Person — `[V]`
+
+`PlayerController.firstPerson(boolean)`: Kamera in Augenhöhe (1,62 m), Blick aus Gier und Neigung
+(±43°; die Verfolgerkamera behält ihren Bereich), Held und Bodenmarke ausgeblendet, der Körper
+folgt immer dem Blick — WASD wird zum Seitwärtsgehen, Angriff und Zauber zielen mit dem Fadenkreuz.
+Die Wahl steht in `settings.json` (`firstPerson`) und auf der Einstellungsseite. Waffe und Schild
+sind mit dem Helden ausgeblendet; eigene Ego-Arme wären ein eigener Block. Rauchlauf: Kamera im
+Kopf, Rig `CullHint.Always`, Bild `pentagon-12.png` (Thronsaal aus der ersten Person).
+
+### Schulterkamera, Fadenkreuz, Blickmarke
+
+Die Verfolgerkamera hing 6,3 m gerade hinter dem Helden auf 2 m; er stand in der Bildmitte vor dem
+Fadenkreuz. Jetzt **über der rechten Schulter** (`SHOULDER` 0,7 m seitlich, 5,4 m Abstand, 1,6 m
+Grundhöhe, Ziel auf 1,5 m), mit einem Seitenstrahl, der den Versatz an einer Wand zurücknimmt.
+Das Fadenkreuz ist ein Retikel aus vier Strichen um eine offene Mitte mit Punkt, exakt in der
+Bildmitte, und wird **orange**, sobald ein Gegner in Reichweite des nächsten Öffners steht
+(`CombatSystem.targetInReach`, Kamera-Gier als Richtung — dahin dreht `attack()` den Helden).
+Dazu eine teal **Blickmarke** auf dem Boden einen Meter vor dem Helden (Kind des Spielerknotens,
+der von der Steuerung gedreht wird, also immer seine Blickrichtung). Bild `pentagon-2.png`.
+
+### Verifikation
+
+| Schritt | Beleg | Ergebnis |
+|---|---|---|
+| Schwierigkeit, Sicht, Kamera | `verify-difficulty.log`, `smoke-difficulty.log` | `clean verify` BUILD SUCCESS, **71 Tests**; Rauchlauf 34 Stufen, **46 Prüfungen**, `smoke-ok.txt` |
+| Endstand (Blick beim Umschalten auf Augenhöhe) | `verify-smoke-sicht.log` | `clean verify` BUILD SUCCESS, 71 Tests; Rauchlauf 34 Stufen, 46 Prüfungen, `smoke-ok.txt`, 0 Thread-Warnungen |
+
+
+---
+
+## Zielen, erste Person mit Waffe, gerade Rolle, Inventar mit Figur (2026-09-13, vierter Teil)
+
+### Das Fadenkreuz trifft jetzt, was es zeigt
+
+Die Schulterkamera hängt 0,7 m neben dem Helden; Angriff und Zauber richteten sich aber nach der
+Kamera-**Gier** ab Heldenposition — eine Parallele zum Blick, 0,7 m daneben, und ein Zauber flog
+am Gegner unter dem Fadenkreuz vorbei. Jetzt wirft `CampaignState` jedes Bild den Strahl der
+Kameramitte gegen Welt und Gegner (`PlayerController.aim`, bis 40 m, Transparentes wie Portalschleier
+und Telegraphen übersprungen, in der Verfolgersicht auch alles näher als 60 % des Kameraabstands,
+sonst zielt man auf den Pfeiler neben der Schulter) und merkt sich den Punkt (`aimPoint`).
+`faceCamera()` dreht den Helden zu diesem Punkt — beim Öffner **und bei jedem Kombofolgeschlag** —,
+der Zauber fliegt vom Abschusspunkt **durch** ihn, auch in der Höhe; nach einem Teleport gilt der
+alte Punkt nicht mehr (`warp()` verwirft ihn, sonst schlug der Rauchlauf daneben). Das Retikel
+(Ticks 7 px, Lücke 6, Strich 1,6) ist kleiner, sein Orange fragt dieselbe Zielrichtung ab.
+
+### Erste Person mit Schwert und Schild
+
+Statt den Helden auszublenden, wird nur sein **Kopf** zusammengeklappt: ein Control zwischen
+Composer und Skinning setzt den Head-Joint auf Skala 0,001 (einmal setzen reichte nicht — die
+Clips tragen Skalierungsschlüssel für jeden Joint und schrieben ihn im nächsten Bild zurück).
+Die Kamera sitzt am **Head-Attachment-Knoten**, 0,3 m dahinter und 0,12 m darüber, folgt also
+jedem Schritt und der ganzen Rolle; die Augen nicken über die Rolle nach unten und wieder hoch
+(`viewDirection`, `dodgeDip`). Schwert und Schild stehen im Bild (`pentagon-13.png`). Stirbt der
+Held, schaltet `updateDeath` für den Fall auf die Verfolgerkamera; die Einstellung bleibt.
+
+### Die Rolle war schief — und die Messung war es auch
+
+„Stand To Roll" ist eine Schulterrolle: die Beckenlinie dreht in der Mitte um 104° aus der Front
+(Blender-Messung). `anim_pin.py` STRAIGHTEN dreht den Root **auf jedem ganzen Bild** so, dass die
+Beckenlinie vorn bleibt (Schlüssel vorher auf ganze Bilder gesetzt, weil die gestauchten Clips
+ihre Schlüssel bei Drittelbildern haben und der Export ganze Bilder abtastet) — auf allen acht
+Rigs 104° → 0,0° (`anim_pin-dodge.log`). Dann kostete ein Nachmittag: die Engine-Messung
+(`AssetTest`, neue Sonde `art/probe/DodgeYaw`) las die gerade Rolle mit 30–50° schief, weil sie
+die **falsche Achse** herausprojizierte — der Gelenkraum der gelieferten Rigs ist Blenders,
+Höhe entlang −Z, Skinning-Spatial auf Identität, und `lateral.y = 0` löschte eine waagerechte
+Achse. Die Front-Prüfungen hatten das nie bemerkt, weil die Beckenlinie in Ruhe rein X ist. Jetzt
+liest der Test die Aufwärtsachse vom Rig ab (Root → Hips) und projiziert sie heraus
+(`AssetTest.flatten`); die Sonde bestätigt 0–2° auf jedem Bild (`dodgeyaw-after.log`), gegen
+4–104° vorher. Ein Umweg über „Engine-Messung als Korrekturziel" ist wieder ausgebaut. Stand
+davor unter `art/gen/pre-straighten/`. Mixamo hatte die Sitzung nach 24 h beendet; eine echte
+Vorwärtsrolle als neue Quelle bräuchte ein Login.
+
+### Inventar mit Figur
+
+Rechts steht eine Silhouette mit zwei Slots — **WAFFE** an der Schwerthand, **RÜSTUNG** an der
+Brust — samt Bonus; die Liste links zeigt nur noch, was im Gepäck liegt, Angelegtes verschwindet
+aus ihr und kehrt zurück, sobald etwas anderes angelegt wird. Darunter Stufe, Leben, Ausdauer,
+Angriff, Rüstung, Zauber. Die Auswahl (Listeneintrag oder Slot) zeigt Seltenheit, Name,
+Beschreibung und die **Änderung**: „Angriff 22 → 30 (+8)", „Rüstung 2 → 5 (+3)", bei Tränken die
+Heilung. Knöpfe: Anlegen / Benutzen, Ablegen (nie für Angelegtes, Schlüssel, Reliquien). Bild
+`pentagon-3.png`.
+
+### Verifikation
+
+| Schritt | Beleg | Ergebnis |
+|---|---|---|
+| Rolle | `anim_pin-dodge.log`, `dodgeyaw-after.log`, `measure_export.log` | 104° → 0° in Blender, 0–2° je Bild in der Engine |
+| Endstand | `verify-smoke-zielen.log` | `clean verify` BUILD SUCCESS, 71 Tests; Rauchlauf 34 Stufen, 46 Prüfungen, `smoke-ok.txt`, 0 Thread-Warnungen |
+
+Nachtrag (Kevins Rückmeldung): die Verfolgerkamera kam nie auf Augenhöhe, weil sie
+`CAMERA_HEIGHT + 4,5·sin(Neigung)` **über dem Ziel** hängt und der alte Neigungsboden −0,1 noch
+1,15 m darüber ließ — immer zwölf Grad abwärts. Boden jetzt −0,36, also waagerecht möglich. Erste
+Person: 0,16 m statt 0,3 m hinter dem Kopf, und beim Blick nach unten rutscht die Kamera bis auf
+0,04 m vor, damit nicht der eigene Nacken im Bild steht. `verify-smoke-kamera2.log`: 71 Tests,
+Rauchlauf 46 Prüfungen, grün.
+
+
+---
+
+## Doku neu geordnet, Fenstersymbol, Windows-Paket (2026-09-13, fünfter Teil)
+
+### Verzeichnisstruktur
+
+`docs/` lag flach; dazu `docs/style-reference/` und ein Ordner `Claude outputs/` im
+Projektwurzelverzeichnis mit 40 Werkstattbildern, die nirgends verlinkt waren. Jetzt nach Zweck:
+`spiel/` (GAME_DESIGN, ORIGINAL), `technik/` (ARCHITECTURE, VERIFICATION, neu **RELEASE**),
+`assets/` (ASSETS, STYLE, dungeon-kit, diese Liste, `referenz/` mit den Stilbildern), `sessions/`
+(COWORK-BRIEFING, PROMPT-FOLGESESSION), `bilder/screenshots/` (acht aktuelle Spielbilder) und
+`bilder/werkstatt/` (die früheren „Claude outputs" samt dem alten Platzhalter-Screenshot). Der
+Wegweiser `docs/README.md` sagt, was wofür ist und wohin Neues gehört. Alle 60 Verschiebungen
+liefen über ein Skript, das zugleich jeden Verweis mitgezogen hat — in der Doku, in Kommentaren
+von `AssetPipeline`, `CharacterFactory`, `WorldView`, `AssetTest`, in fünf Blender-Skripten, in
+`src/main/resources/models/README.md` und in `.gitignore`; ein Probelauf listete vorher jede
+Zeile. Git erkennt die Umbenennungen beim Commit (`git add -A`, dann zeigt `git status` `renamed`).
+
+Das README ist neu geschrieben: sechs aktuelle Bilder, Start ohne Entwicklungsumgebung zuerst,
+die vollständige Steuerung samt `V`, Parade, Schwierigkeit, den unsichtbaren Fallen und der
+Ablage, und eine Tabelle der Doku-Ordner. Der Satz vom „prozeduralen Platzhalter" ist raus — die
+Figuren, Module und Requisiten sind Modelle; synthetisch sind noch Musik und Klänge.
+
+### Bilder für das README: ohne `--fast`
+
+Der Rauchlauf läuft mit `--fast`. Für die README-Bilder wurde er einmal **ohne** `--fast` gefahren
+(`smoke-screenshots-hq.log`, 46 Prüfungen, `smoke-ok.txt`) — das ist das Profil „Atmosphärisch",
+das Kevin spielt. Dabei fiel auf: die abgedunkelten Dekokristalle (`0x1f5d5c`) blühen im
+atmosphärischen Profil durch Bloom weiterhin hell cyan (`bilder/screenshots/glaeserne-tiefe.png`),
+und die Höhlen liegen unter einem warmen Schleier. Die Abdunklung vom dritten Teil war mit
+`--fast`-Bildern belegt worden. Nicht geändert — ob es so gemeint war, muss Kevin sagen
+(Stellschraube: `AssetPipeline.crystal`, EmissiveIntensity 0,6).
+
+### Fenstersymbol
+
+Der Glut-Fünfeck (`tools/icon/aschensiegel-icon-1024.png`, daraus `aschensiegel.ico` und
+`src/main/resources/icons/aschensiegel-{16,32,48,64,128,256}.png`): dunkles Fünfeck, Glutrand,
+Flammentropfen — eigene Zeichnung, kein fremdes Motiv. `Main.windowIcons()` lädt die PNGs und
+setzt sie als `AppSettings.setIcons`; fehlen sie, bleibt das Plattformsymbol, der Start blockiert
+nie. `LaunchTest` sichert Anzahl, Reihenfolge und die Glutfarbe in 16 px (72 Tests).
+
+### Windows-Paket
+
+`tools/package-windows.cmd` → `jpackage --type app-image` mit den von `jdeps` ermittelten sieben
+Modulen, JVM-Optionen wie `run.bat`, Symbol aus `tools/icon/`; Ergebnis
+`target/native/Aschensiegel/Aschensiegel.exe` (194 MB mit Laufzeit Java 23.0.2) und
+`Aschensiegel-1.0.0-windows-x64.zip` (140 MB) in 34 s. Die EXE hat den Rauchlauf selbst
+bestanden (`smoke-exe.log`: 46 Prüfungen, `smoke-ok.txt`), das Launcher-Symbol ist aus der EXE
+extrahiert (`exe-icon.png`). Mit `installer` baut dasselbe Skript ein Setup — braucht WiX 3.x,
+das hier fehlt; beschrieben, nicht belegt. Alles Weitere in `technik/RELEASE.md`.
+
+### Verifikation
+
+| Schritt | Beleg | Ergebnis |
+|---|---|---|
+| Build | `verify-release.log` | `clean verify` BUILD SUCCESS, **72 Tests** |
+| README-Bilder | `smoke-screenshots-hq.log` | Rauchlauf ohne `--fast`, 46 Prüfungen, `smoke-ok.txt` |
+| Paket | `jdeps-modules.log`, `package-windows.log`, `smoke-exe.log`, `exe-icon.log` | EXE gebaut, gestartet, Rauchlauf bestanden, Symbol drin |
+| Verweise | `docs-links.log` | jeder relative Link und jede `docs/…`-Nennung im Repo zeigt auf eine vorhandene Datei |

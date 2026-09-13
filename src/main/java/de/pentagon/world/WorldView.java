@@ -222,7 +222,7 @@ public final class WorldView {
   /**
    * Region colour reaches a module the way it reaches the procedural stone: as a factor on
    * BaseColor, so the module keeps its own maps and UVs and only has to ship a neutral albedo. The
-   * factor is normalised by its own luminance — the recipe recorded in docs/asset-liste.md —
+   * factor is normalised by its own luminance — the recipe recorded in docs/assets/asset-liste.md —
    * because the region tones are mid-greys and multiplying by one raw would darken the module by
    * roughly a factor of six. The material is cloned first: loadModel hands out a spatial whose
    * material still belongs to the asset cache, so writing through it would bleed into the next

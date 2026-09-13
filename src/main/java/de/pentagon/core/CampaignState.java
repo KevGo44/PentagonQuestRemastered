@@ -58,6 +58,9 @@ public final class CampaignState extends BaseAppState {
     loadRegion(Region.REFUGE, false);
     session.x = world.layout.spawnX();
     session.z = world.layout.spawnZ();
+    // Harder settings start with fewer potions; the pack was filled for EASY.
+    int surplus = Inventory.START_POTIONS - app.difficulty().potions;
+    if (surplus > 0) session.inventory.remove("potion", surplus);
     checkpointState = app.saves.copy(session);
     app.screen(ScreenMode.PLAYING);
     app.notice("Willkommen im Ödland. Folge dem Feuer zu Mira. [E]");
@@ -140,6 +143,7 @@ public final class CampaignState extends BaseAppState {
     for (var drop : session.drops) if (drop.region().equals(region.name())) world.addDrop(drop);
     app.getRootNode().attachChild(world.root);
     player = new PlayerController(app.assets, physics);
+    player.firstPerson(app.firstPerson());
     app.getRootNode().attachChild(player.node);
     float x = savedPosition && layout.walkable(session.x, session.z) ? session.x : layout.spawnX(),
         z = savedPosition && layout.walkable(session.x, session.z) ? session.z : layout.spawnZ();
@@ -153,7 +157,7 @@ public final class CampaignState extends BaseAppState {
     }
     for (var spawn : layout.enemies)
       if (!session.defeated.contains(spawn.id())) {
-        Enemy e = new Enemy(spawn, app.assets, physics, session);
+        Enemy e = new Enemy(spawn, app.assets, physics, session, app.difficulty());
         enemies.add(e);
         app.getRootNode().attachChild(e.node);
       }
@@ -168,7 +172,8 @@ public final class CampaignState extends BaseAppState {
             app.audio,
             app.atmosphere,
             physics,
-            app::notice);
+            app::notice,
+            app::difficulty);
     app.atmosphere.region(region);
     app.getViewPort().setBackgroundColor(AssetPipeline.color(region.fog));
     player.node.updateGeometricState();
@@ -240,6 +245,7 @@ public final class CampaignState extends BaseAppState {
       app.notice("Zum letzten sicheren Boden zurückgesetzt.");
     } else if (player.body.isOnGround() && world.layout.walkable(p.x, p.z)) lastSafe.set(p);
     player.camera(app.getCamera(), dt, false, world.occluders, world.interactives);
+    player.aim(app.getCamera(), enemies, world.occluders, world.interactives);
     var visited =
         session.explored.computeIfAbsent(session.region.name(), k -> new LinkedHashSet<>());
     int cx = Math.round(p.x / DungeonLayout.CELL), cz = Math.round(p.z / DungeonLayout.CELL);
@@ -277,6 +283,9 @@ public final class CampaignState extends BaseAppState {
       deathTime = 0;
       player.resetInput();
       player.attack.cancel();
+      // The fall is watched from outside: first person drops back to the trailing camera for
+      // the death clip. The setting itself stays; the next region honours it again.
+      if (player.firstPerson()) player.firstPerson(false);
       player.rig.once("Death");
       for (Enemy enemy : enemies) enemy.stop();
     }
@@ -307,7 +316,7 @@ public final class CampaignState extends BaseAppState {
           case TRIGGERED -> app.audio.play("swing");
           case FIRED -> app.audio.play("hit");
           case CAUGHT -> {
-            combat.hurt(TrapMechanism.DAMAGE, new Vector3f(spec.x(), 0, spec.z()), true, null);
+            combat.hurtByTrap(TrapMechanism.DAMAGE, new Vector3f(spec.x(), 0, spec.z()));
             app.notice(spec.label() + "  -  die Klingen fahren aus!");
           }
           default -> {}
@@ -387,7 +396,8 @@ public final class CampaignState extends BaseAppState {
         session.checkpoint = session.region.name();
         session.checkpointX = player.node.getWorldTranslation().x;
         session.checkpointZ = player.node.getWorldTranslation().z;
-        session.inventory.add("potion", Math.max(0, 3 - session.inventory.count("potion")));
+        session.inventory.add(
+            "potion", Math.max(0, app.difficulty().potions - session.inventory.count("potion")));
         save(false);
         app.audio.play("chime");
         app.notice("Am Feuer gerastet. Leben und Ausdauer erneuert.");

@@ -1,0 +1,7 @@
+files scanned: 114
+targets resolved: 89
+broken: 2
+docs/README.md: mention docs/style-reference
+docs/assets/asset-liste.md: mention docs/style-reference
+
+Both remaining hits are deliberate: they describe the *former* layout (docs/README.md last paragraph, asset-liste.md section 'Doku neu geordnet') and point at nothing that should exist.

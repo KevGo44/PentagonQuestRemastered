@@ -6,7 +6,7 @@ was a 5.1 m brick monolith with a black plate, the three altars brick cubes on b
 generator rebuilds them from boxes and octagonal prisms with chamfered edges, a worn carved-stone
 albedo (art/textures/prop_carved_albedo.png, no bricks) and the kit's riveted iron.
 
-Contract (docs/ASSETS.md): metres, pivot bottom-centre, Blender Z up and the glTF exporter run
+Contract (docs/assets/ASSETS.md): metres, pivot bottom-centre, Blender Z up and the glTF exporter run
 with export_yup=True, so a face that must look at glTF +Z is built towards Blender -Y. The glow
 parts stay in code (WorldView keeps its Crystal child), so nothing here emits light: the shrine's
 embers sit at z 0.52-0.62 under the crystal that WorldView hangs at y 0.68-1.43, the altar tops end

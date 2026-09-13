@@ -2,7 +2,7 @@
 # Parametric generator for the PentagonQuest dungeon wall modules.
 # One profile, four visible-side combinations -> kit_wall_face / _corner / _span / _pier / kit_wall.
 #
-# Coordinate contract (see docs/dungeon-kit.md section 12):
+# Coordinate contract (see docs/assets/dungeon-kit.md section 12):
 #   Blender is Z-up and the glTF exporter runs with export_yup=True, which maps
 #   Blender +Z -> glTF +Y and Blender +Y -> glTF -Z. So a face that must look
 #   toward glTF +Z is built toward Blender -Y.

@@ -44,10 +44,32 @@ public final class Main {
     settings.setVSync(true);
     settings.setFrameRate(120);
     settings.setUseJoysticks(false);
+    java.awt.image.BufferedImage[] icons = windowIcons();
+    if (icons != null) settings.setIcons(icons);
     if (noAudio) settings.setAudioRenderer(null);
     app.setSettings(settings);
     app.setShowSettings(false);
     app.setPauseOnLostFocus(!smoke);
     app.start();
+  }
+
+  /**
+   * Window and task-bar icons (the ember pentagon), largest first. The same artwork is the launcher
+   * icon of the packaged build; see docs/technik/RELEASE.md. Missing or unreadable resources never
+   * block the start — the window then keeps the platform default.
+   */
+  public static java.awt.image.BufferedImage[] windowIcons() {
+    List<java.awt.image.BufferedImage> images = new ArrayList<>();
+    for (int size : new int[] {256, 128, 64, 48, 32, 16}) {
+      String path = "icons/aschensiegel-" + size + ".png";
+      try (java.io.InputStream in = Main.class.getClassLoader().getResourceAsStream(path)) {
+        if (in == null) continue;
+        java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(in);
+        if (image != null) images.add(image);
+      } catch (java.io.IOException | RuntimeException e) {
+        return null;
+      }
+    }
+    return images.isEmpty() ? null : images.toArray(new java.awt.image.BufferedImage[0]);
   }
 }

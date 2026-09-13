@@ -3,7 +3,7 @@
 
 WorldView.rock() scales the module by (s, 1.6 s, s), sets it at y = 0.6 s and gives it a box
 collider of half extents (0.7 s, s, 0.7 s) - the frame of the placeholder unit sphere, whose
-centre pivot is the one documented exception to bottom-centre (docs/dungeon-kit.md, section 5).
+centre pivot is the one documented exception to bottom-centre (docs/assets/dungeon-kit.md, section 5).
 So this is a unit-radius shape around the origin: an icosphere with a smoothed random radial
 displacement, flat-shaded so the facets catch the torches, wearing the mottled cave rock albedo
 (art/textures/kit_rock_mottled_albedo.png, generated without any brick pattern).
