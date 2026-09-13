@@ -1,0 +1,512 @@
+Sept. 13, 2026 3:16:29 AM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+Sept. 13, 2026 3:16:29 AM com.jme3.system.lwjgl.LwjglContext printContextInitInfo
+INFORMATION: LWJGL 3.3.6-snapshot context running on thread jME3 Main
+ * Graphics Adapter: GLFW 3.5.0 Win32 WGL Null EGL OSMesa VisualC DLL
+Sept. 13, 2026 3:16:29 AM com.jme3.renderer.opengl.GLRenderer loadCapabilitiesCommon
+INFORMATION: OpenGL Renderer Information
+ * Vendor: Intel
+ * Renderer: Intel(R) Iris(R) Xe Graphics
+ * OpenGL Version: 3.2.0 - Build 31.0.101.4314
+ * GLSL Version: 1.50 - Build 31.0.101.4314
+ * Profile: Core
+Sept. 13, 2026 3:16:29 AM com.jme3.renderer.opengl.GLRenderer setMainFrameBufferSrgb
+WARNUNG: Driver claims that default framebuffer is not sRGB capable. Enabling anyway.
+Sept. 13, 2026 3:16:30 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio Renderer Information
+ * Device: OpenAL Soft
+ * Vendor: OpenAL Community
+ * Renderer: OpenAL Soft
+ * Version: 1.1 ALSOFT 1.24.1
+ * Supported channels: 64
+ * ALC extensions: ALC_ENUMERATE_ALL_EXT ALC_ENUMERATION_EXT ALC_EXT_CAPTURE ALC_EXT_debug ALC_EXT_DEDICATED ALC_EXT_direct_context ALC_EXT_disconnect ALC_EXT_EFX ALC_EXT_thread_local_context ALC_SOFT_device_clock ALC_SOFT_HRTF ALC_SOFT_loopback ALC_SOFT_loopback_bformat ALC_SOFT_output_limiter ALC_SOFT_output_mode ALC_SOFT_pause_device ALC_SOFT_reopen_device ALC_SOFT_system_events
+ * AL extensions: AL_EXT_ALAW AL_EXT_BFORMAT AL_EXT_debug AL_EXT_direct_context AL_EXT_DOUBLE AL_EXT_EXPONENT_DISTANCE AL_EXT_FLOAT32 AL_EXT_IMA4 AL_EXT_LINEAR_DISTANCE AL_EXT_MCFORMATS AL_EXT_MULAW AL_EXT_MULAW_BFORMAT AL_EXT_MULAW_MCFORMATS AL_EXT_OFFSET AL_EXT_source_distance_model AL_EXT_SOURCE_RADIUS AL_EXT_STATIC_BUFFER AL_EXT_STEREO_ANGLES AL_LOKI_quadriphonic AL_SOFT_bformat_ex AL_SOFTX_bformat_hoa AL_SOFT_block_alignment AL_SOFT_buffer_length_query AL_SOFT_callback_buffer AL_SOFTX_convolution_effect AL_SOFT_deferred_updates AL_SOFT_direct_channels AL_SOFT_direct_channels_remix AL_SOFT_effect_target AL_SOFT_events AL_SOFT_gain_clamp_ex AL_SOFTX_hold_on_disconnect AL_SOFT_loop_points AL_SOFTX_map_buffer AL_SOFT_MSADPCM AL_SOFT_source_latency AL_SOFT_source_length AL_SOFTX_source_panning AL_SOFT_source_resampler AL_SOFT_source_spatialize AL_SOFT_source_start_delay AL_SOFT_UHJ AL_SOFT_UHJ_ex
+Sept. 13, 2026 3:16:30 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio effect extension version: 1.0
+Sept. 13, 2026 3:16:30 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio max auxiliary sends: 2
+Libbulletjme version 22.0.3 initializing
+Sept. 13, 2026 3:16:30 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf8e60.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf6b50.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf9190.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf7e70.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf84d0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf81a0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf6e80.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf71b0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf7810.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2413fdf7b40.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194beb570.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bec890.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194beabe0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bec560.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bec230.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bed880.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194beaf10.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194becbc0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bebbd0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194beb8a0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194be9f20.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194becef0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bea8b0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194beb240.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bebf00.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bed220.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bed550.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bea250.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194bea580.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc2b60.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc2e90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc1840.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dbf860.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc0eb0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc01f0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc0520.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc1ea0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc0850.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dbfec0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc0b80.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc1b70.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dbf530.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc11e0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc1510.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc21d0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc2500.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dc2830.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194dbfb90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da7b90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da7530.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da7860.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da9b70.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194daa500.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194daa830.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194daae90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da7ec0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da8b80.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da81f0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da91e0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194daa1d0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da8eb0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da8520.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194daab60.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 24194da9510.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f6860.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f81e0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f6530.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f6b90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f6ec0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f71f0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f7520.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f7850.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f5540.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f4bb0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f7b80.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f8510.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f7eb0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f5210.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f5870.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f5ba0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f5ed0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 241951f6200.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631e3e0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631cd90.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631d3f0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631d720.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631ea40.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631e0b0.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631ed70.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631da50.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631dd80.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631e710.
+Sept. 13, 2026 3:16:31 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 2419631fa30.
+Sept. 13, 2026 3:16:33 AM com.jme3.system.JmeDesktopSystem initialize
+INFORMATION: Running on jMonkeyEngine 3.8.1-stable
+ * Branch: HEAD
+ * Git Hash: eca8165
+ * Build Date: 2025-05-15
+Sept. 13, 2026 3:16:33 AM com.jme3.system.lwjgl.LwjglContext printContextInitInfo
+INFORMATION: LWJGL 3.3.6-snapshot context running on thread jME3 Main
+ * Graphics Adapter: GLFW 3.5.0 Win32 WGL Null EGL OSMesa VisualC DLL
+Sept. 13, 2026 3:16:34 AM com.jme3.renderer.opengl.GLRenderer loadCapabilitiesCommon
+INFORMATION: OpenGL Renderer Information
+ * Vendor: Intel
+ * Renderer: Intel(R) Iris(R) Xe Graphics
+ * OpenGL Version: 3.2.0 - Build 31.0.101.4314
+ * GLSL Version: 1.50 - Build 31.0.101.4314
+ * Profile: Core
+Sept. 13, 2026 3:16:34 AM com.jme3.renderer.opengl.GLRenderer setMainFrameBufferSrgb
+WARNUNG: Driver claims that default framebuffer is not sRGB capable. Enabling anyway.
+Sept. 13, 2026 3:16:34 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio Renderer Information
+ * Device: OpenAL Soft
+ * Vendor: OpenAL Community
+ * Renderer: OpenAL Soft
+ * Version: 1.1 ALSOFT 1.24.1
+ * Supported channels: 64
+ * ALC extensions: ALC_ENUMERATE_ALL_EXT ALC_ENUMERATION_EXT ALC_EXT_CAPTURE ALC_EXT_debug ALC_EXT_DEDICATED ALC_EXT_direct_context ALC_EXT_disconnect ALC_EXT_EFX ALC_EXT_thread_local_context ALC_SOFT_device_clock ALC_SOFT_HRTF ALC_SOFT_loopback ALC_SOFT_loopback_bformat ALC_SOFT_output_limiter ALC_SOFT_output_mode ALC_SOFT_pause_device ALC_SOFT_reopen_device ALC_SOFT_system_events
+ * AL extensions: AL_EXT_ALAW AL_EXT_BFORMAT AL_EXT_debug AL_EXT_direct_context AL_EXT_DOUBLE AL_EXT_EXPONENT_DISTANCE AL_EXT_FLOAT32 AL_EXT_IMA4 AL_EXT_LINEAR_DISTANCE AL_EXT_MCFORMATS AL_EXT_MULAW AL_EXT_MULAW_BFORMAT AL_EXT_MULAW_MCFORMATS AL_EXT_OFFSET AL_EXT_source_distance_model AL_EXT_SOURCE_RADIUS AL_EXT_STATIC_BUFFER AL_EXT_STEREO_ANGLES AL_LOKI_quadriphonic AL_SOFT_bformat_ex AL_SOFTX_bformat_hoa AL_SOFT_block_alignment AL_SOFT_buffer_length_query AL_SOFT_callback_buffer AL_SOFTX_convolution_effect AL_SOFT_deferred_updates AL_SOFT_direct_channels AL_SOFT_direct_channels_remix AL_SOFT_effect_target AL_SOFT_events AL_SOFT_gain_clamp_ex AL_SOFTX_hold_on_disconnect AL_SOFT_loop_points AL_SOFTX_map_buffer AL_SOFT_MSADPCM AL_SOFT_source_latency AL_SOFT_source_length AL_SOFTX_source_panning AL_SOFT_source_resampler AL_SOFT_source_spatialize AL_SOFT_source_start_delay AL_SOFT_UHJ AL_SOFT_UHJ_ex
+Sept. 13, 2026 3:16:34 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio effect extension version: 1.0
+Sept. 13, 2026 3:16:34 AM com.jme3.audio.openal.ALAudioRenderer initOpenAL
+INFORMATION: Audio max auxiliary sends: 2
+Libbulletjme version 22.0.3 initializing
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b77080.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b766f0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b786d0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b79d20.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b78a00.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b77a10.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b79060.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b77d40.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b773b0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b78d30.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b776e0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b79390.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b796c0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b799f0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b7a050.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e04b76a20.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518c630.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518e610.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518d620.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518c960.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518e940.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518d2f0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518f2d0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518f600.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518cc90.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518cfc0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518f930.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518d950.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518dfb0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518fc60.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518dc80.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518e2e0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518efa0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518ec70.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0518c300.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ea150.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e8e30.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e9af0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050eb140.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e9e20.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050eaae0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ea480.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ea7b0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ec790.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050eae10.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ec460.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050eb470.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050eb7a0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ebad0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ebe00.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050ec130.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e9160.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e9490.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e050e97c0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccea60.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccf3f0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcd00b0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccd740.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccc750.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccda70.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccd0e0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcccdb0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcce0d0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccf720.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccfa50.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccd410.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccfd80.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccdda0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcce730.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcce400.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccca80.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bcced90.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bccf0c0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6000.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda7980.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda7650.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda5010.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda4680.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda7cb0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6cc0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6990.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda49b0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda4ce0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6330.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda5cd0.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda5340.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6660.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda5670.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda4350.
+Sept. 13, 2026 3:16:34 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0bda6ff0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f62c0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f3fb0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f65f0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f42e0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f4fa0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f5600.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f52d0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f4c70.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f6920.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f3620.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f2fc0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f4610.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f6f80.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f72b0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f3950.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f5c60.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f75e0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f6c50.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f7910.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f3c80.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f5930.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f7c40.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f7f70.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f82a0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f4940.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7fa5b0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f9f50.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7fa8e0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f8f60.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f9290.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f8900.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f8c30.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7fa280.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f95c0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f98f0.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7f9c20.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0b7fac10.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0c558c00.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0c555f60.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0c556f50.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0c557280.
+Sept. 13, 2026 3:16:35 AM com.jme3.bullet.objects.PhysicsRigidBody rebuildRigidBody
+INFORMATION: Created 26e0c5578e0.

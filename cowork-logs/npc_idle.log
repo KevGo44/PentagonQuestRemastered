@@ -1,0 +1,36 @@
+00:00.032  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+00:56:10 | INFO: Data are loaded, start creating Blender stuff
+00:56:10 | INFO: Blender create Mesh node Eren_BodyMesh
+00:56:12 | INFO: glTF import finished in 1.30s
+FBX version: 7700
+[G] grafted Idle from Sad Idle.fbx by transforms: 120 frames, 52 bones
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+00:56:15 | INFO: Starting glTF 2.0 export
+00:56:15 | INFO: Extracting primitive: Eren_BodyMesh
+00:56:15 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:15 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:16 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:16 | INFO: Primitives created: 5
+00:56:22 | INFO: Finished glTF 2.0 export in 7.348689079284668 s
+
+[OK] eren 5471060 bytes
+00:56:23 | INFO: Data are loaded, start creating Blender stuff
+00:56:23 | INFO: Blender create Mesh node Eyebrows.003
+00:56:25 | INFO: glTF import finished in 2.10s
+FBX version: 7700
+[G] grafted Idle from Breathing Idle.fbx by rotations: 298 frames, 52 bones
+00:56:32 | INFO: Starting glTF 2.0 export
+00:56:32 | INFO: Extracting primitive: Eyebrows.003
+00:56:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:56:33 | INFO: Primitives created: 5
+00:56:42 | INFO: Finished glTF 2.0 export in 9.921409130096436 s
+
+[OK] mira 6885252 bytes
+[NPC] eren  Idle <- Sad Idle.fbx (transforms) frames=120 turn=  -1.2 ground=0.013 shifted=-0.003 lowest after=0.013..0.014 yaw=[-0.0, -0.0, -0.0, 0.2, 0.2, 0.1, 0.0, -0.1, -0.0, -0.1, -0.1, -0.2, -0.0]
+[NPC] mira  Idle <- Breathing Idle.fbx (rotations) frames=298 turn=   1.8 ground=0.012 shifted=+0.145 lowest after=0.012..0.041 yaw=[-0.7, -0.7, -0.7, 0.1, 1.6, 0.6, -0.6, -5.0, -3.1, -0.3, 4.7, 3.2, -0.7]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

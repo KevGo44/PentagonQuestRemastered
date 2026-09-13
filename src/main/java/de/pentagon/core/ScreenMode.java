@@ -11,6 +11,8 @@ public enum ScreenMode {
   SETTINGS,
   DIALOGUE,
   GAME_OVER,
+  /** The closing sequence after the judgement at the throne; leads into ENDING. */
+  EPILOGUE,
   ENDING,
   TRANSITION
 }

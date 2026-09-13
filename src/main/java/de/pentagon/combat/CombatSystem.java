@@ -25,6 +25,10 @@ public final class CombatSystem implements EnemyBrain.Attacks {
   private final Consumer<String> notice;
   private final EnemyBrain brain = new EnemyBrain();
   private float damageGrace;
+  private int riposte;
+
+  /** Every fourth defeated enemy carries a potion; it was every third, with five to start. */
+  public static final int POTION_DROP_EVERY = 4;
 
   public CombatSystem(
       PlayerController player,
@@ -56,24 +60,36 @@ public final class CombatSystem implements EnemyBrain.Attacks {
       for (Enemy enemy : enemies)
         if (enemy.alive()) {
           Vector3f d = enemy.position().subtract(player.node.getWorldTranslation());
+          // Attack2 is a full spin (art/blender/anim_polish.py): the blade passes every side, so
+          // it reaches all round; the finisher sweeps wide, the opener hits what is in front.
           if (CombatRules.inArc(
                   d.x,
                   d.z,
                   player.facing.x,
                   player.facing.z,
                   2.6f + enemy.type.scale * .3f,
-                  player.attack.combo() == 2 ? -.15f : .30f)
+                  player.attack.combo() == 1 ? -1f : player.attack.combo() == 2 ? -.15f : .30f)
               && Math.abs(d.y) < 2
               && visible(player.node.getWorldTranslation(), enemy.position())) {
             float damage = session.player.damage(session.inventory) * player.attack.multiplier();
             if (enemy.type == EnemyType.WARDEN
                 && enemy.state != Enemy.State.STUNNED
                 && enemy.state != Enemy.State.ATTACK) damage *= .55f;
+            // The riposte: the first blow on an enemy the last parry left stunned.
+            if (enemy.state == Enemy.State.STUNNED && player.riposteReady()) {
+              damage *= PlayerController.RIPOSTE_MULTIPLIER;
+              player.riposteSpent();
+              riposte = Math.round(damage);
+              effects.burst(enemy.position().add(0, 1.2f, 0), 30);
+            }
             damageEnemy(enemy, damage);
             count++;
           }
         }
-      if (count > 0)
+      if (riposte > 0) {
+        notice.accept("RIPOSTE  +" + riposte);
+        riposte = 0;
+      } else if (count > 0)
         notice.accept(
             player.attack.combo() == 2
                 ? "KOMBO  III  -  Brechender Hieb"
@@ -130,7 +146,10 @@ public final class CombatSystem implements EnemyBrain.Attacks {
     if (enemy.health <= 0) {
       enemy.state = Enemy.State.DEAD;
       enemy.stop();
-      enemy.rig.restart("Death");
+      // Played once: the clip ends on the floor and stays there. Looping it and freezing the
+      // composer after a fixed 1.2 s left every corpse standing bent over, because the delivered
+      // Death clip is 2.3 s long and its hips reach the ground at 1.7 s.
+      enemy.rig.once("Death");
       enemy.telegraph.setCullHint(Spatial.CullHint.Always);
       physics.space().remove(enemy.body);
       enemy.removed = true;
@@ -140,13 +159,15 @@ public final class CombatSystem implements EnemyBrain.Attacks {
       int levels = session.player.gainXp(enemy.type.xp);
       int gold = enemy.type == EnemyType.KING ? 100 : 8 + enemy.type.ordinal() * 5;
       session.player.gold += gold;
-      if (Math.floorMod(enemy.id.hashCode(), 3) == 0) session.inventory.add("potion", 1);
+      if (Math.floorMod(enemy.id.hashCode(), POTION_DROP_EVERY) == 0)
+        session.inventory.add("potion", 1);
       notice.accept(enemy.type.title + " besiegt  +" + enemy.type.xp + " EP  +" + gold + " Gold");
       if (levels > 0) {
         notice.accept("STUFE " + session.player.level + "  -  Fähigkeitspunkt erhalten [K]");
         audio.play("chime");
       }
-      if (enemy.id.equals("PRISON_keeper")) {
+      // The keeper comes back with the rest of his level (GameSession.leave); the key does not.
+      if (enemy.id.equals("PRISON_keeper") && session.inventory.count("prison_key") == 0) {
         session.inventory.add("prison_key", 1);
         notice.accept("Schlüssel des Kerkermeisters erhalten.");
       }
@@ -182,8 +203,10 @@ public final class CombatSystem implements EnemyBrain.Attacks {
     if (hit.parried()) {
       audio.play("parry");
       effects.burst(player.node.getWorldTranslation().add(0, 1.2f, 0), 24);
-      if (attacker != null) attacker.stun(1.7f);
-      notice.accept("PARIERT  -  Gegner offen");
+      player.parry();
+      if (attacker != null) attacker.stun(PlayerController.PARRY_STUN);
+      notice.accept(
+          attacker != null ? "PARIERT  -  Riposte offen" : "PARIERT  -  Zauber abgewehrt");
     } else if (hit.healthDamage() > 2) {
       audio.play("hurt");
       atmosphere.hit();

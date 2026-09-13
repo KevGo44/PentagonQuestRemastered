@@ -1,6 +1,7 @@
 package de.pentagon.assets;
 
 import com.jme3.anim.*;
+import com.jme3.anim.tween.action.BlendableAction;
 import com.jme3.material.Material;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
@@ -17,9 +18,30 @@ public final class CharacterFactory {
   public static final String[] CLIPS = {
     "Idle", "Walk", "Run", "Attack1", "Attack2", "Attack3", "Dodge", "Block", "Hit", "Death", "Cast"
   };
+
+  /**
+   * Clips a rig may carry on top of {@link #CLIPS}. The game uses them where they exist and falls
+   * back where they do not: Parry (a shield jolt, hero.glb) stands in for Block on a rig without
+   * it.
+   */
+  public static final String[] OPTIONAL_CLIPS = {"Parry"};
+
   private final AssetPipeline assets;
 
+  /** Clips that end and are then replaced by whatever the simulation chooses next. */
+  private static final Set<String> ONE_SHOTS =
+      Set.of("Attack1", "Attack2", "Attack3", "Dodge", "Hit", "Death", "Cast", "Parry");
+
+  /**
+   * How long a switch blends from the pose the joints are in towards the new clip. jME's default is
+   * 0.4 s for every action, which is longer than the wind-up of Attack1 (0.15 s): the hit landed
+   * while the arm was still mostly where the previous clip had left it. Locomotion keeps a soft
+   * blend; anything the player triggers snaps quickly.
+   */
+  private static final double LOCOMOTION_BLEND = .25, ONE_SHOT_BLEND = .1;
+
   public record Rig(Node root, AnimComposer composer, SkinningControl skinning) {
+    /** Loops {@code clip}; a no-op while it is already the current clip. */
     public void play(String clip) {
       if (!clip.equals(root.getUserData("clip"))) {
         composer.setCurrentAction(clip);
@@ -27,14 +49,36 @@ public final class CharacterFactory {
       }
     }
 
+    /** Restarts {@code clip} from its first frame, looping, even if it is already playing. */
     public void restart(String clip) {
       composer.setCurrentAction(clip);
       composer.setTime(0);
       root.setUserData("clip", clip);
     }
 
+    /**
+     * Plays {@code clip} exactly once and then holds its last frame until the next {@link #play} or
+     * {@link #restart}. Death has to end on the floor, not loop back to standing, and an attack
+     * should finish its follow-through instead of being cut where the simulation stops caring about
+     * it.
+     */
+    public void once(String clip) {
+      composer.setCurrentAction(clip, AnimComposer.DEFAULT_LAYER, false);
+      root.setUserData("clip", clip);
+    }
+
+    /** True once a clip started with {@link #once} has run to its end. */
+    public boolean finished() {
+      return composer.getCurrentAction() == null;
+    }
+
     public void pause(boolean paused) {
       composer.setGlobalSpeed(paused ? 0 : 1);
+    }
+
+    /** True if the rig carries {@code clip}, required or optional. */
+    public boolean has(String clip) {
+      return composer.hasAnimClip(clip);
     }
   }
 
@@ -47,8 +91,8 @@ public final class CharacterFactory {
   }
 
   /**
-   * @param armed hangs sword and shield on the rig. Only the player carries gear: Mira and Eren
-   *     are not fighters, and the enemies bring their own claws and armour with the mesh.
+   * @param armed hangs sword and shield on the rig. Only the player carries gear: Mira and Eren are
+   *     not fighters, and the enemies bring their own claws and armour with the mesh.
    */
   public Rig create(String id, int color, boolean king, boolean armed) {
     Spatial loaded = assets.model("characters/" + id, () -> placeholder(color, king));
@@ -66,50 +110,60 @@ public final class CharacterFactory {
         throw new IllegalStateException(id + " is missing animation " + clip);
     model.setShadowMode(ShadowMode.CastAndReceive);
     if (armed) equip(skin, color);
+    List<String> clips = new ArrayList<>(List.of(CLIPS));
+    for (String clip : OPTIONAL_CLIPS) if (composer.hasAnimClip(clip)) clips.add(clip);
+    for (String clip : clips)
+      if (composer.action(clip) instanceof BlendableAction action)
+        action.setTransitionLength(ONE_SHOTS.contains(clip) ? ONE_SHOT_BLEND : LOCOMOTION_BLEND);
     Rig rig = new Rig(model, composer, skin);
     rig.play("Idle");
+    // A blend starts from the pose the joints are in, and a fresh rig is in its bind pose: every
+    // character entered a region with arms out and folded into Idle over the first third of a
+    // second, measured on hero.glb (hands at 1.51 m at t=0, at 1.12 m from t=0.3 s). Starting
+    // Idle past its blend skips that; Idle is a loop, so where it starts is invisible.
+    composer.setTime(LOCOMOTION_BLEND);
     return rig;
   }
 
-  /**
-   * Hangs sword and shield on the rig. This used to sit inside {@link #placeholder}, which meant
-   * every delivered GLB arrived unarmed: the placeholder only runs when no model file exists, so
-   * shipping hero.glb silently removed the weapon. The sockets belong to the character, not to
-   * the placeholder mesh.
-   */
-  /**
-   * The delivered rigs face the glTF front, which is where the engine points a character with
-   * Quaternion.lookAt. That was not always true: every clip carried the side-on guard stance of
-   * Mixamo's sword-and-shield set, about 53 degrees out of the front, while walk and run faced
-   * straight ahead - so the character stood sideways and walked forwards. A quarter turn in this
-   * factory papered over the walk and made everything else worse. The repair belongs in the asset
-   * and sits in art/blender/anim_normalise.py; AssetTest measures the result on every clip.
-   */
+  // The delivered rigs face the glTF front, which is where the engine points a character with
+  // Quaternion.lookAt. That was not always true: every clip carried the side-on guard stance of
+  // Mixamo's sword-and-shield set, about 53 degrees out of the front, while walk and run faced
+  // straight ahead - so the character stood sideways and walked forwards. A quarter turn in this
+  // factory papered over the walk and made everything else worse. The repair belongs in the asset
+  // and sits in art/blender/anim_normalise.py; AssetTest measures the result on every clip.
 
   /** Distance from the wrist joint into the middle of the fist, measured on the delivered rigs. */
   private static final float FIST = .095f;
 
+  /**
+   * Hangs sword and shield on the rig. This used to sit inside {@link #placeholder}, which meant
+   * every delivered GLB arrived unarmed: the placeholder only runs when no model file exists, so
+   * shipping hero.glb silently removed the weapon. The sockets belong to the character, not to the
+   * placeholder mesh.
+   */
   private void equip(SkinningControl skin, int tint) {
     boolean right = false, left = false;
     for (Joint j : skin.getArmature().getJointList()) {
       if (j.getName().equals("Hand.R")) right = true;
       if (j.getName().equals("Hand.L")) left = true;
     }
-    Material steel = assets.pbr("", 0x939a9e, .38f, .72f),
-        gold = assets.pbr("", 0xd1a05b, .34f, .65f),
+    Material steel = assets.pbr("", 0x939a9e, .58f, .38f),
+        gold = assets.pbr("", 0xd1a05b, .55f, .4f),
         body = assets.pbr("", tint, .75f, .12f);
     // Both hands run their local +Y along the fingers, +X out past the thumb and +Z out of the
     // palm. Measured on the delivered rigs: the four finger joints sit within nine degrees of +Y,
     // the index at +X and the pinky at -X, and the thumb stands off towards +Z.
     if (right) {
       // A fist holds the grip across the palm, not along the fingers, so the blade leaves the hand
-      // along its local X. The second quarter turn is about the blade itself and puts the flats to
-      // the sides, which is how a lowered sword hangs; without it the edges face left and right.
+      // along its local X - and on the thumb side (+X), which is the ordinary grip: pommel by the
+      // little finger, blade up and forward. The mirror of this, -X, is the reverse grip with the
+      // point hanging down, and that is how the hero held it until Kevin asked. The second quarter
+      // turn is about the blade itself and puts the flats to the sides.
       Node sword = new Node("WeaponSocket");
       sword.attachChild(assets.model("props/sword", () -> swordFallback(steel, gold)));
       sword.setLocalRotation(
           new Quaternion()
-              .fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Z)
+              .fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_Z)
               .mult(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y)));
       sword.setLocalTranslation(0, FIST, .015f);
       skin.getAttachmentsNode("Hand.R").attachChild(sword);
@@ -187,9 +241,9 @@ public final class CharacterFactory {
     armature.saveBindPose();
     armature.saveInitialPose();
     Material body = assets.pbr("", tint, .75f, .12f),
-        steel = assets.pbr("", 0x939a9e, .38f, .72f),
+        steel = assets.pbr("", 0x939a9e, .58f, .38f),
         cloth = assets.pbr("", king ? 0x672932 : 0x243844, .9f, 0),
-        gold = assets.pbr("", 0xd1a05b, .34f, .65f);
+        gold = assets.pbr("", 0xd1a05b, .55f, .4f);
     part(model, hips, .28f, .16f, .17f, 0, 0, 0, cloth);
     part(model, spine, .33f, .28f, .2f, 0, .02f, 0, body);
     part(model, head, .21f, .22f, .20f, 0, 0, 0, steel);

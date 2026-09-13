@@ -65,6 +65,8 @@ Das ist bewusst so und muss beim Testen eingeplant werden.
 * `AnimComposer` oder `SkinningControl` fehlen, oder
 * auch nur einer dieser elf Clips fehlt:
   `Idle, Walk, Run, Attack1, Attack2, Attack3, Dodge, Block, Hit, Death, Cast`
+  (optional `Parry`, nur der Held; kein Clip darf Wurzelbewegung tragen — Hüfte horizontal
+  innerhalb von 0,35 m des ersten Bildes)
 
 Die Namen sind **case-sensitive**. Ein Mixamo-Export heißt standardmäßig anders
 (`mixamo.com`, `Armature|mixamo.com|Layer0` o. ä.) — **Clips müssen vor dem Ablegen umbenannt
@@ -119,7 +121,7 @@ $mvn="C:\Users\kkfre\AppData\Local\Programs\IntelliJ IDEA Ultimate\plugins\maven
 & $mvn -B verify
 ```
 
-`verify` muss grün bleiben: derzeit **51 Tests**. `AssetTest` lädt echte Assets durch den jME-
+`verify` muss grün bleiben: derzeit **68 Tests**. `AssetTest` lädt echte Assets durch den jME-
 AssetManager und ist damit die erste Instanz, die ein kaputtes Modell bemerkt. Neue Assets sollten
 dort eine Zusicherung bekommen.
 

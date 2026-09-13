@@ -877,3 +877,32 @@ Wer die sechs auf drei drücken will, braucht den `.gltf`-Weg mit externen Bild-
 zusätzlich eine Materialzusammenführung in `WorldView` — die Texturen allein reichen nicht, weil
 `Material`-Identität zählt, nicht Textur-Identität. Das ist eine bewusste Entscheidung für später;
 bei sechs Batches je Chunk lohnt es nicht.
+
+---
+
+## Nachtrag 13. September 2026: `kit_rock` neu
+
+`kit_rock.glb` war eine ziegelgemusterte Kuppel (dieselbe Albedo wie die Wand). `art/blender/rock_builder.py` baut jetzt einen Ikosaeder-Findling (320 Flächen, geglättetes Zufallsrelief, Albedo `art/textures/kit_rock_mottled_albedo.png` ohne Ziegel). Rahmen unverändert: Einheitsradius um den Mittelpunkt, `WorldView.rock()` skaliert mit (s, 1,6 s, s) und setzt den Kollisionsquader wie zuvor. Der alte Stand liegt unter `art/gen/pre-polish/props/kit_rock.glb`.
+
+## Nachtrag 13. September 2026: Höhlenmodule
+
+Die CAVERNS bekommen Fels statt Ziegel — neun Module aus `art/blender/cave_builder.py`, die
+`WorldView.buildTiles` vor dem Kit versucht (Rippe und Kranz entfallen in der Höhle):
+
+| ID | Maße (B × H × T) | Dreiecke | Bemerkung |
+|---|---|---:|---|
+| `kit_floor_cave`, `kit_floor_cave2` | 2,80 × 0,27 × 2,80 | 246 | Relief oben, höchstens +3 cm über der Physikebene, bis −9 cm |
+| `kit_ceiling_cave`, `kit_ceiling_cave2` | 2,80 × 0,79 / 1,06 × 2,80 | 342 | Platte 0,36 m, Stalaktiten hängen bis 0,7 m darunter |
+| `kit_wall_cave_face`, `kit_wall_cave_face2` | 2,80 × 7,12 × ≤ 3,08 | 244 | Sichtseite +Z wie `kit_wall_face`, Relief −0,2 … +0,36 m |
+| `kit_wall_cave_corner` | ≤ 3,09 × 7,12 × 2,95 | 388 | +Z und +X |
+| `kit_wall_cave_span` | 2,80 × 7,12 × 3,38 | 388 | +Z und −Z |
+| `kit_wall_cave_pier` | 3,02 × 7,12 × 3,27 | 532 | +Z, +X, −Z |
+
+Vertrag wie in Abschnitt 4 (Pivot unten mittig, ganze Zelle, Drehung nach `wallKit`). Das Relief
+ist deterministisches Wertrauschen, das an den Zellkanten auf null ausläuft — Nachbarn stoßen
+ohne Riss aneinander, dafür wiederholt sich das Muster je Zelle; die zweite Variante jedes Typs
+(Zellparität `(x + z) % 2`) verschiebt ihr Texturfenster. An der Bodenlinie gibt es keine
+Vertiefung, weil dort die Bodenplatte endet. Material `PQC_Rock` mit `kit_cave_albedo.png`
+(1024², mittlere lineare Leuchtdichte **0,089**, im Wandband aus Abschnitt 6; die gefleckte
+Findlingsalbedo lag bei 0,118 und las sich unter den Fackeln als Sand). Belege `cave_builder.log`,
+`roomshots-caves2.log`, Bilder `target/probe-shots/room-caverns-*.png`.

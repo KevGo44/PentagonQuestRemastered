@@ -1,0 +1,49 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< de.pentagon:aschensiegel >----------------------
+[INFO] Building Pentagon: Das Aschensiegel 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ aschensiegel ---
+[INFO] Copying 67 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ aschensiegel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 36 source files with javac [debug release 17] to target\classes
+[INFO] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/main/java/de/pentagon/assets/CharacterFactory.java: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+[INFO] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/main/java/de/pentagon/assets/CharacterFactory.java: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ aschensiegel ---
+[INFO] skip non existing resourceDirectory C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ aschensiegel ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug release 17] to target\test-classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/AssetTest.java:[241,68] Inkompatible Typen: Möglicher Verlust bei Konvertierung von double in float
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/AssetTest.java:[265,65] Inkompatible Typen: Möglicher Verlust bei Konvertierung von double in float
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/CombatTest.java:[168,26] fleeGoal(com.jme3.math.Vector3f,com.jme3.math.Vector3f,de.pentagon.world.DungeonLayout) ist nicht öffentlich in de.pentagon.ai.EnemyBrain. Zugriff von externem Package nicht möglich
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/CombatTest.java:[170,31] fleeGoal(com.jme3.math.Vector3f,com.jme3.math.Vector3f,de.pentagon.world.DungeonLayout) ist nicht öffentlich in de.pentagon.ai.EnemyBrain. Zugriff von externem Package nicht möglich
+[INFO] 4 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.429 s
+[INFO] Finished at: 2026-09-13T04:09:47+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile (default-testCompile) on project aschensiegel: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/AssetTest.java:[241,68] Inkompatible Typen: Möglicher Verlust bei Konvertierung von double in float
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/AssetTest.java:[265,65] Inkompatible Typen: Möglicher Verlust bei Konvertierung von double in float
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/CombatTest.java:[168,26] fleeGoal(com.jme3.math.Vector3f,com.jme3.math.Vector3f,de.pentagon.world.DungeonLayout) ist nicht öffentlich in de.pentagon.ai.EnemyBrain. Zugriff von externem Package nicht möglich
+[ERROR] /C:/Users/kkfre/Daten/IdeaProjects/PentagonQuestRemastered/src/test/java/de/pentagon/CombatTest.java:[170,31] fleeGoal(com.jme3.math.Vector3f,com.jme3.math.Vector3f,de.pentagon.world.DungeonLayout) ist nicht öffentlich in de.pentagon.ai.EnemyBrain. Zugriff von externem Package nicht möglich
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -2,6 +2,7 @@ package de.pentagon.core;
 
 import de.pentagon.entities.PlayerStats;
 import de.pentagon.inventory.Inventory;
+import de.pentagon.inventory.ItemCatalog;
 import de.pentagon.world.Region;
 import java.util.*;
 
@@ -24,7 +25,33 @@ public final class GameSession {
   public final Map<String, EnemySave> enemies = new LinkedHashMap<>();
   public final Map<String, Set<Integer>> explored = new LinkedHashMap<>();
 
+  /** Items laid down on a floor somewhere; they wait there until picked up again. */
+  public final List<Drop> drops = new ArrayList<>();
+
+  public int dropSerial;
+
   public record EnemySave(float health, float x, float z) {}
+
+  public record Drop(int serial, String region, String item, float x, float z) {}
+
+  /**
+   * The player leaves {@code region} through a portal. Its defeated stay defeated only while the
+   * player is on that level: everyone there stands up again for the next visit, at home and at full
+   * health. Two exceptions - the Ork-König, once his crown has fallen, and nothing else - the
+   * keeper returns too, but CombatSystem hands out his key only once.
+   */
+  public void leave(Region region) {
+    String prefix = region.name() + "_";
+    defeated.removeIf(
+        id -> id.startsWith(prefix) && !(id.equals("THRONE_king") && flag("king_dead")));
+    enemies.keySet().removeIf(id -> id.startsWith(prefix));
+  }
+
+  public Drop drop(String item, float x, float z) {
+    Drop d = new Drop(dropSerial++, region.name(), item, x, z);
+    drops.add(d);
+    return d;
+  }
 
   public boolean flag(String key) {
     return flags.contains(key);
@@ -65,7 +92,21 @@ public final class GameSession {
         || counters == null
         || enemies == null
         || explored == null
+        || drops == null
         || rewardedQuests == null) throw new IllegalArgumentException("Ungültige Weltdaten");
+    if (drops.size() > 200 || dropSerial < 0)
+      throw new IllegalArgumentException("Zu viel abgelegt");
+    for (var d : drops) {
+      if (d == null
+          || d.item == null
+          || !ItemCatalog.contains(d.item)
+          || d.region == null
+          || !Float.isFinite(d.x)
+          || !Float.isFinite(d.z)
+          || Math.abs(d.x) > 500
+          || Math.abs(d.z) > 500) throw new IllegalArgumentException("Ungültige Ablage");
+      Region.valueOf(d.region);
+    }
     if (flags.size() + defeated.size() + opened.size() > 10000
         || enemies.size() > 1000
         || explored.size() > Region.values().length)

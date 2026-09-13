@@ -23,7 +23,9 @@ public final class DungeonLayout {
     CRYSTAL,
     PRISONER,
     THRONE,
-    TRAP
+    TRAP,
+    /** Not authored: an item the player laid down, see GameSession.Drop. */
+    DROP
   }
 
   public record ObjectSpec(String id, Kind kind, String label, float x, float z, String value) {}
@@ -76,6 +78,33 @@ public final class DungeonLayout {
     enemies.add(new Spawn(region.name() + "_" + id, type, x * CELL, z * CELL));
   }
 
+  /** Cells a corridor is wide; connect() carves three. */
+  public static final int CORRIDOR_CELLS = 3;
+
+  /**
+   * A trap fills a corridor from wall to wall. {@code axis} is the direction of travel through
+   * it ("x" or "z"); {@code cells} how many cells wide the opening is at that point - three for a
+   * plain corridor, five where two corridors meet. Stored in the object's value as e.g. "z3" so
+   * WorldView and CampaignState read the same geometry; see {@link #trapAxisX} and {@link
+   * #trapCells}.
+   */
+  private void trap(String id, String label, float x, float z, char axis, int cells) {
+    object(id, Kind.TRAP, label, x, z, axis + Integer.toString(cells));
+  }
+
+  public static boolean trapAxisX(ObjectSpec trap) {
+    return trap.value().charAt(0) == 'x';
+  }
+
+  public static int trapCells(ObjectSpec trap) {
+    return trap.value().length() > 1 ? Integer.parseInt(trap.value().substring(1)) : CORRIDOR_CELLS;
+  }
+
+  /** Metres from wall to wall across a trap. */
+  public static float trapWidth(ObjectSpec trap) {
+    return trapCells(trap) * CELL;
+  }
+
   private void refuge() {
     room("Halle der Reisenden", 15, 24, 4, 4);
     room("Westliche Wacht", 5, 24, 3, 3);
@@ -104,6 +133,7 @@ public final class DungeonLayout {
     object("crypt", Kind.PORTAL, "Zur Krypta der Eide", 5, 5, "CRYPT");
     object("cave", Kind.PORTAL, "Zur gläsernen Tiefe", 25, 5, "CAVERNS");
     object("prison", Kind.PORTAL, "Zum Kettenverlies", 15, 3, "PRISON");
+    trap("trap0", "Dornengang", 15, 9, 'z', 3);
     enemy("raider0", EnemyType.GOBLIN, 13, 13);
     enemy("raider1", EnemyType.GOBLIN, 17, 12);
   }
@@ -138,8 +168,10 @@ public final class DungeonLayout {
     object("star", Kind.RUNE, "Rune des Sterns", 25, 19, "2");
     object("seal", Kind.SEAL, "Altar der Toten", 15, 4, "crypt_seal");
     object("chest", Kind.CHEST, "Sarkophag der Wacht", 25, 7, "chain");
-    object("trap0", Kind.TRAP, "Dornenplatte", 10, 19, "");
-    object("trap1", Kind.TRAP, "Dornenplatte", 5, 14, "");
+    trap("trap0", "Dornengang", 9.5f, 19, 'x', 3);
+    trap("trap1", "Dornengang", 5, 14, 'z', 3);
+    trap("trap2", "Dornengang", 25, 13, 'z', 3);
+    trap("trap3", "Dornengang", 9.5f, 8, 'x', 3);
     enemy("g0", EnemyType.GOBLIN, 14, 18);
     enemy("g1", EnemyType.GOBLIN, 16, 18);
     enemy("g2", EnemyType.GOBLIN, 5, 22);
@@ -180,8 +212,10 @@ public final class DungeonLayout {
         18,
         "Der Berg war nie stumm. Drei Adern tragen seinen Gesang. Reinige sie, und das Herz wird"
             + " dir antworten.");
-    object("trap0", Kind.TRAP, "Sporenfeld", 5, 16, "");
-    object("trap1", Kind.TRAP, "Sporenfeld", 25, 12, "");
+    trap("trap0", "Splittergang", 5, 15.5f, 'z', 3);
+    trap("trap1", "Splittergang", 25, 12, 'z', 3);
+    trap("trap2", "Splittergang", 9.5f, 10, 'x', 3);
+    trap("trap3", "Splittergang", 20.5f, 18, 'x', 3);
     enemy("g0", EnemyType.GOBLIN, 14, 19);
     enemy("g1", EnemyType.GOBLIN, 16, 16);
     enemy("g2", EnemyType.GOBLIN, 5, 23);
@@ -222,8 +256,11 @@ public final class DungeonLayout {
         "Jeder Gefangene nährt das Siegel. Solange ihre Ketten halten, wird die Krone den König"
             + " stärken.");
     object("throne", Kind.PORTAL, "Zum Aschenthron", 15, 4, "THRONE");
-    object("trap0", Kind.TRAP, "Klingenplatte", 20, 18, "");
-    object("trap1", Kind.TRAP, "Klingenplatte", 5, 16, "");
+    trap("trap0", "Klingengang", 9.5f, 18, 'x', 3);
+    trap("trap1", "Klingengang", 5, 15.5f, 'z', 3);
+    trap("trap2", "Klingengang", 25, 11, 'z', 3);
+    trap("trap3", "Klingengang", 10, 10, 'x', 3);
+    trap("trap4", "Klingengang", 20, 6, 'x', 3);
     enemy("g0", EnemyType.GOBLIN, 13, 19);
     enemy("o0", EnemyType.ORC, 17, 18);
     enemy("o1", EnemyType.ORC, 5, 21);
@@ -258,6 +295,9 @@ public final class DungeonLayout {
             + " musst besser herrschen als er.");
     object("chest", Kind.CHEST, "Letzter Vorrat", 25, 18, "greater_potion");
     object("throne", Kind.THRONE, "Das Aschensiegel", 15, 3, "");
+    trap("trap0", "Klingengang", 15, 15.5f, 'z', 3);
+    trap("trap1", "Klingengang", 9.5f, 19, 'x', 5);
+    trap("trap2", "Klingengang", 20.5f, 19, 'x', 5);
     enemy("o0", EnemyType.ORC, 14, 20);
     enemy("s0", EnemyType.SHAMAN, 17, 19);
     enemy("king", EnemyType.KING, 15, 8);

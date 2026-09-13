@@ -30,8 +30,16 @@ public final class Enemy {
   public final Vector3f home, heading = new Vector3f(0, 0, 1), aim = new Vector3f();
   public final Geometry telegraph;
   public float health, maxHealth, timer, cooldown, pathTimer, deathTime;
+
+  /**
+   * Seconds a fleeing type stands its ground instead of fleeing again. Set when no way out exists:
+   * an Aschenrufer backed into a corner used to run against the wall for ever, because "flee" meant
+   * "walk five metres away from the player" whether or not that point was inside the room.
+   */
+  public float holdGround;
+
   public int phase = 1, attackCount, pathIndex;
-  public boolean hitEmitted, removed, attackUnblockable;
+  public boolean hitEmitted, removed, attackUnblockable, swung;
   public State state = State.PATROL;
   public List<Integer> path = List.of();
 
@@ -91,7 +99,8 @@ public final class Enemy {
     timer = duration;
     telegraph.setCullHint(Spatial.CullHint.Always);
     stop();
-    rig.restart("Hit");
+    // Once, not looped: a 1.7 s parry stun used to replay the 0.7 s flinch two and a half times.
+    rig.once("Hit");
   }
 
   public void cleanup(PhysicsWorld physics) {

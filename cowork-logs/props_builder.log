@@ -1,0 +1,38 @@
+00:00.016  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\art\blender\props_builder.py:39: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes = True
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+03:12:08 | INFO: Starting glTF 2.0 export
+03:12:08 | INFO: Extracting primitive: throneMesh
+03:12:08 | INFO: Primitives created: 3
+03:12:08 | INFO: Finished glTF 2.0 export in 0.07428216934204102 s
+
+[PROP] throne  2.60 x 3.90 x 2.30 m (w x h x d), 792 tris, 684128 bytes
+03:12:08 | INFO: Starting glTF 2.0 export
+03:12:08 | INFO: Extracting primitive: shrineMesh
+03:12:08 | INFO: Primitives created: 3
+03:12:08 | INFO: Finished glTF 2.0 export in 0.00874018669128418 s
+
+[PROP] shrine  1.33 x 0.62 x 1.33 m (w x h x d), 368 tris, 650872 bytes
+03:12:08 | INFO: Starting glTF 2.0 export
+03:12:08 | INFO: Extracting primitive: runeMesh
+03:12:08 | INFO: Primitives created: 3
+03:12:08 | INFO: Finished glTF 2.0 export in 0.007936239242553711 s
+
+[PROP] rune    1.30 x 1.23 x 0.90 m (w x h x d), 360 tris, 650824 bytes
+03:12:08 | INFO: Starting glTF 2.0 export
+03:12:08 | INFO: Extracting primitive: sealMesh
+03:12:08 | INFO: Primitives created: 3
+03:12:08 | INFO: Finished glTF 2.0 export in 0.0077610015869140625 s
+
+[PROP] seal    1.30 x 1.23 x 0.90 m (w x h x d), 360 tris, 650824 bytes
+03:12:08 | INFO: Starting glTF 2.0 export
+03:12:08 | INFO: Extracting primitive: loreMesh
+03:12:08 | INFO: Primitives created: 3
+03:12:08 | INFO: Finished glTF 2.0 export in 0.00800776481628418 s
+
+[PROP] lore    1.30 x 1.23 x 0.90 m (w x h x d), 360 tris, 650824 bytes
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

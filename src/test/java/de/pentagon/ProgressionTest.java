@@ -62,7 +62,7 @@ class ProgressionTest {
   @Test
   void consumingLastPotionRemovesStack() {
     Inventory i = new Inventory();
-    assertTrue(i.remove("potion", 5));
+    assertTrue(i.remove("potion", Inventory.START_POTIONS));
     assertEquals(0, i.count("potion"));
     assertFalse(i.stacks().containsKey("potion"));
   }
@@ -73,7 +73,7 @@ class ProgressionTest {
     assertFalse(i.add("potion", -2));
     assertFalse(i.remove("potion", -1));
     assertThrows(IllegalArgumentException.class, () -> i.add("unknown", 1));
-    assertEquals(5, i.count("potion"));
+    assertEquals(Inventory.START_POTIONS, i.count("potion"));
   }
 
   @Test

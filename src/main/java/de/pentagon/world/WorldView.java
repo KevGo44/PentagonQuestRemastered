@@ -22,6 +22,10 @@ public final class WorldView {
 
   private record Torch(PointLight light, Vector3f position, float phase) {}
 
+  /** A shrine fire: its tongues flicker in update(), each about its authored scale. */
+  private record Flame(
+      List<Spatial> tongues, List<Vector3f> scales, PointLight light, float phase) {}
+
   /** A filled kit slot; orientation and level of detail only apply to one of the two sources. */
   private record Slot(Spatial spatial, boolean module) {}
 
@@ -32,11 +36,15 @@ public final class WorldView {
   private static final int NO_TINT = -1;
 
   private final List<Torch> torches = new ArrayList<>();
+  private final List<Flame> flames = new ArrayList<>();
+  private float torchScale = 1;
   private final AssetPipeline assets;
   private final PhysicsWorld physics;
   private final Random random = new Random(51);
   private final Material iron, gold;
+  private final int floorTint;
   private final Map<String, Spatial> modules = new HashMap<>();
+  private final Map<Integer, Node> drops = new HashMap<>();
   public final DungeonLayout layout;
 
   public WorldView(
@@ -44,8 +52,11 @@ public final class WorldView {
     this.assets = assets;
     this.physics = physics;
     this.layout = layout;
-    iron = assets.pbr("metal", 0x45494e, .5f, .8f);
-    gold = assets.pbr("metal", 0x987246, .45f, .65f);
+    // Dull, tarnished iron and brass within STYLE.md; the polished values (0.5 / 0.8 and
+    // 0.45 / 0.65) read as black under the constant probe.
+    iron = assets.pbr("metal", 0x45494e, .6f, .35f);
+    gold = assets.pbr("metal", 0x987246, .55f, .4f);
+    floorTint = layout.region == Region.CAVERNS ? 0x687771 : 0x8c8b86;
     root.attachChild(occluders);
     root.attachChild(decor);
     root.attachChild(interactives);
@@ -56,7 +67,6 @@ public final class WorldView {
   }
 
   private void buildTiles() {
-    int floorTint = layout.region == Region.CAVERNS ? 0x687771 : 0x8c8b86;
     Material wall = assets.pbr("stone", layout.region.stone, .94f, 0),
         floor = assets.pbr("stone", floorTint, .86f, 0);
     float cell = DungeonLayout.CELL;
@@ -67,6 +77,12 @@ public final class WorldView {
         if (!layout.walkable(x, z) && !layout.wall(x, z)) continue;
         String chunk = x / 6 + ":" + z / 6;
         Node n = chunks.computeIfAbsent(chunk, k -> new Node("Chunk_" + k));
+        // The caverns wear rock instead of masonry: cave variants of floor, ceiling and wall are
+        // tried first and alternate by cell parity so the relief does not repeat cell by cell;
+        // the masonry ids stay behind them as the fallback, and ribs and cornices - vault
+        // details - are not built in a cave at all.
+        boolean cave = layout.region == Region.CAVERNS;
+        String variant = (x + z) % 2 == 0 ? "" : "2";
         if (layout.walkable(x, z)) {
           n.attachChild(
               slot(
@@ -76,6 +92,7 @@ public final class WorldView {
                       z * cell,
                       .12f,
                       () -> assets.box("FloorTile", cell * .5f, .12f, cell * .5f, floor),
+                      cave ? "kit_floor_cave" + variant : "kit_floor",
                       "kit_floor")
                   .spatial());
           // A broken ceiling admits isolated light shafts; it never blocks navigation.
@@ -88,12 +105,13 @@ public final class WorldView {
                         z * cell,
                         .18f,
                         () -> assets.box("VaultCeiling", cell * .5f, .18f, cell * .5f, wall),
+                        cave ? "kit_ceiling_cave" + variant : "kit_ceiling",
                         "kit_ceiling")
                     .spatial();
             ceiling.setShadowMode(ShadowMode.Receive);
             n.attachChild(ceiling);
           }
-          if (x % 4 == 0)
+          if (x % 4 == 0 && !cave)
             n.attachChild(
                 slot(
                         layout.region.stone,
@@ -118,6 +136,8 @@ public final class WorldView {
                     g.getMesh().scaleTextureCoordinates(new Vector2f(1, 2));
                     return g;
                   },
+                  cave ? kit.id().replace("kit_wall_", "kit_wall_cave_") + variant : kit.id(),
+                  cave ? kit.id().replace("kit_wall_", "kit_wall_cave_") : kit.id(),
                   kit.id(),
                   "kit_wall");
           // Only a module has a front face. The procedural block is square in plan, but its
@@ -127,16 +147,17 @@ public final class WorldView {
                 .spatial()
                 .setLocalRotation(new Quaternion().fromAngleAxis(kit.yaw(), Vector3f.UNIT_Y));
           n.attachChild(block.spatial());
-          n.attachChild(
-              slot(
-                      NO_TINT,
-                      x * cell,
-                      4.8f,
-                      z * cell,
-                      .16f,
-                      () -> assets.box("Cornice", cell * .55f, .16f, cell * .55f, iron),
-                      "kit_cornice")
-                  .spatial());
+          if (!cave)
+            n.attachChild(
+                slot(
+                        NO_TINT,
+                        x * cell,
+                        4.8f,
+                        z * cell,
+                        .16f,
+                        () -> assets.box("Cornice", cell * .55f, .16f, cell * .55f, iron),
+                        "kit_cornice")
+                    .spatial());
         }
       }
     // Merge adjacent wall colliders into runs; much cheaper than a body per brick. The runs come
@@ -310,7 +331,9 @@ public final class WorldView {
         for (int i = 0; i < 6; i++) {
           float rx = x + (random.nextFloat() - .5f) * dx * 1.6f,
               rz = z + (random.nextFloat() - .5f) * dz * 1.6f;
-          crystal(decor, rx, .6f, rz, .4f + random.nextFloat() * .55f, 0x439c9a);
+          // Deep teal rather than the saturated cyan Kevin asked to have darkened: the veins the
+          // player has to find (CRYSTAL objects) stay brighter than the decoration.
+          crystal(decor, rx, .6f, rz, .4f + random.nextFloat() * .55f, 0x1f5d5c);
         }
     }
   }
@@ -410,7 +433,7 @@ public final class WorldView {
     PointLight light = new PointLight();
     Vector3f pos = new Vector3f(x, 3.05f, z);
     light.setPosition(pos);
-    light.setRadius(14);
+    light.setRadius(SceneLighting.TORCH_RADIUS);
     root.addLight(light);
     torches.add(new Torch(light, pos, index * 1.71f));
   }
@@ -426,11 +449,9 @@ public final class WorldView {
         Geometry plinth = assets.box("ShrineBase", .7f, .18f, .7f, stone);
         plinth.setLocalTranslation(0, .18f, 0);
         n.attachChild(plinth);
-        crystal(n, 0, 1.05f, 0, .5f, 0x70d7d6);
-        PointLight l =
-            new PointLight(
-                new Vector3f(spec.x(), 2, spec.z()), AssetPipeline.color(0x53c5cd).mult(3), 8);
-        root.addLight(l);
+        // A fire, not a crystal: the shrines are "Feuer" by name and the cyan shard burnt out to
+        // white on every screenshot. The bowl of props/shrine.glb ends at 0.62 m.
+        flame(n, 0, .6f, 0, 1f);
       }
       case PORTAL -> {
         for (int sign : new int[] {-1, 1}) {
@@ -470,7 +491,7 @@ public final class WorldView {
         n.attachChild(base);
         crystal(n, 0, 1.5f, 0, .23f, spec.kind() == DungeonLayout.Kind.LORE ? 0xd7b675 : 0x85ccdc);
       }
-      case CRYSTAL -> crystal(n, 0, 1.2f, 0, .8f, 0x55cfc5);
+      case CRYSTAL -> crystal(n, 0, 1.2f, 0, .8f, 0x3d9e98);
       case THRONE -> {
         Geometry seat = assets.box("Throne", 1.2f, .55f, 1, iron);
         seat.setLocalTranslation(0, .55f, 0);
@@ -480,21 +501,8 @@ public final class WorldView {
         n.attachChild(back);
         crystal(n, 0, 2.5f, 0, .45f, 0xe28b51);
       }
-      case TRAP -> {
-        Geometry plate = assets.box("PressurePlate", 1.25f, .04f, 1.25f, iron);
-        plate.setLocalTranslation(0, .02f, 0);
-        n.attachChild(plate);
-        Geometry warning =
-            assets.box("TrapWarning", 1.15f, .01f, 1.15f, assets.glow(0xce5d40, .25f));
-        warning.setLocalTranslation(0, .07f, 0);
-        n.attachChild(warning);
-        for (int i = -1; i <= 1; i++)
-          for (int j = -1; j <= 1; j++) {
-            Geometry spike = assets.box("Spike", .045f, .5f, .045f, iron);
-            spike.setLocalTranslation(i * .7f, -.5f, j * .7f);
-            n.attachChild(spike);
-          }
-      }
+      case TRAP -> trap(n, spec);
+      default -> {}
     }
     if (spec.kind() != DungeonLayout.Kind.NPC
         && spec.kind() != DungeonLayout.Kind.PRISONER
@@ -509,8 +517,9 @@ public final class WorldView {
         List<Spatial> emissive = new ArrayList<>();
         if (spec.kind() != DungeonLayout.Kind.CRYSTAL)
           for (Spatial child : new ArrayList<>(n.getChildren()))
-            if (child.getName().equals("Crystal") || child.getName().equals("PortalVeil"))
-              emissive.add(child);
+            if (child.getName().equals("Crystal")
+                || child.getName().equals("Flame")
+                || child.getName().equals("PortalVeil")) emissive.add(child);
         n.detachAllChildren();
         n.attachChild(imported);
         for (Spatial part : emissive) n.attachChild(part);
@@ -519,30 +528,167 @@ public final class WorldView {
     refreshObject(spec, session);
   }
 
+  /**
+   * What a collected object looks like afterwards. Everything used to shrink to 0.6, which read as
+   * "the chest got smaller", not "the crystal is gone". Now the crystal vein vanishes, the seal
+   * altar loses the seal it held (its glowing shard) and keeps its stone, and the chest stays as it
+   * is - a container is still there after it has been emptied.
+   */
   public void refreshObject(DungeonLayout.ObjectSpec spec, GameSession session) {
     Node n = objects.get(spec.id());
-    if (n == null) return;
-    if (session.opened.contains(spec.id())
-        && (spec.kind() == DungeonLayout.Kind.CHEST
-            || spec.kind() == DungeonLayout.Kind.SEAL
-            || spec.kind() == DungeonLayout.Kind.CRYSTAL)) n.setLocalScale(.6f);
+    if (n == null || !session.opened.contains(spec.id())) return;
+    switch (spec.kind()) {
+      case CRYSTAL -> n.setCullHint(Spatial.CullHint.Always);
+      case SEAL -> {
+        for (Spatial child : new ArrayList<>(n.getChildren()))
+          if (child.getName().equals("Crystal")) child.removeFromParent();
+      }
+      default -> {}
+    }
   }
 
+  /**
+   * A corridor trap, built along local +Z and turned for an x corridor. There is no plate: the
+   * first cut had a slab in a darker floor tone across the corridor, and on the cave floor it read
+   * as a paved strip you could not miss. The floor tile stays what it is; the only tell is two rows
+   * of dark slits the width of the opening, and under every slit a spike, named "Spike", that
+   * CampaignState raises through the slit when the trap fires. No glow: this one is meant to be
+   * found by looking, or the hard way.
+   */
+  private void trap(Node n, DungeonLayout.ObjectSpec spec) {
+    float width = DungeonLayout.trapWidth(spec) - .3f;
+    if (DungeonLayout.trapAxisX(spec))
+      n.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
+    Material slot = assets.pbr("metal", 0x141517, .8f, .2f),
+        blade = assets.pbr("metal", 0x7d8187, .58f, .4f);
+    int columns = Math.max(3, Math.round(width / .55f));
+    for (int i = 0; i < columns; i++) {
+      float x = -width / 2 + (i + .5f) * width / columns;
+      for (float z : new float[] {-.45f, .45f}) {
+        Geometry slit = assets.box("TrapSlit", .028f, .012f, .11f, slot);
+        slit.setLocalTranslation(x, .006f, z);
+        n.attachChild(slit);
+        Geometry spike = assets.box("Spike", .035f, .62f, .035f, blade);
+        spike.setLocalTranslation(x, -.7f, z);
+        n.attachChild(spike);
+      }
+    }
+  }
+
+  /** Raises the spikes of a trap: 0 below the floor, 1 fully up (tips at 1.25 m). */
+  public void raiseSpikes(String trapId, float rise) {
+    Node n = objects.get(trapId);
+    if (n == null) return;
+    float y = -.7f + 1.33f * rise;
+    for (Spatial child : n.getChildren())
+      if (child.getName().equals("Spike"))
+        child.setLocalTranslation(child.getLocalTranslation().x, y, child.getLocalTranslation().z);
+  }
+
+  /** An item laid on the floor: a small bundle with a faint shard so it can be found again. */
+  public void addDrop(GameSession.Drop drop) {
+    Node n = new Node("Drop_" + drop.serial());
+    n.setLocalTranslation(drop.x(), 0, drop.z());
+    Geometry bundle = assets.box("Bundle", .17f, .11f, .14f, assets.pbr("", 0x5a4634, .85f, 0));
+    bundle.setLocalTranslation(0, .11f, 0);
+    bundle.setLocalRotation(new Quaternion().fromAngleAxis(drop.serial() * .7f, Vector3f.UNIT_Y));
+    n.attachChild(bundle);
+    crystal(n, 0, .34f, 0, .11f, 0xd7b675);
+    interactives.attachChild(n);
+    drops.put(drop.serial(), n);
+  }
+
+  public void removeDrop(int serial) {
+    Node n = drops.remove(serial);
+    if (n != null) n.removeFromParent();
+  }
+
+  /**
+   * The name "Crystal" is load-bearing: buildObject keeps children of that name when a module
+   * replaces the procedural stonework. The shard cluster is authored in the old sphere's frame, so
+   * every caller's position and scale still hold; the seed varies the cluster per position.
+   */
   private void crystal(Node parent, float x, float y, float z, float scale, int color) {
-    Geometry g = new Geometry("Crystal", new Sphere(4, 5, 1));
-    g.setMaterial(assets.glow(color, .9f));
+    Geometry g = new Geometry("Crystal", CrystalShapes.cluster(Float.floatToIntBits(x * 7 + z)));
+    g.setMaterial(assets.crystal(color));
+    g.setShadowMode(ShadowMode.Off);
     g.setLocalScale(scale * .6f, scale * 1.5f, scale * .6f);
     g.setLocalTranslation(x, y, z);
     parent.attachChild(g);
   }
 
+  /** Scales every torch: the epilogue lets the fires die down or flare. 1 is the game's light. */
+  public void torchScale(float scale) {
+    torchScale = scale;
+  }
+
+  /**
+   * A shrine fire: an ember bed and three cones of additive glow - a bright core, a wider, thinner
+   * outer tongue and a small side lick - over a warm point light. update() flickers the tongues and
+   * the light. The node is named "Flame" and, like "Crystal", survives a prop module.
+   */
+  private void flame(Node parent, float x, float y, float z, float scale) {
+    Node fire = new Node("Flame");
+    fire.setLocalTranslation(x, y, z);
+    parent.attachChild(fire);
+    Geometry bed =
+        new Geometry("Embers", new Cylinder(2, 14, .26f * scale, .26f * scale, .05f, true, false));
+    bed.setMaterial(assets.flame(0x8f3414, 1.2f, .9f));
+    bed.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X));
+    bed.setLocalTranslation(0, .03f, 0);
+    bed.setQueueBucket(Bucket.Transparent);
+    bed.setShadowMode(ShadowMode.Off);
+    fire.attachChild(bed);
+    List<Spatial> tongues = new ArrayList<>();
+    List<Vector3f> scales = new ArrayList<>();
+    float[][] layers = {
+      // belly radius, height, colour, glow power, alpha, lean
+      {.13f, .95f, 0xffe2a0, 2.6f, .9f, 0},
+      {.21f, .72f, 0xff9a3c, 1.8f, .5f, 0},
+      {.30f, .5f, 0xe0501c, 1.3f, .35f, 0},
+      {.09f, .55f, 0xffb45a, 2f, .7f, .5f},
+    };
+    Mesh tongue = FlameShapes.tongue(9, 10);
+    for (float[] c : layers) {
+      Geometry g = new Geometry("Tongue", tongue);
+      g.setMaterial(assets.flame((int) c[2], c[3], c[4]));
+      g.setQueueBucket(Bucket.Transparent);
+      g.setShadowMode(ShadowMode.Off);
+      Vector3f size = new Vector3f(c[0] * scale, c[1] * scale, c[0] * scale);
+      g.setLocalScale(size);
+      g.setLocalRotation(new Quaternion().fromAngleAxis(c[5], Vector3f.UNIT_Z));
+      fire.attachChild(g);
+      tongues.add(g);
+      scales.add(size);
+    }
+    Vector3f at = parent.getLocalTranslation().add(x, y + 1.3f, z);
+    PointLight light = new PointLight(at, AssetPipeline.color(0xff9a4a).mult(3.2f), 9.5f);
+    root.addLight(light);
+    flames.add(new Flame(tongues, scales, light, flames.size() * 2.3f));
+  }
+
   public void update(float time, Vector3f player) {
-    for (Torch torch : torches) {
-      float fade = torch.position.distanceSquared(player) > 32 * 32 ? 0 : 1;
+    for (Flame flame : flames) {
+      for (int i = 0; i < flame.tongues.size(); i++) {
+        float f = time * (7 + i * 2.6f) + flame.phase + i;
+        float stretch = 1 + FastMath.sin(f) * .14f + FastMath.sin(f * 2.7f) * .07f;
+        float sway = FastMath.sin(f * .8f) * .1f;
+        Vector3f base = flame.scales.get(i);
+        flame.tongues.get(i).setLocalScale(base.x * (1 + sway * .5f), base.y * stretch, base.z);
+        flame.tongues.get(i).setLocalTranslation(sway * .06f, 0, FastMath.cos(f * .6f) * .04f);
+      }
       float power =
-          2.3f
-              + FastMath.sin(time * 6 + torch.phase) * .2f
-              + FastMath.sin(time * 13 + torch.phase) * .12f;
+          3.2f
+              + FastMath.sin(time * 5.5f + flame.phase) * .35f
+              + FastMath.sin(time * 12 + flame.phase) * .2f;
+      flame.light.setColor(AssetPipeline.color(0xff9a4a).mult(power * torchScale));
+    }
+    for (Torch torch : torches) {
+      float fade = torch.position.distanceSquared(player) > 32 * 32 ? 0 : torchScale;
+      float power =
+          SceneLighting.TORCH_POWER
+              + FastMath.sin(time * 6 + torch.phase) * .3f
+              + FastMath.sin(time * 13 + torch.phase) * .18f;
       torch.light.setColor(AssetPipeline.color(0xffad5b).mult(power * fade));
     }
   }

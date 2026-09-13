@@ -42,7 +42,14 @@ public final class GameApplication extends SimpleApplication
   private SmokeScenario smokeScenario;
 
   public GameApplication(Path saveDirectory, boolean smoke, boolean noAudio, boolean fast) {
-    super(new BulletAppState());
+    // No initial states, and in particular not the BulletAppState: attaching it here would run on
+    // the thread that constructs the application, and Minie creates the native PhysicsSpace at
+    // attach time. Every later step then came from the render thread, and Minie logged "invoked
+    // from wrong thread" on each of them - 2 894 times in one smoke run. The state is attached
+    // in simpleInitApp, which is the render thread. The empty array also keeps the engine's
+    // default states away: FlyCam would grab the mouse, and StatsAppState listens on F5, which
+    // is this game's save key.
+    super(new com.jme3.app.state.AppState[0]);
     this.saveDirectory = saveDirectory;
     this.smoke = smoke;
     this.noAudio = noAudio;
@@ -68,6 +75,7 @@ public final class GameApplication extends SimpleApplication
     cameraSetup();
     lighting();
     ui = new HudView(this);
+    stateManager.attach(new BulletAppState());
     game = new CampaignState();
     stateManager.attach(game);
     inputs();
@@ -93,17 +101,16 @@ public final class GameApplication extends SimpleApplication
   }
 
   private void lighting() {
-    DirectionalLight moon =
-        new DirectionalLight(
-            new Vector3f(-.45f, -1, -.25f).normalizeLocal(),
-            new ColorRGBA(.58f, .73f, .87f, 1).mult(.43f));
+    // Base light lives in SceneLighting so the render probes show the same room as the game;
+    // attach() adds the moon, but the shadow renderer needs the very instance it follows.
+    DirectionalLight moon = de.pentagon.assets.SceneLighting.moon();
     rootNode.addLight(moon);
-    DirectionalLight fill =
+    rootNode.addLight(
         new DirectionalLight(
-            new Vector3f(.8f, -.4f, .5f).normalizeLocal(), new ColorRGBA(.12f, .16f, .21f, 1));
-    rootNode.addLight(fill);
+            new Vector3f(.8f, -.4f, .5f).normalizeLocal(),
+            de.pentagon.assets.SceneLighting.FILL.clone()));
     rootNode.addLight(EnvironmentLighting.dungeonProbe());
-    rootNode.addLight(new AmbientLight(new ColorRGBA(.3f, .36f, .42f, 1)));
+    rootNode.addLight(new AmbientLight(de.pentagon.assets.SceneLighting.AMBIENT.clone()));
     shadows = new DirectionalLightShadowRenderer(assetManager, 2048, 3);
     shadows.setLight(moon);
     shadows.setLambda(.65f);
@@ -207,6 +214,8 @@ public final class GameApplication extends SimpleApplication
     key("Load", KeyInput.KEY_F9);
     key("Quality", KeyInput.KEY_F3);
     key("Mute", KeyInput.KEY_F10);
+    // The pause page promises F12; the engine's own screenshot key is Print, which it never says.
+    key("Screenshot", KeyInput.KEY_F12);
     key("Choice1", KeyInput.KEY_1);
     key("Choice2", KeyInput.KEY_2);
     key("Choice3", KeyInput.KEY_3);
@@ -237,8 +246,16 @@ public final class GameApplication extends SimpleApplication
         ui.invalidate();
         return;
       }
+      if (name.equals("Screenshot")) {
+        screenshots.takeScreenshot();
+        return;
+      }
       if (name.equals("Enter") && mode == ScreenMode.MAIN_MENU) {
         game.newGame();
+        return;
+      }
+      if (mode == ScreenMode.EPILOGUE) {
+        if (name.equals("Enter") || name.equals("Pause")) game.skipEpilogue();
         return;
       }
       if (name.equals("Attack") && mode != ScreenMode.PLAYING) {
@@ -255,6 +272,7 @@ public final class GameApplication extends SimpleApplication
         else if (mode == ScreenMode.PLAYING) screen(ScreenMode.PAUSED);
         else if (mode != ScreenMode.MAIN_MENU
             && mode != ScreenMode.GAME_OVER
+            && mode != ScreenMode.ENDING
             && mode != ScreenMode.TRANSITION) screen(ScreenMode.PLAYING);
         return;
       }

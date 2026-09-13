@@ -17,6 +17,9 @@ final class SmokeScenario {
   private Enemy target;
   private float beforeHealth, moveStart;
 
+  /** A trap id whose next firing is to be photographed; the moment depends on frame timing. */
+  private String watchTrap;
+
   SmokeScenario(GameApplication app, ScreenshotAppState shots) {
     this.app = app;
     this.shots = shots;
@@ -34,12 +37,23 @@ final class SmokeScenario {
    * of the evidence, not of the game, but evidence that lies is worse than none.
    */
   private void shoot() {
-    shotDelay = 2;
+    shoot(2);
+  }
+
+  private void shoot(int frames) {
+    shotDelay = frames;
   }
 
   void update(float dt) {
     if (app.game == null || app.game.world == null) return;
     if (shotDelay > 0 && --shotDelay == 0) shots.takeScreenshot();
+    if (watchTrap != null) {
+      var trap = app.game.trap(watchTrap);
+      if (trap != null && trap.phase == de.pentagon.world.TrapMechanism.Phase.FIRING) {
+        watchTrap = null;
+        shoot(3);
+      }
+    }
     if (step > 1) frames.add(dt);
     timer += dt;
     if (timer < 2.5f) return;
@@ -58,6 +72,11 @@ final class SmokeScenario {
         require(
             app.game.player.node.getWorldTranslation().z < moveStart - 2,
             "WASD must move the physical character");
+        // Minie binds a PhysicsSpace to the thread that created it and warns on every step from
+        // another one; the space used to be created in the application constructor.
+        require(
+            app.game.physics.space().jniEnvId() == com.jme3.bullet.util.NativeLibrary.jniEnvId(),
+            "Physics space belongs to the render thread");
         app.game.input("Attack", true);
       }
       case 4 -> {
@@ -179,15 +198,36 @@ final class SmokeScenario {
                 .filter(e -> e.type == de.pentagon.ai.EnemyType.KING)
                 .findFirst()
                 .orElseThrow();
-        require(target.maxHealth == 1040, "Prisoner rescue weakens boss");
+        require(
+            target.maxHealth == Math.round(de.pentagon.ai.EnemyType.KING.hp * .8f),
+            "Prisoner rescue weakens boss");
         for (Enemy e : app.game.enemies) if (e != target) app.game.combat.damageEnemy(e, 10000);
         interact("THRONE_lore");
         app.game.choose(0);
-        app.game.combat.damageEnemy(target, 360);
+        // A third of his health per stage, whatever EnemyType.KING.hp says this week.
+        app.game.combat.damageEnemy(target, target.maxHealth * .34f);
       }
       case 22 -> {
-        require(target.phase == 2, "Boss enters second phase");
-        app.game.combat.damageEnemy(target, 350);
+        require(
+            target.phase == 2,
+            "Boss enters second phase (mode "
+                + app.mode()
+                + ", hero "
+                + app.game.session.player.health
+                + ", king "
+                + target.health
+                + " / "
+                + target.maxHealth
+                + " state "
+                + target.state
+                + ")");
+        // The escorts died 2.5 s ago: Death has run once and left them on the floor.
+        for (Enemy e : app.game.enemies)
+          if (!e.alive() && e.node.getParent() != null) {
+            require(e.rig.finished(), "Death clip runs once and holds");
+            require(hips(e.rig) < .6f * e.type.scale, "Dead enemy lies on the floor");
+          }
+        app.game.combat.damageEnemy(target, target.maxHealth * .34f);
       }
       case 23 -> {
         require(target.phase == 3, "Boss enters third phase");
@@ -200,16 +240,31 @@ final class SmokeScenario {
         interact("THRONE_throne");
         app.game.choose(0);
         require(
-            app.mode() == ScreenMode.ENDING && app.game.session.flag("ending_seal"), "Seal ending");
+            app.mode() == ScreenMode.EPILOGUE && app.game.session.flag("ending_seal"),
+            "Seal ending plays its closing sequence");
         require(app.game.session.rewardedQuests.size() == 10, "All ten quests can be completed");
         shoot();
       }
       case 25 -> {
+        // 2.5 s in: the camera has left the hero's back and the first line is on screen.
+        require(!app.game.epilogueLine().isEmpty(), "Closing sequence shows its subtitles");
+        Vector3f throne = app.game.world.objects.get("THRONE_throne").getWorldTranslation();
+        require(
+            app.getCamera().getLocation().distance(throne) < 12
+                && app.getCamera().getLocation().y > 2,
+            "Closing sequence circles the throne");
+        app.game.skipEpilogue();
+        require(
+            app.mode() == ScreenMode.ENDING && app.game.session.flag("campaign_complete"),
+            "Closing sequence ends on the Ending page");
         app.screen(ScreenMode.PLAYING);
         app.game.session.flags.remove("ending_seal");
         interact("THRONE_throne");
         app.game.choose(1);
-        require(app.game.session.flag("ending_crown"), "Alternative crown ending");
+        require(
+            app.game.session.flag("ending_crown") && app.mode() == ScreenMode.EPILOGUE,
+            "Alternative crown ending has its own sequence");
+        app.game.skipEpilogue();
       }
       case 26 -> {
         app.game.newGame();
@@ -242,12 +297,13 @@ final class SmokeScenario {
                     .findFirst()
                     .orElseThrow()
                     .maxHealth
-                == 1300,
+                == de.pentagon.ai.EnemyType.KING.hp,
             "Bargain preserves the king's full strength");
         app.game.session.player.health = 0;
       }
       case 29 -> {
         require(app.mode() == ScreenMode.GAME_OVER, "Death animation reaches Game Over");
+        require(hips(app.game.player.rig) < .6f, "Hero is on the floor at Game Over");
         shoot();
         app.game.respawn();
         require(
@@ -270,18 +326,56 @@ final class SmokeScenario {
                 && processors.get(0) instanceof com.jme3.shadow.DirectionalLightShadowRenderer
                 && processors.get(1) instanceof com.jme3.post.FilterPostProcessor,
             "High quality restores shadows before post-processing");
+        // The corridor trap south of the Kreuzgang: stand two metres short of it.
+        app.game.newGame();
+        clearEnemies();
+        var trap = trapSpec("REFUGE_trap0");
+        teleport(trap.x(), trap.z() + 2);
+        beforeHealth = app.game.session.player.health;
+      }
+      case 32 -> {
+        var trap = app.game.trap("REFUGE_trap0");
+        require(
+            trap != null && trap.phase != de.pentagon.world.TrapMechanism.Phase.ARMED,
+            "Trap fires when the player comes near");
+        require(
+            app.game.session.player.health == beforeHealth,
+            "Trap does not reach a player who stopped short of it");
+        var spec = trapSpec("REFUGE_trap0");
+        teleport(spec.x(), spec.z());
+        // Re-arm, click, fire: photographed when the spikes are actually up, because how long
+        // that takes depends on how much game time the region load cost this run.
+        watchTrap = "REFUGE_trap0";
+      }
+      case 33 -> {
+        require(
+            app.game.session.player.health < beforeHealth - 40,
+            "Re-armed trap catches a player standing on it");
         app.screen(ScreenMode.MAIN_MENU);
         shoot();
       }
-      case 32 -> finish();
+      case 34 -> finish();
       default -> {}
     }
+  }
+
+  /** Height of the hips over the character's own origin, in metres. */
+  private static float hips(de.pentagon.assets.CharacterFactory.Rig rig) {
+    return rig.skinning().getAttachmentsNode("Hips").getWorldTranslation().y
+        - rig.root().getWorldTranslation().y;
   }
 
   private void teleport(float x, float z) {
     app.game.player.warp(x, z);
     app.game.player.node.setLocalTranslation(x, .12f, z);
     app.game.player.node.updateGeometricState();
+  }
+
+  private de.pentagon.world.DungeonLayout.ObjectSpec trapSpec(String id) {
+    return app.game.world.layout.objects.stream()
+        .filter(o -> o.id().equals(id))
+        .findFirst()
+        .orElseThrow();
   }
 
   private void interact(String id) {
@@ -312,8 +406,9 @@ final class SmokeScenario {
       Files.writeString(
           Path.of("target", "smoke-ok.txt"),
           "PASS: all five rendered regions; WASD/Bullet movement; actual melee hit; camera"
-              + " collision; GPU skinning; PBR/glTF; audio; all 10 quests; both endings; save/load;"
-              + " independent new-game checkpoint; death and respawn; graphics quality switching.\n"
+              + " collision; GPU skinning; PBR/glTF; audio; all 10 quests; both endings with their"
+              + " closing sequences; save/load; independent new-game checkpoint; death and respawn;"
+              + " graphics quality switching; corridor trap timing.\n"
               + "Campaign checks teleport between objectives and use deterministic enemy damage;"
               + " this is not a human playthrough or balance review.\n");
       Files.writeString(

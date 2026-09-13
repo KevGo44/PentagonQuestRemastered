@@ -166,6 +166,8 @@ public final class HudView {
       toastsDirty = true;
     }
     hud.setCullHint(mode == ScreenMode.PLAYING ? Spatial.CullHint.Never : Spatial.CullHint.Always);
+    if (mode == ScreenMode.EPILOGUE && texts.containsKey("subtitle"))
+      texts.get("subtitle").setText(game.epilogueLine());
     var s = game.session;
     health.setLocalScale(Math.max(.001f, s.player.health / s.player.maxHealth()), 1, 1);
     stamina.setLocalScale(Math.max(.001f, s.player.stamina / s.player.maxStamina()), 1, 1);
@@ -215,6 +217,8 @@ public final class HudView {
       drawMap(miniMap, 1190, 613, 210, false);
     }
     int before = toasts.size();
+    // The closing sequence keeps its letterbox clean: notices wait for the Ending page.
+    if (mode == ScreenMode.EPILOGUE) toasts.clear();
     toasts.removeIf(t -> t.expires < elapsed);
     if (before != toasts.size()) toastsDirty = true;
     if (toastsDirty) {
@@ -472,6 +476,8 @@ public final class HudView {
             544,
             380,
             () -> game.useItem(selectedItem));
+        if (selected.kind() != Item.Kind.KEY && selected.kind() != Item.Kind.RELIC)
+          button("Ablegen", 854, 597, 380, () -> game.dropItem(selectedItem));
         text(
             page,
             "ANGRIFF  "
@@ -485,8 +491,9 @@ public final class HudView {
             false);
         wrapped(
             page,
-            "Schnellzugriff: R verwendet zuerst kleine, dann große Heiltränke. Schlüsselitems"
-                + " bleiben dauerhaft im Gepäck.",
+            "Schnellzugriff: R verwendet zuerst kleine, dann große Heiltränke. Abgelegtes bleibt"
+                + " am Boden liegen und lässt sich mit E wieder aufheben. Schlüsselitems bleiben"
+                + " dauerhaft im Gepäck.",
             78,
             788,
             970,
@@ -615,9 +622,10 @@ public final class HudView {
         button("Zum Hauptmenü", 78, 348, 520, () -> app.screen(ScreenMode.MAIN_MENU));
         wrapped(
             page,
-            "Pariere kurz vor dem Treffer. Halte Ausdauer für eine Rolle bereit. Die orangefarbene"
-                + " Fläche verrät einen Angriff. Der Aschenwelle des Königs kannst du auch mit"
-                + " einem Sprung entgehen.",
+            "Pariere kurz vor dem Treffer: der Gegner taumelt, und dein nächster Hieb ist eine"
+                + " Riposte. Halte Ausdauer für eine Rolle bereit. Die orangefarbene Fläche verrät"
+                + " einen Angriff, ein Klicken im Gang eine Falle. Der Aschenwelle des Königs"
+                + " kannst du auch mit einem Sprung entgehen.",
             78,
             458,
             700,
@@ -669,8 +677,20 @@ public final class HudView {
             17,
             MUTED,
             false);
-        button("Das Ödland weiter erkunden", 78, 672, 495, () -> app.screen(ScreenMode.PLAYING));
-        button("Zum Hauptmenü", 78, 732, 495, () -> app.screen(ScreenMode.MAIN_MENU));
+        // The story is told; from here the game only leads out. The campaign is saved at the
+        // throne, so "Reise fortsetzen" on the title page still opens the hall.
+        button("Zum Hauptmenü", 78, 672, 495, () -> app.screen(ScreenMode.MAIN_MENU));
+        button("Spiel verlassen", 78, 732, 495, app::stop);
+      }
+      case EPILOGUE -> {
+        // Letterbox and a subtitle line; the picture underneath is the throne hall.
+        rectangle(page, 0, 0, W, 96, 0x000000, 1, 2);
+        rectangle(page, 0, H - 132, W, 132, 0x000000, 1, 2);
+        text(page, "EPILOG", 78, 36, 12, GOLD, false);
+        text(page, "ENTER  überspringen", 1210, 36, 12, MUTED, false);
+        BitmapText subtitle = wrapped(page, "", 170, H - 104, 1100, 80, 22, PAPER);
+        subtitle.setAlignment(BitmapFont.Align.Center);
+        texts.put("subtitle", subtitle);
       }
       case TRANSITION -> {
         rectangle(page, 0, 0, W, H, 0x081119, .98f, 2);

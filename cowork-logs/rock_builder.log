@@ -1,0 +1,14 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\art\blender\rock_builder.py:50: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes = True
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+03:20:12 | INFO: Starting glTF 2.0 export
+03:20:12 | INFO: Extracting primitive: kit_rockMesh
+03:20:12 | INFO: Primitives created: 1
+03:20:12 | INFO: Finished glTF 2.0 export in 0.04996323585510254 s
+
+[PROP] kit_rock 2.01 x 1.80 x 2.03 m, 320 faces, 427000 bytes
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -29,7 +29,24 @@ public final class AssetPipeline {
         .setAsSrgb(((hex >> 16) & 255) / 255f, ((hex >> 8) & 255) / 255f, (hex & 255) / 255f, 1);
   }
 
+  /**
+   * docs/style-reference/STYLE.md: the probe is a 1x1 constant cubemap, so polished metal has
+   * nothing to reflect and falls to black. Every procedural material passes through here, so the
+   * limit is enforced here rather than remembered at each call site.
+   */
+  public static final float STYLE_MIN_ROUGHNESS = .55f, STYLE_MAX_METALLIC = .4f;
+
   public Material pbr(String surface, int tint, float roughness, float metallic) {
+    if (roughness < STYLE_MIN_ROUGHNESS || metallic > STYLE_MAX_METALLIC)
+      throw new IllegalArgumentException(
+          String.format(
+              java.util.Locale.ROOT,
+              "Material %s roughness %.2f / metallic %.2f is outside STYLE.md (>= %.2f / <= %.2f)",
+              surface.isBlank() ? Integer.toHexString(tint) : surface,
+              roughness,
+              metallic,
+              STYLE_MIN_ROUGHNESS,
+              STYLE_MAX_METALLIC));
     String key = surface + tint + ":" + roughness + ":" + metallic;
     return materials.computeIfAbsent(
         key,
@@ -60,6 +77,28 @@ public final class AssetPipeline {
     return t;
   }
 
+  /**
+   * A lit, glowing crystal: dark body of the given hue, emissive in the same hue so the bloom pass
+   * picks it up (PBRLighting's Glow technique reads Emissive). Facets show under the torches where
+   * the unshaded glow material was a flat cut-out. Within STYLE.md: rough 0.6, no metal.
+   */
+  public Material crystal(int color) {
+    return materials.computeIfAbsent(
+        "crystal" + color,
+        k -> {
+          Material m = new Material(manager, "Common/MatDefs/Light/PBRLighting.j3md");
+          ColorRGBA c = color(color);
+          m.setColor("BaseColor", new ColorRGBA(c.r * .3f, c.g * .3f, c.b * .3f, 1));
+          m.setFloat("Roughness", .6f);
+          m.setFloat("Metallic", 0);
+          // Emissive below the clip so the hue survives; at power 2.2 every shard burnt to white.
+          m.setColor("Emissive", c);
+          m.setFloat("EmissivePower", 1.3f);
+          m.setFloat("EmissiveIntensity", .6f);
+          return m;
+        });
+  }
+
   public Material glow(int color, float power) {
     return materials.computeIfAbsent(
         "glow" + color + power,
@@ -69,6 +108,22 @@ public final class AssetPipeline {
           m.setColor("GlowColor", color(color).mult(power));
           return m;
         });
+  }
+
+  /**
+   * A tongue of fire: unshaded, additive, feeding the bloom pass through GlowColor. Additive
+   * blending is what lets three overlapping cones read as one luminous flame instead of three
+   * painted shapes; the alpha thins the outer layers.
+   */
+  public Material flame(int color, float power, float alpha) {
+    Material m = new Material(manager, "Common/MatDefs/Misc/Unshaded.j3md");
+    ColorRGBA c = color(color);
+    c.a = alpha;
+    m.setColor("Color", c);
+    m.setColor("GlowColor", color(color).mult(power));
+    m.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.AlphaAdditive);
+    m.getAdditionalRenderState().setDepthWrite(false);
+    return m;
   }
 
   public Material flat(int color, float alpha) {

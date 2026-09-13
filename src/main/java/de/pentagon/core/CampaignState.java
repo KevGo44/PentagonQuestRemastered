@@ -31,8 +31,9 @@ public final class CampaignState extends BaseAppState {
   private float time, questTimer, transitionLeft;
   private float deathTime = -1;
   private Region pendingRegion;
-  private final Map<String, Float> trapCooldowns = new HashMap<>();
+  private final Map<String, TrapMechanism> traps = new HashMap<>();
   private Vector3f lastSafe = new Vector3f();
+  private Epilogue epilogue;
 
   public record Dialogue(String speaker, String text, List<String> options, String id) {}
 
@@ -114,6 +115,8 @@ public final class CampaignState extends BaseAppState {
 
   public void transition(Region destination) {
     capture();
+    // Whoever fell on this level gets up again once the player has left it.
+    session.leave(session.region);
     pendingRegion = destination;
     transitionLeft = .55f;
     app.screen(ScreenMode.TRANSITION);
@@ -127,12 +130,14 @@ public final class CampaignState extends BaseAppState {
     enemies.clear();
     projectiles.clear();
     effects.clear();
-    trapCooldowns.clear();
+    traps.clear();
+    epilogue = null;
     if (world != null) world.cleanup();
     session.region = region;
     session.flags.add("visit_" + region.name());
     DungeonLayout layout = new DungeonLayout(region);
     world = new WorldView(app.assets, physics, layout, session);
+    for (var drop : session.drops) if (drop.region().equals(region.name())) world.addDrop(drop);
     app.getRootNode().attachChild(world.root);
     player = new PlayerController(app.assets, physics);
     app.getRootNode().attachChild(player.node);
@@ -204,6 +209,11 @@ public final class CampaignState extends BaseAppState {
     }
     if (world == null) return;
     world.update(time, player.node.getWorldTranslation());
+    if (app.mode() == ScreenMode.EPILOGUE && epilogue != null) {
+      epilogue.update(dt);
+      effects.update(dt);
+      return;
+    }
     if (app.mode() != ScreenMode.PLAYING) {
       if (app.mode() == ScreenMode.MAIN_MENU) {
         Vector3f at = new Vector3f(42, 3.3f, 74);
@@ -255,45 +265,77 @@ public final class CampaignState extends BaseAppState {
     }
   }
 
+  /**
+   * How long the hero's fall is shown before the Game Over page. The delivered Death clip puts the
+   * hips on the floor at 1.7 s (art/probe/ClipTimeline); the old 1.1 s cut to the page while he was
+   * still on his feet. The smoke harness checks for Game Over 2.5 s after the killing blow.
+   */
+  static final float DEATH_HOLD = 1.9f;
+
   private void updateDeath(float dt) {
     if (deathTime < 0) {
       deathTime = 0;
       player.resetInput();
       player.attack.cancel();
-      player.rig.restart("Death");
+      player.rig.once("Death");
       for (Enemy enemy : enemies) enemy.stop();
     }
     deathTime += dt;
     player.camera(app.getCamera(), dt, false, world.occluders, world.interactives);
-    if (deathTime >= 1.1f) app.screen(ScreenMode.GAME_OVER);
+    if (deathTime >= DEATH_HOLD) app.screen(ScreenMode.GAME_OVER);
   }
 
+  /**
+   * Corridor traps. Geometry and timing live in {@link TrapMechanism}; this projects the player
+   * onto each trap's axes, forwards the events to sound, spikes and damage, and keeps the
+   * mechanisms per region (they are rebuilt with the world).
+   */
   private void traps(float dt, Vector3f position) {
-    trapCooldowns.replaceAll((k, v) -> Math.max(0, v - dt));
     for (var spec : world.layout.objects)
       if (spec.kind() == DungeonLayout.Kind.TRAP) {
-        float phase = (time + Math.abs(spec.id().hashCode() % 7)) % 3.6f;
-        boolean active = phase > 2.6f;
-        Node node = world.objects.get(spec.id());
-        for (Spatial child : node.getChildren())
-          if (child.getName().equals("Spike"))
-            child.setLocalTranslation(
-                child.getLocalTranslation().x, active ? .5f : -.5f, child.getLocalTranslation().z);
-        if (active
-            && Math.abs(position.x - spec.x()) < 1.5f
-            && Math.abs(position.z - spec.z()) < 1.5f
-            && position.y < .9f
-            && trapCooldowns.getOrDefault(spec.id(), 0f) <= 0) {
-          combat.hurt(28, new Vector3f(spec.x(), 0, spec.z()), true, null);
-          trapCooldowns.put(spec.id(), 1.1f);
+        TrapMechanism trap = traps.computeIfAbsent(spec.id(), k -> new TrapMechanism());
+        boolean alongX = DungeonLayout.trapAxisX(spec);
+        float along = alongX ? position.x - spec.x() : position.z - spec.z(),
+            across = alongX ? position.z - spec.z() : position.x - spec.x();
+        switch (trap.update(
+            dt,
+            along,
+            across,
+            position.y - .12f,
+            DungeonLayout.trapWidth(spec) / 2,
+            player.invulnerable())) {
+          case TRIGGERED -> app.audio.play("swing");
+          case FIRED -> app.audio.play("hit");
+          case CAUGHT -> {
+            combat.hurt(TrapMechanism.DAMAGE, new Vector3f(spec.x(), 0, spec.z()), true, null);
+            app.notice(spec.label() + "  -  die Klingen fahren aus!");
+          }
+          default -> {}
         }
+        world.raiseSpikes(spec.id(), trap.rise());
       }
+  }
+
+  /** Read-only view for the smoke run and tests: the mechanism behind a trap id, if built. */
+  public TrapMechanism trap(String id) {
+    return traps.get(id);
   }
 
   public DungeonLayout.ObjectSpec nearby() {
     if (world == null) return null;
     Vector3f p = player.node.getWorldTranslation();
-    return world.layout.objects.stream()
+    List<DungeonLayout.ObjectSpec> candidates = new ArrayList<>(world.layout.objects);
+    for (var drop : session.drops)
+      if (drop.region().equals(session.region.name()))
+        candidates.add(
+            new DungeonLayout.ObjectSpec(
+                "drop:" + drop.serial(),
+                DungeonLayout.Kind.DROP,
+                ItemCatalog.get(drop.item()).name() + " aufheben",
+                drop.x(),
+                drop.z(),
+                drop.item()));
+    return candidates.stream()
         .filter(o -> o.kind() != DungeonLayout.Kind.TRAP)
         .filter(
             o ->
@@ -309,11 +351,25 @@ public final class CampaignState extends BaseAppState {
   public void interact() {
     var o = nearby();
     if (o == null) return;
-    if (combat.inCombat() && o.kind() != DungeonLayout.Kind.LORE) {
+    if (combat.inCombat()
+        && o.kind() != DungeonLayout.Kind.LORE
+        && o.kind() != DungeonLayout.Kind.DROP) {
       app.notice("Zuerst die Umgebung sichern.");
       return;
     }
     switch (o.kind()) {
+      case DROP -> {
+        int serial = Integer.parseInt(o.id().substring(5));
+        if (!session.inventory.add(o.value(), 1)) {
+          app.notice("Inventar voll.");
+          return;
+        }
+        session.drops.removeIf(d -> d.serial() == serial);
+        world.removeDrop(serial);
+        app.notice(ItemCatalog.get(o.value()).name() + " aufgehoben.");
+        app.audio.play("chime");
+        app.ui.invalidate();
+      }
       case PORTAL -> {
         Region to = Region.valueOf(o.value());
         if (to == Region.PRISON && session.region == Region.REFUGE && !session.sealsReady()) {
@@ -501,7 +557,9 @@ public final class CampaignState extends BaseAppState {
           } catch (IOException e) {
             app.notice("Epilog konnte nicht gespeichert werden: " + e.getMessage());
           }
-          app.screen(ScreenMode.ENDING);
+          dialogue = null;
+          app.screen(ScreenMode.EPILOGUE);
+          epilogue = new Epilogue(index == 0);
           return;
         }
       }
@@ -540,6 +598,31 @@ public final class CampaignState extends BaseAppState {
     app.ui.invalidate();
   }
 
+  /**
+   * Lays one of {@code id} on the floor at the hero's feet; it can be picked up again with [E] and
+   * is saved with the campaign. Plot items stay in the pack, and so does the last copy of whatever
+   * is worn or wielded.
+   */
+  public void dropItem(String id) {
+    if (session.inventory.count(id) == 0) return;
+    Item item = ItemCatalog.get(id);
+    if (item.kind() == Item.Kind.KEY || item.kind() == Item.Kind.RELIC) {
+      app.notice(item.name() + " gehört zur Reise und bleibt im Gepäck.");
+      return;
+    }
+    if (session.inventory.equipped(id) && session.inventory.count(id) == 1) {
+      app.notice("Zuerst etwas anderes anlegen.");
+      return;
+    }
+    if (!session.inventory.remove(id, 1)) return;
+    Vector3f at = player.node.getWorldTranslation();
+    Vector3f spot = at.add(player.facing.mult(.7f));
+    if (!world.layout.walkable(spot.x, spot.z)) spot = at.clone();
+    world.addDrop(session.drop(id, spot.x, spot.z));
+    app.notice(item.name() + " abgelegt.");
+    app.ui.invalidate();
+  }
+
   public void potion() {
     String id = session.inventory.count("potion") > 0 ? "potion" : "greater_potion";
     if (session.inventory.count(id) == 0) app.notice("Keine Heiltränke mehr.");
@@ -560,6 +643,119 @@ public final class CampaignState extends BaseAppState {
     session.z = session.checkpointZ;
     loadRegion(Region.valueOf(session.checkpoint), true);
     app.screen(ScreenMode.PLAYING);
+  }
+
+  /** The closing sequence's current subtitle, empty outside it. */
+  public String epilogueLine() {
+    return epilogue == null ? "" : epilogue.line();
+  }
+
+  /** Jumps to the end of the closing sequence (Enter, Escape, the smoke run). */
+  public void skipEpilogue() {
+    if (epilogue != null) epilogue.finish();
+  }
+
+  /**
+   * The closing sequence after the judgement at the throne. The camera leaves the hero and circles
+   * the throne while the seal answers the choice: broken, its ember bursts, the fires die down and
+   * the hall goes cold; kept, the ember flares and the torches burn brighter. Five subtitles carry
+   * the words; then the Ending page, from which the game only leads out.
+   */
+  private final class Epilogue {
+    static final float LENGTH = 26;
+    final boolean seal;
+    final Vector3f throne = new Vector3f(), look = new Vector3f();
+    final Spatial ember;
+    float age;
+    boolean burst, done;
+
+    Epilogue(boolean seal) {
+      this.seal = seal;
+      var spec =
+          world.layout.objects.stream()
+              .filter(o -> o.kind() == DungeonLayout.Kind.THRONE)
+              .findFirst()
+              .orElse(null);
+      if (spec != null) throne.set(spec.x(), 0, spec.z());
+      else throne.set(player.node.getWorldTranslation());
+      look.set(throne).addLocal(0, 1.6f, 0);
+      Node node = spec == null ? null : world.objects.get(spec.id());
+      ember = node == null ? null : node.getChild("Crystal");
+      player.resetInput();
+      player.rig.pause(false);
+      player.rig.play("Idle");
+    }
+
+    String line() {
+      String[] lines =
+          seal
+              ? new String[] {
+                "Du hebst das Aschensiegel vom Thron. Es ist leichter, als eine Krone sein sollte.",
+                "Ein Riss. Dann noch einer. Die Glut in seinem Innern sucht einen Ausweg.",
+                "Das Siegel zerbricht. Die Feuer neigen sich, als ginge ein Atem durch die Halle.",
+                "Zum ersten Mal seit einer Generation gehört die Stille unter den Bastionen"
+                    + " niemandem.",
+                "Mira wird eine Karte zeichnen, auf der keine Grenzen mehr brennen."
+              }
+              : new String[] {
+                "Du setzt dich nicht. Du stehst vor dem Thron, das Siegel in beiden Händen.",
+                "Die Glut erkennt dich. Sie wird heller, nicht wärmer.",
+                "Die Krone bleibt schwer, auch ohne König. Fünf Bastionen warten auf dein Wort.",
+                "Du wirst besser herrschen müssen als er. Das Ödland wird es prüfen.",
+                "Mira lässt auf ihrer neuen Karte Platz für die Entscheidungen, die noch kommen."
+              };
+      int index = (int) (age / 5);
+      if (index >= lines.length || age - index * 5 > 4.6f) return "";
+      return lines[index];
+    }
+
+    void update(float dt) {
+      age += dt;
+      float t = Math.min(1, age / LENGTH);
+      // A slow arc across the front of the throne, rising and pulling back. The throne stands
+      // under the hall's arch with its back to the north wall, so the camera stays on the room
+      // side (+Z) within forty degrees of the axis; a wider orbit put it inside the arch's pier.
+      float angle = -.7f + t * 1.4f;
+      float radius = 7 + t * 3, height = 2.2f + t * 2.3f;
+      Vector3f from =
+          throne.add(FastMath.sin(angle) * radius, height, FastMath.cos(angle) * radius);
+      app.getCamera().setLocation(from);
+      app.getCamera().lookAt(look, Vector3f.UNIT_Y);
+      if (ember != null) {
+        if (seal) {
+          if (age < 9)
+            ember.setLocalScale(.27f + .05f * FastMath.sin(age * (4 + age)), .675f, .27f);
+          else if (!burst) {
+            burst = true;
+            effects.burst(ember.getWorldTranslation(), 110);
+            ember.setCullHint(Spatial.CullHint.Always);
+            app.audio.play("hit");
+          }
+        } else {
+          float glow = 1 + Math.min(1.4f, age / 8);
+          ember.setLocalScale(.27f * glow, .675f * glow, .27f * glow);
+          if (age > 9 && !burst) {
+            burst = true;
+            effects.burst(ember.getWorldTranslation(), 60);
+            app.audio.play("spell");
+          }
+        }
+      }
+      // Fires: dying down under a broken seal, flaring under a kept one, from the burst on.
+      float fires =
+          age < 9
+              ? 1
+              : seal ? Math.max(.25f, 1 - (age - 9) / 10) : Math.min(1.7f, 1 + (age - 9) / 8);
+      world.torchScale(fires);
+      if (age >= LENGTH) finish();
+    }
+
+    void finish() {
+      if (done) return;
+      done = true;
+      session.flags.add("campaign_complete");
+      app.screen(ScreenMode.ENDING);
+    }
   }
 
   public void input(String name, boolean pressed) {

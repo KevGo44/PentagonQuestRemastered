@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import de.pentagon.core.GameSession;
 import de.pentagon.entities.PlayerStats;
+import de.pentagon.inventory.Inventory;
 import de.pentagon.save.SaveService;
 import de.pentagon.world.Region;
 import java.io.IOException;
@@ -107,7 +108,7 @@ class SaveTest {
     GameSession copy = service.copy(source);
     source.inventory.add("potion", 1);
     source.flags.add("changed");
-    assertEquals(5, copy.inventory.count("potion"));
+    assertEquals(Inventory.START_POTIONS, copy.inventory.count("potion"));
     assertFalse(copy.flag("changed"));
   }
 }

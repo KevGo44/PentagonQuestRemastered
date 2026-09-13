@@ -101,6 +101,73 @@ class CampaignTest {
     assertEquals(5, lore);
   }
 
+  @ParameterizedTest
+  @EnumSource(Region.class)
+  void trapsFillTheirCorridorsFromWallToWall(Region region) {
+    // A trap is a strip across a corridor: every cell across it is floor, the cells beyond on
+    // both sides are wall, and it does not sit inside a room. There are more of them now, and
+    // the throne hall has none in front of the king - his court is his own trap.
+    var map = new DungeonLayout(region);
+    var traps = map.objects.stream().filter(o -> o.kind() == DungeonLayout.Kind.TRAP).toList();
+    assertTrue(traps.size() >= (region == Region.REFUGE ? 1 : 3), region + " has traps");
+    for (var trap : traps) {
+      assertTrue(trap.value().matches("[xz][35]"), trap.id() + " axis and width " + trap.value());
+      assertEquals("Verbindungsgang", map.roomAt(trap.x(), trap.z()), trap.id());
+      boolean alongX = DungeonLayout.trapAxisX(trap);
+      int cells = DungeonLayout.trapCells(trap);
+      int cx = Math.round(trap.x() / DungeonLayout.CELL),
+          cz = Math.round(trap.z() / DungeonLayout.CELL);
+      int half = cells / 2;
+      for (int d = -half - 1; d <= half + 1; d++) {
+        int x = alongX ? cx : cx + d, z = alongX ? cz + d : cz;
+        boolean floor = Math.abs(d) <= half;
+        assertEquals(
+            floor,
+            map.walkable(x, z),
+            trap.id() + " expects " + (floor ? "floor" : "wall") + " at " + x + "," + z);
+      }
+    }
+    long total =
+        Arrays.stream(Region.values())
+            .flatMap(r -> new DungeonLayout(r).objects.stream())
+            .filter(o -> o.kind() == DungeonLayout.Kind.TRAP)
+            .count();
+    assertTrue(total >= 15, "at least fifteen traps across the campaign, found " + total);
+  }
+
+  @Test
+  void leavingARegionRevivesItsEnemiesButNotTheFallenKing() {
+    GameSession s = new GameSession();
+    s.region = Region.CRYPT;
+    s.defeated.addAll(List.of("CRYPT_g0", "CRYPT_w0", "REFUGE_raider0"));
+    s.enemies.put("CRYPT_o0", new GameSession.EnemySave(40, 1, 2));
+    s.enemies.put("REFUGE_raider1", new GameSession.EnemySave(30, 3, 4));
+    s.leave(Region.CRYPT);
+    assertEquals(Set.of("REFUGE_raider0"), s.defeated);
+    assertEquals(Set.of("REFUGE_raider1"), s.enemies.keySet());
+    // The king stays dead once the crown has fallen; before that he comes back like anyone.
+    s.defeated.add("THRONE_king");
+    s.leave(Region.THRONE);
+    assertFalse(s.defeated.contains("THRONE_king"));
+    s.defeated.add("THRONE_king");
+    s.flags.add("king_dead");
+    s.leave(Region.THRONE);
+    assertTrue(s.defeated.contains("THRONE_king"));
+  }
+
+  @Test
+  void droppedItemsAreRememberedPerRegionAndValidated() {
+    GameSession s = new GameSession();
+    s.region = Region.CAVERNS;
+    var first = s.drop("potion", 10, 12);
+    var second = s.drop("potion", 10, 12);
+    assertNotEquals(first.serial(), second.serial());
+    assertEquals("CAVERNS", first.region());
+    s.validate();
+    s.drops.add(new GameSession.Drop(9, "CAVERNS", "not_an_item", 0, 0));
+    assertThrows(IllegalArgumentException.class, s::validate);
+  }
+
   @Test
   void navigationRejectsWallShortcut() {
     var m = new DungeonLayout(Region.REFUGE);

@@ -4,6 +4,10 @@ import java.util.*;
 
 public final class Inventory {
   public static final int CAPACITY = 24;
+
+  /** Potions a new hero sets out with; five made the early fights a matter of pressing R. */
+  public static final int START_POTIONS = 3;
+
   private final Map<String, Integer> stacks = new LinkedHashMap<>();
   private String weapon = "rust_sword";
   private String armor = "cloth";
@@ -11,7 +15,7 @@ public final class Inventory {
   public Inventory() {
     add(weapon, 1);
     add(armor, 1);
-    add("potion", 5);
+    add("potion", START_POTIONS);
     add("tonic", 2);
   }
 

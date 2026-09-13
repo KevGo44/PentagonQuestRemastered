@@ -1,0 +1,62 @@
+00:00.031  color_management | Using OCIO=C:\Program Files\Blender Foundation\Blender 5.2\5.2\datafiles\colormanagement\config.ocio
+C:\Users\kkfre\Daten\IdeaProjects\PentagonQuestRemastered\art\blender\cave_builder.py:107: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes = True
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_floor_caveMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.06125378608703613 s
+
+[CAVE] kit_floor_cave         2.80 x 0.27 x 2.80 m (w x h x d), 246 tris, 601204 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_floor_cave2Mesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.007703542709350586 s
+
+[CAVE] kit_floor_cave2        2.80 x 0.27 x 2.80 m (w x h x d), 246 tris, 601204 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_ceiling_caveMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.005140066146850586 s
+
+[CAVE] kit_ceiling_cave       2.80 x 0.79 x 2.80 m (w x h x d), 342 tris, 607692 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_ceiling_cave2Mesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.0048084259033203125 s
+
+[CAVE] kit_ceiling_cave2      2.80 x 1.06 x 2.80 m (w x h x d), 342 tris, 607692 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_wall_cave_faceMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.00440526008605957 s
+
+[CAVE] kit_wall_cave_face     2.80 x 7.12 x 3.06 m (w x h x d), 244 tris, 600128 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_wall_cave_face2Mesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.005524158477783203 s
+
+[CAVE] kit_wall_cave_face2    2.80 x 7.12 x 3.08 m (w x h x d), 244 tris, 600132 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_wall_cave_cornerMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.005497932434082031 s
+
+[CAVE] kit_wall_cave_corner   3.09 x 7.12 x 2.95 m (w x h x d), 388 tris, 610920 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_wall_cave_spanMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.006847381591796875 s
+
+[CAVE] kit_wall_cave_span     2.80 x 7.12 x 3.38 m (w x h x d), 388 tris, 610916 bytes
+04:40:12 | INFO: Starting glTF 2.0 export
+04:40:12 | INFO: Extracting primitive: kit_wall_cave_pierMesh
+04:40:12 | INFO: Primitives created: 1
+04:40:12 | INFO: Finished glTF 2.0 export in 0.009346246719360352 s
+
+[CAVE] kit_wall_cave_pier     3.02 x 7.12 x 3.27 m (w x h x d), 532 tris, 621704 bytes
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit
